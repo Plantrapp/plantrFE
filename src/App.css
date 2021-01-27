@@ -1,0 +1,32 @@
+.App {
+  text-align: center;
+  display: flex;
+  font-family: Nunito;
+  background-color: rgb(0, 0, 0);
+  min-height: 100vh;
+}
+.clamped-h1 {
+  font-size: clamp(1em, 5vw, 2.5em);
+}
+.clamped-h2 {
+  font-size: clamp(0.9em, 5vw, 1.5em);
+}
+.clamped-h3 {
+  font-size: clamp(0.702em, 5vw, 1.17em);
+}
+.clamped-h4 {
+  font-size: clamp(0.672em, 5vw, 1.12em);
+}
+.clamped-h5 {
+  font-size: clamp(0.5em, 5vw, 0.83em);
+}
+.clamped-h6 {
+  font-size: clamp(0.45em, 5vw, 0.75em);
+}
+.clamped-text {
+  font-size: clamp(0.6em, 2vw, 1.1em);
+}
+::placeholder {
+  color: whitesmoke;
+  font-size: clamp(0.6em, 2vw, 1.1em);
+}
