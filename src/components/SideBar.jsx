@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Styled from "styled-components";
@@ -61,7 +61,7 @@ export default function SideBar() {
       </div>
       <div className="menu">
         <button className="clamped-button">Messages</button>
-        <button className="clamped-button">Settings</button>
+        <Link to="/dashboard/settings"><button className="clamped-button">Settings</button></Link>
       </div>
       <div className="footer">
         <button className="clamped-button">
