@@ -9,7 +9,7 @@ const FormContainer = Styled.div`
   width: clamp(200px, 50vw, 500px);
   box-shadow: 0px 0px 20px #1ac19788;
   background-image: linear-gradient(to bottom right,#1fdbac, #17a884);
-  padding: clamp(1em, 4vh, 4em);
+  padding: clamp(1em, 4vw, 4em);
   text-align: left;
   border-radius: 6px;
   h1{
