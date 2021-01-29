@@ -60,8 +60,13 @@ export default function SideBar() {
         <h3 className="clamped-h3">welcome back user</h3>
       </div>
       <div className="menu">
+        <Link to="/dashboard">
+          <button className="clamped-button">Home</button>
+        </Link>
         <button className="clamped-button">Messages</button>
-        <Link to="/dashboard/settings"><button className="clamped-button">Settings</button></Link>
+        <Link to="/dashboard/settings">
+          <button className="clamped-button">Settings</button>
+        </Link>
       </div>
       <div className="footer">
         <button className="clamped-button">

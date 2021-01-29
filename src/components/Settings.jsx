@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react'
-import axios from "axios"
-import Form from "react-bootstrap/Form"
-import Styled from "styled-components"
-import {FaEdit} from "react-icons/fa"
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Form from "react-bootstrap/Form";
+import Styled from "styled-components";
+import { FaEdit } from "react-icons/fa";
 
 const StyledSettings = Styled.div`
 /* height: 90vh; */
@@ -51,8 +51,8 @@ label {
 `
 
 const initFormValues = {
-    username: "",
-    email: "",
+  username: "",
+  email: "",
   profile_picture: "",
   password: "",
   first_name: "",
@@ -63,45 +63,46 @@ const initFormValues = {
   zipcode: "",
 };
 export default function Settings() {
-    const [formValues, setFormValues] = useState(initFormValues)
-    const [isEditing, setIsEditing] = useState(false)
-    const username = localStorage.getItem("username")
-    
-    useEffect(()=> {
-        axios.get(`http://localhost:5000/user/info/${username}`)
-        .then((res) => {
-						const data = res.data[0]
-						data.oldPassword = data.password
-            data.password = ""
-            
-            setFormValues(data)
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }, [username])
-    console.log(formValues)
-    
-    const handleOnchange = (e) => {
-        setFormValues({
-            ...formValues,
-            [e.target.name]: e.target.value,
-          });
-    }
-    const handleSubmit = (e) => {
-				e.preventDefault()
-        const id = formValues.id
-        axios.put(`http://localhost:5000/user/${id}`, formValues)
-        .then(res => {
-          console.log("Updated", res)    
-          setIsEditing(!isEditing)
+  const [formValues, setFormValues] = useState(initFormValues);
+  const [isEditing, setIsEditing] = useState(false);
+  const username = localStorage.getItem("username");
 
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/user/info/${username}`)
+      .then((res) => {
+        const data = res.data[0];
+        data.oldPassword = data.password;
+        data.password = "";
 
+        setFormValues(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [username]);
+  console.log(formValues);
+
+  const handleOnchange = (e) => {
+    setFormValues({
+      ...formValues,
+      [e.target.name]: e.target.value,
+    });
+  };
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const id = formValues.id;
+    axios
+      .put(`http://localhost:5000/user/${id}`, formValues)
+      .then((res) => {
+        console.log("Updated", res);
+        setIsEditing(!isEditing);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
     return (
       <>
@@ -457,6 +458,6 @@ export default function Settings() {
     </StyledSettings>)}
       </>
 
-      
-    )
+            
+  );
 }
