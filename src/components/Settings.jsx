@@ -2,11 +2,13 @@ import React, {useState, useEffect} from 'react'
 import axios from "axios"
 import Form from "react-bootstrap/Form"
 import Styled from "styled-components"
+import {FaEdit} from "react-icons/fa"
 
 const StyledSettings = Styled.div`
 height: 90vh;
 background-color: rgba(255, 255, 255, 0.05);
 overflow-y: auto;
+color: white;
 `
 
 const initFormValues = {
@@ -23,6 +25,7 @@ const initFormValues = {
 };
 export default function Settings() {
     const [formValues, setFormValues] = useState(initFormValues)
+    const [isEditing, setIsEditing] = useState(false)
     const username = localStorage.getItem("username")
     
     useEffect(()=> {
@@ -49,10 +52,11 @@ export default function Settings() {
     const handleSubmit = (e) => {
 				e.preventDefault()
         const id = formValues.id
-
         axios.put(`http://localhost:5000/user/${id}`, formValues)
         .then(res => {
-            console.log("Updated", res)    
+          console.log("Updated", res)    
+          setIsEditing(!isEditing)
+
         })
         .catch(err => {
             console.log(err)
@@ -61,10 +65,12 @@ export default function Settings() {
 
 
     return (
-      <StyledSettings>
+      <>
+      {isEditing ? (<StyledSettings>
             <h3>Edit Profile</h3>
             <Form>
         <Form.Group controlId="formBasicEmail">
+          Email:
           <input
             className="featureless-input"
             type="email"
@@ -75,6 +81,7 @@ export default function Settings() {
           />
         </Form.Group>
         <Form.Group controlId="formBasicEmail">
+          Username:
           <input
             className="featureless-input"
             type="text"
@@ -85,6 +92,7 @@ export default function Settings() {
           />
         </Form.Group>
         <Form.Group controlId="formBasicPassword">
+          Password:
           <input
             className="featureless-input"
             type="password"
@@ -95,6 +103,7 @@ export default function Settings() {
           />
         </Form.Group>
         <Form.Group controlId="">
+          First Name:
           <input
             className="featureless-input"
             type="text"
@@ -105,6 +114,7 @@ export default function Settings() {
           />
         </Form.Group>
         <Form.Group controlId="">
+          Last Name:
           <input
             className="featureless-input"
             type="text"
@@ -115,6 +125,7 @@ export default function Settings() {
           />
         </Form.Group>
         <Form.Group controlId="">
+          Street Address:
           <input
             className="featureless-input"
             type="text"
@@ -125,6 +136,7 @@ export default function Settings() {
           />
         </Form.Group>
         <Form.Group controlId="">
+          City:
           <input
             className="featureless-input"
             type="text"
@@ -135,6 +147,7 @@ export default function Settings() {
           />
         </Form.Group>
         <Form.Group controlId="">
+          State:
           <input
             className="featureless-input"
             type="text"
@@ -145,19 +158,21 @@ export default function Settings() {
           />
         </Form.Group>
         <Form.Group controlId="">
+          Zip Code:
           <input
             className="featureless-input"
             type="text"
             onChange={handleOnchange}
             value={formValues.zipcode}
-            placeholder="Zipcode"
+            placeholder="Zip Code"
             name="zipcode"
           />
         </Form.Group>
-        {formValues.isGrowr ? 
+        {formValues.isGrowr > 0 ? 
         (
         <>
 					<Form.Group controlId="">
+            Hourly Rate:
 						<input
 						className="featureless-input"
 						type="text"
@@ -165,9 +180,10 @@ export default function Settings() {
 						value={formValues.hourly_rate}
 						placeholder="Hourly Rate"
 						name="hourly_rate"
-						/>
+						/> /hr
 					</Form.Group>
 					<Form.Group controlId="">
+            Maximum Range (miles):
 						<input
 							className="featureless-input"
 							type="text"
@@ -176,6 +192,7 @@ export default function Settings() {
 							placeholder="Max Mile Range"
 							name="max_mile_range"
 						/>
+            miles
 					</Form.Group>
         </>
     		)    
@@ -191,5 +208,75 @@ export default function Settings() {
       </Form>
             
     </StyledSettings>
+    ) 
+    : 
+    (
+    <StyledSettings>
+            <h3>Account Information</h3>
+            <Form>
+        <Form.Group controlId="formBasicEmail">
+          Email:
+          <span>{formValues.email}</span>
+        </Form.Group>
+
+        <Form.Group controlId="formBasicEmail">
+          Username:
+          <span>{formValues.username}</span>
+        </Form.Group>
+       
+        <Form.Group controlId="">
+          First Name:
+          <span>{formValues.first_name}</span>
+        </Form.Group>
+        <Form.Group controlId="">
+          Last Name:
+          <span>{formValues.last_name}</span>
+        </Form.Group>
+        <Form.Group controlId="">
+          Street Address:
+          <span>{formValues.street_address}</span>
+        </Form.Group>
+        <Form.Group controlId="">
+          City:
+          <span>{formValues.city}</span>
+        </Form.Group>
+        <Form.Group controlId="">
+          State:
+          <span>{formValues.state}</span>
+        </Form.Group>
+        <Form.Group controlId="">
+          Zip Code:
+          <span>{formValues.zipcode}</span>
+        </Form.Group>
+        {formValues.isGrowr > 0 ? 
+        (
+        <>
+					<Form.Group controlId="">
+            Hourly Rate:
+						<span>{formValues.hourly_rate}</span> /hr
+					</Form.Group>
+					<Form.Group controlId="">
+            Maximum Range (miles):
+						<span>{formValues.max_mile_range}</span>
+					 miles
+					</Form.Group>
+        </>
+    		)    
+    		:null}
+
+        <button
+          type="submit"
+          className="clamped-text cta-button"
+          onClick={() => setIsEditing(!isEditing)}
+        >
+          Edit Profile
+          <FaEdit/>
+        </button>
+      </Form>
+            
+    </StyledSettings>)}
+      </>
+
+      
     )
 }

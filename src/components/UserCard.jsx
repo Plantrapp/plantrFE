@@ -4,7 +4,7 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import pic from "../assets/img/user-profile.png";
 import Styled from "styled-components";
-import arrowright from "../../node_modules/bootstrap-icons/icons/arrow-right-short.svg";
+
 
 const StyledUserCard = Styled.div`
 background: #292929;
@@ -61,7 +61,7 @@ export default function UserCard(props) {
         <p>{role}</p>
         <div className="footer">
           <h6>${hourly_rate.toFixed(2)} / hr</h6>
-          <img src={arrowright} alt="" className="arrowright" />
+         
         </div>
       </div>
     </StyledUserCard>

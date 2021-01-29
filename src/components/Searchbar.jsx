@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Styled from "styled-components";
-import search from "../../node_modules/bootstrap-icons/icons/search.svg";
+
 const StyledSearchbar = Styled.div` 
   display: flex;
   height:10vh;
@@ -61,9 +61,6 @@ export default function Searchbar() {
         placeholder="search"
         className="featureless-input"
       />
-      <button className="search">
-        <img src={search} alt="" />
-      </button>
       <button>filter</button>
     </StyledSearchbar>
   );

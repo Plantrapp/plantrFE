@@ -3,7 +3,7 @@ import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Styled from "styled-components";
-import boxArrowRight from "../../node_modules/bootstrap-icons/icons/box-arrow-right.svg";
+
 const StyledSideBar = Styled.div`
   background-image: linear-gradient(to bottom right,#1fdbac, #17a884);
   width: 15vw;
@@ -65,7 +65,7 @@ export default function SideBar() {
       </div>
       <div className="footer">
         <button className="clamped-button">
-          Sign Out <img src={boxArrowRight} alt="" />
+          Sign Out 
         </button>
       </div>
     </StyledSideBar>
