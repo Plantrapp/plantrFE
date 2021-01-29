@@ -38,7 +38,6 @@ export default function Register() {
     axios
       .post("http://localhost:5000/auth/register", creds)
       .then((res) => {
-        console.log(res);
         history.push("/dashboard");
       })
       .catch((err) => {

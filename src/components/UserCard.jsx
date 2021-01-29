@@ -5,7 +5,6 @@ import Form from "react-bootstrap/Form";
 import pic from "../assets/img/user-profile.png";
 import Styled from "styled-components";
 
-
 const StyledUserCard = Styled.div`
 background: #292929;
 border-radius: 10px;
@@ -49,19 +48,23 @@ transition: 0.15s ease-in-out;
 `;
 
 export default function UserCard(props) {
-  console.log(props);
+  const history = useHistory();
   const { first_name, last_name, role, hourly_rate } = props.growr;
   return (
-    <StyledUserCard>
+    <StyledUserCard
+      onClick={() =>
+        history.push(`/dashboard/growrProfile/${props.growr.username}`)
+      }
+    >
       <img src={pic} />
       <div>
         <h3>
-          {first_name} {last_name}
+          {first_name}{" "}
+          {last_name.length > 10 ? `${last_name.split("").pop(0)}.` : last_name}
         </h3>
         <p>{role}</p>
         <div className="footer">
           <h6>${hourly_rate.toFixed(2)} / hr</h6>
-         
         </div>
       </div>
     </StyledUserCard>
