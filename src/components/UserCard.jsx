@@ -49,7 +49,6 @@ transition: 0.15s ease-in-out;
 `;
 
 export default function UserCard(props) {
-  console.log(props);
   const { first_name, last_name, role, hourly_rate } = props.growr;
   return (
     <StyledUserCard>

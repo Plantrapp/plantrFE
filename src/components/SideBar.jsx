@@ -67,6 +67,9 @@ export default function SideBar() {
         <Link to="/dashboard/settings">
           <button className="clamped-button">Settings</button>
         </Link>
+        <Link to="/dashboard/map">
+          <button className="clamped-button">Map</button>
+        </Link>
       </div>
       <div className="footer">
         <button className="clamped-button">
