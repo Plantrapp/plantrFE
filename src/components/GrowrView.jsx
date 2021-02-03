@@ -24,7 +24,7 @@ export default function GrowrView() {
   return (
     <StyledGrowrView>
       {userGroup.map((growr) => (
-        <UserCard growr={growr} />
+        <UserCard growr={growr} key={growr.id} />
       ))}
     </StyledGrowrView>
   );

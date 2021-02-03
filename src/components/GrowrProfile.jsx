@@ -16,7 +16,7 @@ const StyledGrowrProfile = Styled.div`
   .header {
     display: flex;
     height: 15vh;
-    padding: 1%;
+
     
     .left{
       background: #292929;
@@ -88,6 +88,7 @@ const StyledGrowrProfile = Styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    border-radius: 10px;
     button{
       background: transparent;
       border-radius: 4px;
@@ -102,6 +103,19 @@ const StyledGrowrProfile = Styled.div`
   }
 `;
 export default function GrowrProfile() {
+  const username = window.document.URL.split("/").pop();
+  const [userInfo, setUserInfo] = useState({});
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/user/info/${username}`)
+      .then((res) => {
+        setUserInfo(res.data[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <StyledGrowrProfile>
       <div className="header">
@@ -109,30 +123,29 @@ export default function GrowrProfile() {
           <img src={pic} />
         </div>
         <div className="middle">
-          <div>NAME</div>
-          <div>ROLE</div>
-          <div>LOCATION</div>
+          <div>
+            {userInfo.first_name} {userInfo.last_name}
+          </div>
+          <div>{userInfo.role}</div>
+          <div>
+            {userInfo.city}, {userInfo.state}
+          </div>
         </div>
         <div className="middle">
-          <div>$ per hour</div>
+          <div>${userInfo.hourly_rate} per hour</div>
         </div>
 
         <div className="right">
           STAR
           <br />
-          rating
+          {userInfo.star_rating}
         </div>
       </div>
 
       <div className="mid">
         <div className="top">
           <h3>Description</h3>
-          <div className="content">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio ea
-            voluptatem, deserunt vel qui beatae mollitia commodi esse quia quam
-            velit ducimus. Dolorem quasi eligendi inventore mollitia quas eaque
-            rerum.
-          </div>
+          <div className="content">{userInfo.description}</div>
         </div>
         <div className="bottom">
           <h3>Portfolio</h3>
