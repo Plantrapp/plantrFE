@@ -63,7 +63,10 @@ export default function SideBar() {
         <Link to="/dashboard">
           <button className="clamped-button">Home</button>
         </Link>
-        <button className="clamped-button">Messages</button>
+        <Link to="/dashboard/messages">
+          <button className="clamped-button">Messages</button>
+        </Link>
+
         <Link to="/dashboard/settings">
           <button className="clamped-button">Settings</button>
         </Link>
@@ -72,9 +75,7 @@ export default function SideBar() {
         </Link>
       </div>
       <div className="footer">
-        <button className="clamped-button">
-          Sign Out 
-        </button>
+        <button className="clamped-button">Sign Out</button>
       </div>
     </StyledSideBar>
   );
