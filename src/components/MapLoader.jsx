@@ -9,9 +9,6 @@ geocoder.setApiKey("AIzaSyDb9UX7qQuz9mOWLyoBoWCPIZPXJdxl1pw")
 export default function MapLoader() {
     const [markers, setMarkers] = useState([])
     const [counter, setCounter] = useState(0)
-    
-//   let geocoder = new window.google.maps.Geocoder()
-// console.log(window.google)
 
   useEffect(() => {
     axios.get("http://localhost:5000/user")
