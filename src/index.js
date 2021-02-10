@@ -4,19 +4,10 @@ import "./index.css";
 import App from "./App";
 
 import { BrowserRouter as Router } from "react-router-dom";
-import { io } from "socket.io-client";
-
-const socket = io("localhost:5000", {
-  query: {
-    x: 42,
-  },
-});
 
 ReactDOM.render(
   <Router>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <App />
   </Router>,
   document.getElementById("root")
 );

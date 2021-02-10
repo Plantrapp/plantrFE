@@ -3,15 +3,15 @@ import UserCard from "./UserCard";
 import Styled from "styled-components";
 import axios from "axios";
 import pic from "../assets/img/user-profile.png";
+import { FaStar } from "react-icons/fa";
 
 const StyledGrowrProfile = Styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   max-width: 85vw;
-  max-height: 85vh;
+  max-height: 100vh;
   padding: 2%;
-
+  
   color:whitesmoke;
   .header {
     display: flex;
@@ -48,7 +48,10 @@ const StyledGrowrProfile = Styled.div`
   }
   .mid {
     padding: 2%;
-    height: 65vh;
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     .top{
       height: 45%;
       display: flex;
@@ -82,7 +85,7 @@ const StyledGrowrProfile = Styled.div`
     }
   }
   .footer {
-    background: #292929;
+
     padding: 2%;
     height: 10vh;
     display: flex;
@@ -93,11 +96,11 @@ const StyledGrowrProfile = Styled.div`
       background: transparent;
       border-radius: 4px;
       transition: 0.3s ease-in-out;
-      border: 1px solid #17a884;
-      color: #17a884;
-      &:hover{
-        color: whitesmoke;
-        background: #17a884;
+      border: none;
+      color: whitesmoke;
+      padding: 0.5%;
+      &:hover {
+        background: #292929;
       }
     }
   }
@@ -137,8 +140,25 @@ export default function GrowrProfile() {
 
         <div className="right">
           STAR
-          <br />
           {userInfo.star_rating}
+          <br />
+          <div>
+            <span>
+              <FaStar />
+            </span>
+            <span>
+              <FaStar />
+            </span>
+            <span>
+              {/* <FaStar />           `      ``wrpgihesortingkhw3lkregfbvlw3i45uket goineartulhy;eoildkg */}
+            </span>
+            <span>
+              <FaStar />
+            </span>
+            <span>
+              <FaStar />
+            </span>
+          </div>
         </div>
       </div>
 

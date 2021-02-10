@@ -14,7 +14,6 @@ export default function Dashboard() {
     <>
       <SideBar />
       <div>
-        <Searchbar />
         <Route exact path="/dashboard" component={GrowrView} />
         <Route path="/dashboard/messages" component={Messages} />
         <Route path="/dashboard/conversation" component={Conversation} />

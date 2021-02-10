@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import Styled from "styled-components";
+import logo from "../assets/img/logo1.svg";
 
 const FormContainer = Styled.div`
   margin: 0 auto;
@@ -12,6 +13,13 @@ const FormContainer = Styled.div`
   padding: clamp(1em, 4vw, 4em);
   text-align: left;
   border-radius: 6px;
+  .img-container{
+    display: flex;
+    justify-content: center;
+    img{
+      width: 25%;
+    }
+  }
   h1{
     color: whitesmoke;
     text-align: center;
@@ -49,7 +57,7 @@ const FormContainer = Styled.div`
     border: 1px solid whitesmoke;
     transition: 0.3s ease-in-out;
     &:hover{
-      background-color: rgba(0, 0, 0, 0.2);
+      background-color: rgba(73, 206, 195, 0.2);
     }
   }
 
@@ -58,6 +66,9 @@ export default function RegisterLogin() {
   const [isLogin, setIsLogin] = useState(true);
   return (
     <FormContainer>
+      <div className="img-container">
+        <img src={logo} alt="" />
+      </div>
       {isLogin ? <Login /> : <Register />}
       <button
         onClick={() => setIsLogin(!isLogin)}

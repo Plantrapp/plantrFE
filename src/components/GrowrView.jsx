@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import UserCard from "./UserCard";
 import Styled from "styled-components";
 import axios from "axios";
+import Searchbar from "./Searchbar";
 
 const StyledGrowrView = Styled.div`
   display: flex;
@@ -14,15 +15,21 @@ const StyledGrowrView = Styled.div`
 `;
 export default function GrowrView() {
   const [userGroup, setUserGroup] = useState([]);
+  const [role, setRole] = useState(localStorage.getItem("role"));
   const baseURL = "http://localhost:5000";
   useEffect(() => {
     axios
       .get(`${baseURL}/user`)
-      .then((res) => setUserGroup(res.data))
+      .then((res) => {
+        console.log(res.data);
+        if (role === "Growr") return setUserGroup([]);
+        return setUserGroup(res.data.filter((user) => user.role === "Growr"));
+      })
       .catch((err) => console.log(err));
   }, []);
   return (
     <StyledGrowrView>
+      <Searchbar />
       {userGroup.map((growr) => (
         <UserCard growr={growr} key={growr.id} />
       ))}

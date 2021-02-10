@@ -21,7 +21,9 @@ export default function Login() {
     axios
       .post("http://localhost:5000/auth/login", creds)
       .then((res) => {
-        localStorage.setItem("username", formValue.username)
+        console.log(res);
+        localStorage.setItem("username", formValue.username);
+        localStorage.setItem("role", res.data.role);
         history.push("/dashboard");
       })
       .catch((err) => {

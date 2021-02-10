@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Styled from "styled-components";
-
+import { FaSlidersH } from "react-icons/fa";
 const StyledSearchbar = Styled.div` 
   display: flex;
   height:10vh;
@@ -37,6 +37,7 @@ const StyledSearchbar = Styled.div`
     background: transparent;
     color: whitesmoke;
     border: none;
+    border-radius: 5px;
     width: 5%;
     height: 27%;
     transition: 0.3s ease-in-out;
@@ -45,7 +46,6 @@ const StyledSearchbar = Styled.div`
     }
     &:hover{
       background: #292929;
-      border-bottom 1px solid #1fdbac;
     }
   }
   img{
@@ -61,7 +61,9 @@ export default function Searchbar() {
         placeholder="search"
         className="featureless-input"
       />
-      <button>filter</button>
+      <button>
+        <FaSlidersH />
+      </button>
     </StyledSearchbar>
   );
 }

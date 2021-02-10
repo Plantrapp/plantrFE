@@ -19,7 +19,6 @@ const StyledMessagesCard = Styled.div`
   div{
     display: flex;
     align-items: center;
-    border: 1px solid lime;
   }
   .conversation-img {
     width: 10%;
@@ -29,6 +28,7 @@ const StyledMessagesCard = Styled.div`
     }
   }
   .conversation-name {
+    text-align: left;
     width: 20%;
   }
   .conversation-message {
@@ -38,7 +38,7 @@ const StyledMessagesCard = Styled.div`
 export default function MessagesCard(props) {
   const { pic, user } = props;
   const history = useHistory();
-  console.log(user);
+
   return (
     <StyledMessagesCard
       onClick={() => history.push(`/dashboard/conversation/${user.username}`)}
