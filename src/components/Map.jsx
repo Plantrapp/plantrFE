@@ -59,6 +59,9 @@ function Map(props){
         mapRef.current.setZoom(10)
     }, [])
 
+
+
+
     useEffect(() => {
       axios.get("http://localhost:5000/user")
           .then(res => {
@@ -123,7 +126,13 @@ function Map(props){
         </MapControlStyles>
         {markers.length === counter ? 
         
-        <GoogleMap mapContainerStyle={mapContainerStyle} zoom={5} center={{lat: 39.7617, lng: -99.1193 }} onLoad={onMapLoad} options={options} >
+        <GoogleMap 
+        mapContainerStyle={mapContainerStyle} 
+        zoom={5} 
+        center={{lat: 39.7617, lng: -99.1193 }} 
+        onLoad={onMapLoad} 
+        options={options} 
+        >
             {markers && markers.map(marker => (
                 <Marker 
                 key={marker.time} 
@@ -156,6 +165,7 @@ function Map(props){
         </>
     )
 }
+
 
 function Locate({panTo}) {
     return <button onClick={() => {
