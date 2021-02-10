@@ -7,8 +7,13 @@ import Map from "./Map";
 geocoder.setApiKey("AIzaSyDb9UX7qQuz9mOWLyoBoWCPIZPXJdxl1pw");
 
 export default function MapLoader() {
+<<<<<<< HEAD
   const [markers, setMarkers] = useState([]);
   const [counter, setCounter] = useState(0);
+=======
+    const [markers, setMarkers] = useState([])
+    const [counter, setCounter] = useState(0)
+>>>>>>> d5a80e2e551ab77c1a7b7e246e2f8a9df3815add
 
   //   let geocoder = new window.google.maps.Geocoder()
   // console.log(window.google)
