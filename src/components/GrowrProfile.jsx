@@ -9,6 +9,7 @@ const StyledGrowrProfile = Styled.div`
   display: flex;
   flex-direction: column;
   max-width: 85vw;
+  min-width: 85vw;
   max-height: 100vh;
   padding: 2%;
   
@@ -40,10 +41,19 @@ const StyledGrowrProfile = Styled.div`
     .right{
       background: #292929;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       width: 20%;
       border-radius: 0px 10px 10px 0px;
+      .star-rating-container{
+        .checked{
+          color: yellow;
+        }
+        .unchecked{
+          color: #525151;
+        }
+      }
     }
   }
   .mid {
@@ -64,6 +74,7 @@ const StyledGrowrProfile = Styled.div`
       .content{
         height: 80%;
         width: 100%;
+        overflow-x: auto;
       }
     }
     .bottom{
@@ -80,7 +91,12 @@ const StyledGrowrProfile = Styled.div`
         height: 80%;
         width: 100%;
         display: flex;
-
+        overflow-x: auto;
+        white-space: nowrap;
+        img{
+          display: inline-block;
+          margin-right: 5%;
+        }
       }
     }
   }
@@ -108,11 +124,17 @@ const StyledGrowrProfile = Styled.div`
 export default function GrowrProfile() {
   const username = window.document.URL.split("/").pop();
   const [userInfo, setUserInfo] = useState({});
+  const [starRating, setStarRating] = useState([]);
   useEffect(() => {
     axios
       .get(`http://localhost:5000/user/info/${username}`)
       .then((res) => {
         setUserInfo(res.data[0]);
+        const starRatingArray = [];
+        for (let i = 0; i < 5; i++) {
+          starRatingArray.push(i < res.data[0].star_rating);
+        }
+        setStarRating(starRatingArray);
       })
       .catch((err) => {
         console.log(err);
@@ -139,25 +161,14 @@ export default function GrowrProfile() {
         </div>
 
         <div className="right">
-          STAR
-          {userInfo.star_rating}
+          Rating
           <br />
-          <div>
-            <span>
-              <FaStar />
-            </span>
-            <span>
-              <FaStar />
-            </span>
-            <span>
-              {/* <FaStar />           `      ``wrpgihesortingkhw3lkregfbvlw3i45uket goineartulhy;eoildkg */}
-            </span>
-            <span>
-              <FaStar />
-            </span>
-            <span>
-              <FaStar />
-            </span>
+          <div className="star-rating-container">
+            {starRating.map((star) => (
+              <span>
+                <FaStar className={star ? "checked" : "unchecked"} />
+              </span>
+            ))}
           </div>
         </div>
       </div>
@@ -170,6 +181,30 @@ export default function GrowrProfile() {
         <div className="bottom">
           <h3>Portfolio</h3>
           <div className="content">
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
+            <img src={pic} />
             <img src={pic} />
             <img src={pic} />
             <img src={pic} />
