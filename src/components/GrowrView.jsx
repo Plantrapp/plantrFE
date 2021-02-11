@@ -23,7 +23,7 @@ export default function GrowrView() {
       .then((res) => {
         console.log(res.data);
         if (role === "Growr") return setUserGroup([]);
-        return setUserGroup(res.data.filter((user) => user.role === "Growr"));
+        return setUserGroup(res.data.filter((user) => user.isGrowr === 1));
       })
       .catch((err) => console.log(err));
   }, []);

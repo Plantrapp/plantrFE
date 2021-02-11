@@ -54,6 +54,7 @@ export default function Register() {
       state: formValues.state.trim(),
       zipcode: Number(formValues.zipcode.trim()),
       isGrowr: formValues.isGrowr,
+      role: "Growr",
       hourly_rate: Number(formValues.hourly_rate).toFixed(2),
     };
 
