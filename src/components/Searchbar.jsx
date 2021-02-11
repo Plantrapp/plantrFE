@@ -55,7 +55,7 @@ const StyledSearchbar = Styled.div`
 export default function Searchbar() {
   return (
     <StyledSearchbar>
-      <input
+      {/* <input
         type="text"
         name=""
         placeholder="search"
@@ -63,7 +63,7 @@ export default function Searchbar() {
       />
       <button>
         <FaSlidersH />
-      </button>
+      </button> */}
     </StyledSearchbar>
   );
 }
