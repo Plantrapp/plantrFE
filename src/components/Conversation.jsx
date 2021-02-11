@@ -4,8 +4,6 @@ import axios from "axios";
 import Styled from "styled-components";
 import { io } from "socket.io-client";
 
-import useLocalStorage from "../hooks/useLocalStorage";
-
 import pic from "../assets/img/user-profile.png";
 import MessagesCard from "./MessagesCard";
 import ConversationBubble from "./ConversationBubble";
