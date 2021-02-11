@@ -24,8 +24,9 @@ const MapControlStyles = Styled.div`
 
 
 const mapContainerStyle = {
-    width: "100%",
-    height: "90vh",
+    width: "85vw",
+    height: "100vh",
+    position: "absolute"
 }
 
 const libraries = ["places"]
