@@ -1,28 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
-
+import * as yup from "yup";
+import { loginFormSchema } from "../validation/formSchema";
 const initState = {
   username: "",
   password: "",
 };
 
 export default function Login() {
-  const [formValue, setFormValue] = useState(initState);
+  const [formValues, setFormValues] = useState(initState);
+  const [formErrors, setFormErrors] = useState(initState);
+  const [disabled, setDisabled] = useState(true);
   const history = useHistory();
   const login = (e) => {
     e.preventDefault();
     const creds = {
-      username: `${formValue.username}`,
-      password: `${formValue.password}`,
+      username: formValues.username.trim(),
+      password: formValues.password.trim(),
     };
 
     axios
       .post("http://localhost:5000/auth/login", creds)
       .then((res) => {
-        console.log(res);
-        localStorage.setItem("username", formValue.username);
+        localStorage.setItem("username", formValues.username);
         localStorage.setItem("role", res.data.role);
         history.push("/dashboard");
       })
@@ -31,15 +33,35 @@ export default function Login() {
       });
   };
   const handleOnchange = (e) => {
-    setFormValue({
-      ...formValue,
-      [e.target.name]: e.target.value,
+    const { name, value } = e.target;
+    yup
+      .reach(loginFormSchema, name)
+      .validate(value)
+      .then(() => {
+        setFormErrors({
+          ...formErrors,
+          [name]: "",
+        });
+      })
+      .catch((err) => {
+        setFormErrors({
+          ...formErrors,
+          [name]: err.errors[0],
+        });
+      });
+    setFormValues({
+      ...formValues,
+      [name]: value,
     });
   };
 
+  useEffect(() => {
+    loginFormSchema.isValid(formValues).then((valid) => {
+      setDisabled(!valid);
+    });
+  }, [formValues]);
   return (
     <>
-      <h1 className="clamped-h1">Login</h1>
       <Form>
         <Form.Group>
           <input
@@ -48,7 +70,13 @@ export default function Login() {
             className="featureless-input"
             name="username"
             onChange={handleOnchange}
+            value={formValues.username}
           />
+          <p className="error">
+            {formErrors.username === "Username is Required"
+              ? formErrors.username
+              : null}
+          </p>
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">
@@ -58,12 +86,21 @@ export default function Login() {
             className="featureless-input"
             name="password"
             onChange={handleOnchange}
+            value={formValues.password}
           />
+          <p className="error">
+            {formErrors.password === "Password is Required"
+              ? formErrors.password
+              : null}
+          </p>
         </Form.Group>
         <button
           type="submit"
           onClick={login}
-          className="cta-button clamped-text "
+          className={`clamped-text ${
+            disabled ? "cta-button-disabled" : "cta-button"
+          }`}
+          disabled={disabled}
         >
           Login
         </button>

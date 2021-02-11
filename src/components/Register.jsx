@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
+import { registerFormSchemaPart1 } from "../validation/formSchema";
+import RegisterGrowr from "./RegisterGrowr";
+import RegisterPlantr from "./RegisterPlantr";
+import { FaAngleLeft } from "react-icons/fa";
+import * as yup from "yup";
 
 const initState = {
   username: "",
@@ -11,33 +16,52 @@ const initState = {
   last_name: "",
   street_address: "",
   city: "",
+  state: "none",
+  zipcode: "",
+  isGrowr: null,
+  hourly_rate: "",
+};
+const initError = {
+  username: "",
+  profile_picture: "",
+  password: "",
+  first_name: "",
+  last_name: "",
+  street_address: "",
+  city: "",
   state: "",
   zipcode: "",
-  isGrowr: false,
+  isGrowr: "",
+  hourly_rate: "",
 };
-
 export default function Register() {
-  const [formValue, setFormValue] = useState(initState);
+  const [formValues, setFormValues] = useState(initState);
+  const [formErrors, setFormErrors] = useState(initError);
+  const [disabled1, setDisabled1] = useState(true);
   const history = useHistory();
+
   const register = (e) => {
     e.preventDefault();
 
     const creds = {
-      username: `${formValue.username}`,
-      email: `${formValue.email}`,
-      password: `${formValue.password}`,
-      first_name: `${formValue.first_name}`,
-      last_name: `${formValue.last_name}`,
-      street_address: `${formValue.street_address}`,
-      city: `${formValue.city}`,
-      state: `${formValue.state}`,
-      zipcode: `${formValue.zipcode}`,
-      isGrowr: `${formValue.isGrowr}`,
+      username: formValues.username.trim(),
+      email: formValues.email.trim(),
+      password: formValues.password.trim(),
+      first_name: formValues.first_name.trim(),
+      last_name: formValues.last_name.trim(),
+      street_address: formValues.street_address.trim(),
+      city: formValues.city.trim(),
+      state: formValues.state.trim(),
+      zipcode: Number(formValues.zipcode.trim()),
+      isGrowr: formValues.isGrowr,
+      hourly_rate: Number(formValues.hourly_rate).toFixed(2),
     };
 
     axios
       .post("http://localhost:5000/auth/register", creds)
       .then((res) => {
+        localStorage.setItem("username", formValues.username);
+        localStorage.setItem("role", res.data.role);
         history.push("/dashboard");
       })
       .catch((err) => {
@@ -45,121 +69,105 @@ export default function Register() {
       });
   };
   const handleOnchange = (e) => {
-    if (e.target.name === "isGrowr") {
-      setFormValue({
-        ...formValue,
-        [e.target.name]: e.target.checked,
+    const { name, value } = e.target;
+    yup
+      .reach(registerFormSchemaPart1, name)
+      .validate(value)
+      .then(() => {
+        setFormErrors({
+          ...formErrors,
+          [name]: "",
+        });
+      })
+      .catch((err) => {
+        setFormErrors({
+          ...formErrors,
+          [name]: err.errors[0],
+        });
       });
-    } else {
-      setFormValue({
-        ...formValue,
-        [e.target.name]: e.target.value,
-      });
-    }
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
   };
+
+  useEffect(() => {
+    registerFormSchemaPart1.isValid(formValues).then((valid) => {
+      setDisabled1(!valid);
+    });
+  }, [formValues]);
+
   return (
     <>
       <Form>
-        <h1 className="clamped-h1">Register</h1>
-        <Form.Group controlId="formBasicEmail">
-          <input
-            className="featureless-input"
-            type="email"
-            onChange={handleOnchange}
-            placeholder="Enter email"
-            name="email"
-          />
-        </Form.Group>
-        <Form.Group controlId="formBasicEmail">
-          <input
-            className="featureless-input"
-            type="text"
-            onChange={handleOnchange}
-            placeholder="Username"
-            name="username"
-          />
-        </Form.Group>
-        <Form.Group controlId="formBasicPassword">
-          <input
-            className="featureless-input"
-            type="password"
-            onChange={handleOnchange}
-            placeholder="Password"
-            name="password"
-          />
-        </Form.Group>
-        <Form.Group controlId="">
-          <input
-            className="featureless-input"
-            type="text"
-            onChange={handleOnchange}
-            placeholder="First Name"
-            name="first_name"
-          />
-        </Form.Group>
-        <Form.Group controlId="">
-          <input
-            className="featureless-input"
-            type="text"
-            onChange={handleOnchange}
-            placeholder="Last Name"
-            name="last_name"
-          />
-        </Form.Group>
-        <Form.Group controlId="">
-          <input
-            className="featureless-input"
-            type="text"
-            onChange={handleOnchange}
-            placeholder="Street Address"
-            name="street_address"
-          />
-        </Form.Group>
-        <Form.Group controlId="">
-          <input
-            className="featureless-input"
-            type="text"
-            onChange={handleOnchange}
-            placeholder="City"
-            name="city"
-          />
-        </Form.Group>
-        <Form.Group controlId="">
-          <input
-            className="featureless-input"
-            type="text"
-            onChange={handleOnchange}
-            placeholder="State"
-            name="state"
-          />
-        </Form.Group>
-        <Form.Group controlId="">
-          <input
-            className="featureless-input"
-            type="text"
-            onChange={handleOnchange}
-            placeholder="Zipcode"
-            name="zipcode"
-          />
-        </Form.Group>
-        <Form.Group controlId="formBasicCheckbox">
-          <Form.Check
-            type="checkbox"
-            label="Growr?"
-            name="isGrowr"
-            onChange={handleOnchange}
-            style={{ color: "white" }}
-            className="clamped-text"
-          />
-        </Form.Group>
-
-        <button
-          type="submit"
-          onClick={register}
-          className="clamped-text cta-button"
-        >
-          Register
-        </button>
+        {formValues.isGrowr === null ? (
+          <div className="role-selector-conatiner">
+            <h2 className="clamped-h2">Select a role</h2>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setFormErrors({ ...formErrors, isGrowr: "" });
+                setFormValues({
+                  ...formValues,
+                  hourly_rate: 0,
+                  isGrowr: false,
+                });
+              }}
+              className={`clamped-text role-button `}
+            >
+              Plantr
+            </button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setFormValues({ ...formValues, isGrowr: true });
+                setFormErrors({ ...formErrors, isGrowr: "" });
+              }}
+              className={`clamped-text role-button `}
+            >
+              Growr
+            </button>
+          </div>
+        ) : formValues.isGrowr === true ? (
+          <div>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setFormValues(initState);
+              }}
+              className={`clamped-text cta-button-disabled float-left`}
+            >
+              <FaAngleLeft />
+              Back
+            </button>
+            <RegisterGrowr
+              handleOnchange={handleOnchange}
+              formValues={formValues}
+              formErrors={formErrors}
+              disabled1={disabled1}
+              register={register}
+            />
+          </div>
+        ) : (
+          <div>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setFormValues(initState);
+              }}
+              className={`clamped-text cta-button-disabled float-left`}
+            >
+              <FaAngleLeft /> Back
+            </button>
+            <RegisterPlantr
+              handleOnchange={handleOnchange}
+              formValues={formValues}
+              formErrors={formErrors}
+              disabled1={disabled1}
+              register={register}
+            />
+          </div>
+        )}
       </Form>
     </>
   );
