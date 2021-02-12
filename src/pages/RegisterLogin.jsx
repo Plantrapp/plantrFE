@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import Login from "../components/Login";
-import Register from "../components/Register";
-import RegisterForgotPassword from "../components/RegisterForgotPassword";
 import Styled from "styled-components";
 import logo from "../assets/img/logo1.svg";
+import { Login, Register, RegisterForgotPassword } from "../components";
 
 const FormContainer = Styled.div`
-
   margin: 0 auto;
   align-self: center;
   width: clamp(200px, 50vw, 500px);

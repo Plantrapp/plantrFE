@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
-import { registerFormSchemaPart1 } from "../validation/formSchema";
+import { registerFormSchemaPart1 } from "../../validation/formSchema";
 import RegisterGrowr from "./RegisterGrowr";
 import RegisterPlantr from "./RegisterPlantr";
 import { FaAngleLeft } from "react-icons/fa";

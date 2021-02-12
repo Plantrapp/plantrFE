@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Styled from "styled-components";
-import pic from "../assets/img/user-profile.png";
+import pic from "../../assets/img/user-profile.png";
 import MessagesCard from "./MessagesCard";
 
 const StyledMessages = Styled.div`

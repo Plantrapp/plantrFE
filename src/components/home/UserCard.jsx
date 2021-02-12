@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
-import pic from "../assets/img/user-profile.png";
+import pic from "../../assets/img/user-profile.png";
 import Styled from "styled-components";
 
 const StyledUserCard = Styled.div`
@@ -48,9 +48,8 @@ transition: 0.15s ease-in-out;
 `;
 
 export default function UserCard(props) {
-
   const history = useHistory();
-  
+
   const { first_name, last_name, role, hourly_rate } = props.growr;
   return (
     <StyledUserCard

@@ -1,14 +1,14 @@
 import React from "react";
-import SideBar from "../components/SideBar";
-import Searchbar from "../components/Searchbar";
-import GrowrView from "../components/GrowrView";
-import GrowrProfile from "../components/GrowrProfile";
-import Settings from "../components/Settings";
 import { Route } from "react-router-dom";
-import MapLoader from "../components/MapLoader";
-import Map from "../components/Map"
-import Messages from "../components/Messages";
-import Conversation from "../components/Conversation";
+import {
+  SideBar,
+  GrowrView,
+  GrowrProfile,
+  Settings,
+  Map,
+  Messages,
+  Conversation,
+} from "../components";
 
 export default function Dashboard() {
   return (

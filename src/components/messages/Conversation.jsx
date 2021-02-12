@@ -4,8 +4,7 @@ import axios from "axios";
 import Styled from "styled-components";
 import { io } from "socket.io-client";
 
-import pic from "../assets/img/user-profile.png";
-import MessagesCard from "./MessagesCard";
+import pic from "../../assets/img/user-profile.png";
 import ConversationBubble from "./ConversationBubble";
 
 const StyledConversation = Styled.div`
@@ -58,7 +57,7 @@ const StyledConversation = Styled.div`
     flex-direction: column;
   }
 `;
-export default function Conversation(props) {
+export default function Conversation() {
   const [socket, setSocket] = useState();
   const [formValue, setFormValue] = useState("");
   const [messages, setMessages] = useState([]);

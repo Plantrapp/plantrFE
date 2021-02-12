@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Styled from "styled-components";
 import { FaHome, FaEnvelope, FaCog, FaMap, FaSignOutAlt } from "react-icons/fa";
 
-import logo from "../assets/img/Asset1.svg";
+import logo from "../../assets/img/Asset1.svg";
 
 const StyledSideBar = Styled.div`
   background-image: linear-gradient(to bottom right,#1fdbac, #17a884);

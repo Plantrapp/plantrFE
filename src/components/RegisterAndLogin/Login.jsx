@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import * as yup from "yup";
-import { loginFormSchema } from "../validation/formSchema";
+import { loginFormSchema } from "../../validation/formSchema";
 const initState = {
   username: "",
   password: "",

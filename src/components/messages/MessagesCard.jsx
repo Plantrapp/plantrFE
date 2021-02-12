@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import UserCard from "./UserCard";
 import Styled from "styled-components";
 import axios from "axios";
 

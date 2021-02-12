@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import * as yup from "yup";
-import { forgotPasswordFormSchema } from "../validation/formSchema";
+import { forgotPasswordFormSchema } from "../../validation/formSchema";
 const initState = {
   email: "",
 };

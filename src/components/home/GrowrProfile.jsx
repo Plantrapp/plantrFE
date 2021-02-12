@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import UserCard from "./UserCard";
 import Styled from "styled-components";
 import axios from "axios";
-import pic from "../assets/img/user-profile.png";
+import pic from "../../assets/img/user-profile.png";
 import { FaStar } from "react-icons/fa";
 
 const StyledGrowrProfile = Styled.div`
