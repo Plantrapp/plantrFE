@@ -30,3 +30,16 @@
   color: whitesmoke;
   font-size: clamp(0.6em, 2vw, 1.1em);
 }
+.tabs {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-evenly; */
+  color: whitesmoke;
+  background-color: blue;
+}
+.tab-container {
+  background-color: blue;
+}
+.tabs > p {
+  margin: 0 0 0 10%;
+}
