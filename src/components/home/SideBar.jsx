@@ -164,11 +164,6 @@ export default function SideBar() {
           <span>Messages</span>
         </Link>
 
-        <Link to="/dashboard/map">
-          <FaMap />
-          <span>Map</span>
-        </Link>
-
         <Link to="/dashboard/settings">
           <FaCog />
           <span>Settings</span>

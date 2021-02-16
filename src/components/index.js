@@ -28,6 +28,8 @@ import RegisterPlantr from "./RegisterAndLogin/RegisterPlantr";
 // Settings
 import Settings from "./settings/Settings";
 
+import Connect from "./connect/Connect";
+
 export {
   Blog,
   BlogList,
@@ -47,4 +49,5 @@ export {
   RegisterGrowr,
   RegisterPlantr,
   Settings,
+  Connect,
 };

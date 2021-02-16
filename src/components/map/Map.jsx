@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useRef, useCallback, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useContext,
+} from "react";
+import { Link } from "react-router-dom";
 import {
   GoogleMap,
   useLoadScript,
@@ -20,7 +27,8 @@ import "@reach/combobox/styles.css";
 import profPic from "../../assets/img/user-profile.png";
 import mapStyles from "./mapStyles";
 import Styled from "styled-components";
-import {UserContext} from "../../utils/contexts/Contexts"
+import { UserContext, CurrentUserContext } from "../../utils/contexts/Contexts";
+import { FaStar } from "react-icons/fa";
 
 const MapControlStyles = Styled.div`
     position: absolute;
@@ -32,9 +40,18 @@ const MapControlStyles = Styled.div`
     flex-direction: column;
 `;
 
+const Wrapper = Styled.div`
+  .checked {
+    color: yellow;
+  }
+  .unchecked {
+    color: #525151;
+  }
+`;
+
 const mapContainerStyle = {
   width: "85vw",
-  height: "100vh",
+  height: "95.5vh",
   position: "absolute",
 };
 
@@ -50,14 +67,16 @@ function Map(props) {
   // const [markers, setMarkers] = useState([]);
   // const [counter, setCounter] = useState(0);
   const [selected, setSelected] = useState(null);
-  const [users, setUsers] = useState([]);
+  const [starRating, setStarRating] = useState([]);
 
-  const {growrs} = useContext(UserContext)
+  const { growrs } = useContext(UserContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyDb9UX7qQuz9mOWLyoBoWCPIZPXJdxl1pw",
     libraries,
   });
+  // const distance = new window.google.maps.DistanceMatrixService();
 
   const mapRef = useRef();
 
@@ -69,6 +88,14 @@ function Map(props) {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(10);
   }, []);
+
+  function toStarsArr(rating) {
+    let starsArr = [];
+    for (let i = 0; i < 5; i++) {
+      starsArr.push(i < rating);
+    }
+    return starsArr;
+  }
 
   // useEffect(() => {
   //   axios
@@ -84,9 +111,9 @@ function Map(props) {
   //           .fromAddress(
   //             `${user.street_address}, ${user.city}, ${user.state} ${user.zipcode}`
   //           )
-            // .then((res) => {
-            //   let lat = res.results[0].geometry.location.lat;
-            //   let lng = res.results[0].geometry.location.lng;
+  // .then((res) => {
+  //   let lat = res.results[0].geometry.location.lat;
+  //   let lng = res.results[0].geometry.location.lng;
   //             let newMarker = {
   //               lat,
   //               lng,
@@ -132,53 +159,68 @@ function Map(props) {
   return (
     // <>
     // </>
-    <>
+    <Wrapper>
       <MapControlStyles>
         <Search panTo={panTo} />
         <Locate panTo={panTo} />
       </MapControlStyles>
-      
-        <GoogleMap
-          mapContainerStyle={mapContainerStyle}
-          zoom={5}
-          center={{ lat: 39.7617, lng: -99.1193 }}
-          onLoad={onMapLoad}
-          options={options}
-        >
-          {
-            growrs.map((marker) => (
-              <Marker
-                key={marker.id}
-                position={
-                  { lat: marker.lat, lng: marker.lng }}
-                icon={{
-                  url: profPic,
-                  scaledSize: new window.google.maps.Size(30, 30),
-                  origin: new window.google.maps.Point(0, 0),
-                  anchor: new window.google.maps.Point(15, 15),
-                }}
-                onClick={() => {
-                  setSelected(marker);
-                }}
-              />
-            ))}
-          {selected ? (
-            <InfoWindow
-              position={{ lat: selected.lat, lng: selected.lng }}
-              onCloseClick={() => {
-                setSelected(null);
-                mapRef.current.setZoom(5);
-              }}
-            >
-              <div>
-                <h2>{`${selected.first_name} ${selected.last_name}`}</h2>
-                <p>Rate: ${selected.hourly_rate}/hr</p>
-              </div>
-            </InfoWindow>
-          ) : null}
-        </GoogleMap>
+      <GoogleMap
+        mapContainerStyle={mapContainerStyle}
+        zoom={5}
+        center={{ lat: 39.7617, lng: -99.1193 }}
+        onLoad={onMapLoad}
+        options={options}
+      >
+        {growrs.map((marker) => (
+          <Marker
+            key={marker.id}
+            position={{ lat: marker.lat, lng: marker.lng }}
+            icon={{
+              url: profPic,
+              scaledSize: new window.google.maps.Size(30, 30),
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(15, 15),
+            }}
+            onClick={() => {
+              setSelected(marker);
+              setStarRating(toStarsArr(marker.star_rating));
+            }}
+          />
+        ))}
+        {currentUser && (
+          <Marker
+            key={currentUser.id}
+            position={{ lat: currentUser.lat, lng: currentUser.lng }}
+          />
+        )}
+
+        {selected ? (
+          <InfoWindow
+            position={{ lat: selected.lat, lng: selected.lng }}
+            onCloseClick={() => {
+              setSelected(null);
+              mapRef.current.setZoom(5);
+            }}
+          >
+            <div>
+              <h2>{`${selected.first_name} ${selected.last_name}`}</h2>
+              <p>Rate: ${selected.hourly_rate}/hr</p>
+              <p>Miles Away:</p>
+              <p>
+                Rating:
+                {starRating.map((star) => (
+                  <FaStar className={star ? "checked" : "unchecked"} />
+                ))}
+              </p>
+              <Link to={`/dashboard/growrProfile/${selected.username}`}>
+                View Profile
+              </Link>
+            </div>
+          </InfoWindow>
+        ) : null}
+      </GoogleMap>
       )
-    </>
+    </Wrapper>
   );
 }
 

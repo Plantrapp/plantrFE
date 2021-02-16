@@ -10,10 +10,10 @@ import {
   Conversation,
   BlogList,
   Blog,
+  Connect,
 } from "../components";
 import axios from "axios";
-import { UserContext } from "../utils/contexts/Contexts";
-import { CurrentUserContext } from "../utils/contexts/Contexts";
+import { UserContext, CurrentUserContext } from "../utils/contexts/Contexts";
 
 export default function Dashboard() {
   const [users, setUsers] = useState([]);
@@ -51,7 +51,7 @@ export default function Dashboard() {
         <div>
           <Route exact path="/dashboard" component={BlogList} />
           <Route path="/dashboard/blogs" component={Blog} />
-          <Route path="/dashboard/connect" component={GrowrView} />
+          <Route path="/dashboard/connect" component={Connect} />
           <Route path="/dashboard/messages" component={Messages} />
           <Route path="/dashboard/conversation" component={Conversation} />
           <Route path="/dashboard/settings" component={Settings} />
