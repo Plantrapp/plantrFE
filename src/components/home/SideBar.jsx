@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Styled from "styled-components";
-import { FaHome, FaEnvelope, FaCog, FaMap, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaHome,
+  FaEnvelope,
+  FaCog,
+  FaMap,
+  FaSignOutAlt,
+  FaEdit,
+} from "react-icons/fa";
+import { CurrentUserContext } from "../../utils/contexts/Contexts";
+import pic from "../../assets/img/user-profile.png";
 
 import logo from "../../assets/img/Asset1.svg";
 
@@ -14,11 +23,51 @@ const StyledSideBar = Styled.div`
   color: whitesmoke;
   .heading{
     display: flex;
-    padding-left: 15%;
-    align-items: center;
+    align-items: flex-start;
     height: 10vh;
-    img{
+    flex-direction: column;
+    .logo{
       width: 50%;
+      padding-left: 15%;
+    }
+  }
+  .heading-profile {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin: 5% 0;
+    transition: .3s ease-in-out;
+    padding-left: 14%;
+    &:hover {
+      background: #1fdbac;
+      cursor: pointer; 
+      
+    }
+    .profile-image {
+      padding: 2% 0;
+      width: 20%;
+      img {
+        width: 100%;
+      }
+    }
+    .profile-username {
+      padding-left: 5%;
+      width: 60%;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      & > p {
+        margin: 0;
+
+      }
+    }
+    .profile-icon {
+      width: 20%;
+      padding-right: 13%;
+      
+      display: flex;
+      align-items: center;
+      height: 100%;
     }
   }
   .menu{
@@ -74,10 +123,25 @@ const StyledSideBar = Styled.div`
 
 `;
 export default function SideBar() {
+  const { currentUser } = useContext(CurrentUserContext);
+
   return (
     <StyledSideBar>
       <div className="heading">
-        <img src={logo} alt="" />
+        <img src={logo} alt="" className="logo" />
+        {currentUser && (
+          <div className="heading-profile">
+            <div className="profile-image">
+              <img src={pic} />
+            </div>
+            <div className="profile-username">
+              <p>{currentUser.username}</p>
+            </div>
+            <div className="profile-icon">
+              <FaEdit />
+            </div>
+          </div>
+        )}
       </div>
       <div className="menu">
         <Link to="/dashboard">
@@ -101,7 +165,13 @@ export default function SideBar() {
         </Link>
       </div>
       <div className="footer">
-        <Link to="/">
+        <Link
+          to="/"
+          onClick={() => {
+            localStorage.removeItem("username");
+            localStorage.removeItem("role");
+          }}
+        >
           <FaSignOutAlt />
           <span>Sign Out</span>
         </Link>

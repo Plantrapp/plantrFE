@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Styled from "styled-components";
 import { FaEdit } from "react-icons/fa";
+import { CurrentUserContext } from "../../utils/contexts/Contexts";
+import geocoder from "react-geocode";
 
 const StyledSettings = Styled.div`
 height: 100vh;
@@ -84,24 +86,34 @@ const initFormValues = {
   state: "",
   zipcode: "",
 };
+
 export default function Settings() {
   const [formValues, setFormValues] = useState(initFormValues);
   const [isEditing, setIsEditing] = useState(false);
-  const username = localStorage.getItem("username");
+  // const username = localStorage.getItem("username");
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
+  console.log("helloooo");
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/user/info/${username}`)
-      .then((res) => {
-        const data = res.data[0];
-        data.oldPassword = data.password;
-        data.password = "";
-        setFormValues(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [username]);
+    if (currentUser) {
+      const data = { ...currentUser };
+      data.oldPassword = currentUser.password;
+      data.password = "";
+      setFormValues(data);
+    }
+    console.log("hi");
+    // axios
+    //   .get(`http://localhost:5000/user/info/${username}`)
+    //   .then((res) => {
+    //     const data = res.data[0];
+    //     data.oldPassword = data.password;
+    //     data.password = "";
+    //     setFormValues(data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  }, [currentUser]);
 
   const handleOnchange = (e) => {
     setFormValues({
@@ -110,17 +122,35 @@ export default function Settings() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const id = formValues.id;
+    if (
+      formValues.street_address != currentUser.street_address ||
+      formValues.city != currentUser.city ||
+      formValues.state != currentUser.state ||
+      formValues.zipcode != currentUser.zipcode
+    ) {
+      await geocoder
+        .fromAddress(
+          `${formValues.street_address}, ${formValues.city}, ${formValues.state} ${formValues.zipcode}`
+        )
+        .then((res) => {
+          formValues.lat = res.results[0].geometry.location.lat;
+          formValues.lng = res.results[0].geometry.location.lng;
+        });
+    }
+    console.log(formValues);
     axios
       .put(`http://localhost:5000/user/${id}`, formValues)
       .then((res) => {
+        setCurrentUser(res.data);
+        localStorage.setItem("username", res.data.username);
         console.log("Updated", res);
         setIsEditing(!isEditing);
       })
       .catch((err) => {
-        console.log(err);
+        alert("Username already in use");
       });
   };
 

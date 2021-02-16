@@ -7,6 +7,7 @@ import RegisterGrowr from "./RegisterGrowr";
 import RegisterPlantr from "./RegisterPlantr";
 import { FaAngleLeft } from "react-icons/fa";
 import * as yup from "yup";
+import geocoder from "react-geocode";
 
 const initState = {
   username: "",
@@ -40,7 +41,7 @@ export default function Register() {
   const [disabled1, setDisabled1] = useState(true);
   const history = useHistory();
 
-  const register = (e) => {
+  const register = async (e) => {
     e.preventDefault();
 
     const creds = {
@@ -57,6 +58,16 @@ export default function Register() {
       role: "Growr",
       hourly_rate: Number(formValues.hourly_rate).toFixed(2),
     };
+
+    await geocoder
+      .fromAddress(
+        `${creds.street_address}, ${creds.city}, ${creds.state} ${creds.zipcode}`
+      )
+      .then((res) => {
+        creds.lat = res.results[0].geometry.location.lat;
+        creds.lng = res.results[0].geometry.location.lng;
+      });
+    console.log(creds);
 
     axios
       .post("http://localhost:5000/auth/register", creds)

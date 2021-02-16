@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useContext } from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -20,6 +20,7 @@ import "@reach/combobox/styles.css";
 import profPic from "../../assets/img/user-profile.png";
 import mapStyles from "./mapStyles";
 import Styled from "styled-components";
+import {UserContext} from "../../utils/contexts/Contexts"
 
 const MapControlStyles = Styled.div`
     position: absolute;
@@ -46,10 +47,12 @@ const options = {
 };
 
 function Map(props) {
-  const [markers, setMarkers] = useState([]);
-  const [counter, setCounter] = useState(0);
+  // const [markers, setMarkers] = useState([]);
+  // const [counter, setCounter] = useState(0);
   const [selected, setSelected] = useState(null);
   const [users, setUsers] = useState([]);
+
+  const {growrs} = useContext(UserContext)
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyDb9UX7qQuz9mOWLyoBoWCPIZPXJdxl1pw",
@@ -67,64 +70,64 @@ function Map(props) {
     mapRef.current.setZoom(10);
   }, []);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/user")
-      .then((res) => {
-        let tempArr = [];
-        tempArr = res.data.filter((user) => user.isGrowr > 0);
-        setCounter(tempArr.length);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:5000/user")
+  //     .then((res) => {
+  //       let tempArr = [];
+  //       tempArr = res.data.filter((user) => user.isGrowr > 0);
+  //       setCounter(tempArr.length);
 
-        tempArr.forEach((user) => {
-          console.log(user);
-          geocoder
-            .fromAddress(
-              `${user.street_address}, ${user.city}, ${user.state} ${user.zipcode}`
-            )
-            .then((res) => {
-              let lat = res.results[0].geometry.location.lat;
-              let lng = res.results[0].geometry.location.lng;
-              let newMarker = {
-                lat,
-                lng,
-                time: Date.now(),
-                fName: user.first_name,
-                lName: user.last_name,
-                rate: user.hourly_rate,
-              };
-              // tempArr.push(newMarker)
-              setMarkers((oldMarkers) => [...oldMarkers, newMarker]);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        });
-        //   users.forEach(user => {
+  //       tempArr.forEach((user) => {
+  //         console.log(user);
+  //         geocoder
+  //           .fromAddress(
+  //             `${user.street_address}, ${user.city}, ${user.state} ${user.zipcode}`
+  //           )
+            // .then((res) => {
+            //   let lat = res.results[0].geometry.location.lat;
+            //   let lng = res.results[0].geometry.location.lng;
+  //             let newMarker = {
+  //               lat,
+  //               lng,
+  //               time: Date.now(),
+  //               fName: user.first_name,
+  //               lName: user.last_name,
+  //               rate: user.hourly_rate,
+  //             };
+  //             // tempArr.push(newMarker)
+  //             setMarkers((oldMarkers) => [...oldMarkers, newMarker]);
+  //           })
+  //           .catch((err) => {
+  //             console.log(err);
+  //           });
+  //       });
+  //       //   users.forEach(user => {
 
-        //       geocoder.fromAddress(  `${user.street_address}, ${user.city}, ${user.state} ${user.zipcode}`)
-        //       .then(res => {
-        //               let lat = res.results[0].geometry.location.lat
-        //               let lng = res.results[0].geometry.location.lng
-        //               let newMarker = {lat, lng, time: Date.now()}
-        //               user.marker = newMarker
-        //               // tempArr.push(newMarker)
-        //               setMarkers(oldMarkers=> [
-        //                   ...oldMarkers, newMarker
-        //               ])
-        //       })
-        //       .catch(err => {
-        //           console.log(err)
-        //       })
-        //   })
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  //       //       geocoder.fromAddress(  `${user.street_address}, ${user.city}, ${user.state} ${user.zipcode}`)
+  //       //       .then(res => {
+  //       //               let lat = res.results[0].geometry.location.lat
+  //       //               let lng = res.results[0].geometry.location.lng
+  //       //               let newMarker = {lat, lng, time: Date.now()}
+  //       //               user.marker = newMarker
+  //       //               // tempArr.push(newMarker)
+  //       //               setMarkers(oldMarkers=> [
+  //       //                   ...oldMarkers, newMarker
+  //       //               ])
+  //       //       })
+  //       //       .catch(err => {
+  //       //           console.log(err)
+  //       //       })
+  //       //   })
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
   if (loadError) return "Error loading";
   if (!isLoaded) return "Loading Maps";
 
-  console.log(markers);
+  // console.log(growrs);
 
   return (
     // <>
@@ -134,7 +137,7 @@ function Map(props) {
         <Search panTo={panTo} />
         <Locate panTo={panTo} />
       </MapControlStyles>
-      {markers.length === counter ? (
+      
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           zoom={5}
@@ -142,11 +145,12 @@ function Map(props) {
           onLoad={onMapLoad}
           options={options}
         >
-          {markers &&
-            markers.map((marker) => (
+          {
+            growrs.map((marker) => (
               <Marker
-                key={marker.time}
-                position={{ lat: marker.lat, lng: marker.lng }}
+                key={marker.id}
+                position={
+                  { lat: marker.lat, lng: marker.lng }}
                 icon={{
                   url: profPic,
                   scaledSize: new window.google.maps.Size(30, 30),
@@ -167,15 +171,13 @@ function Map(props) {
               }}
             >
               <div>
-                <h2>{`${selected.fName} ${selected.lName}`}</h2>
-                <p>Rate: ${selected.rate}/hr</p>
+                <h2>{`${selected.first_name} ${selected.last_name}`}</h2>
+                <p>Rate: ${selected.hourly_rate}/hr</p>
               </div>
             </InfoWindow>
           ) : null}
         </GoogleMap>
-      ) : (
-        <div>Loading...</div>
-      )}
+      )
     </>
   );
 }

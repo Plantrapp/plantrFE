@@ -1,19 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import * as yup from "yup";
 import { loginFormSchema } from "../../validation/formSchema";
+import {CurrentUserContext} from "../../utils/contexts/Contexts"
+
 const initState = {
   username: "",
   password: "",
 };
 
 export default function Login() {
+  
   const [formValues, setFormValues] = useState(initState);
   const [formErrors, setFormErrors] = useState(initState);
   const [disabled, setDisabled] = useState(true);
+
+  const {setCurrentUser} = useContext(CurrentUserContext)
+
   const history = useHistory();
+  
+
+
   const login = (e) => {
     e.preventDefault();
     const creds = {
@@ -24,6 +33,8 @@ export default function Login() {
     axios
       .post("http://localhost:5000/auth/login", creds)
       .then((res) => {
+        setCurrentUser(res.data.user)
+        
         localStorage.setItem("username", formValues.username);
         localStorage.setItem("role", res.data.role);
         history.push("/dashboard");
@@ -62,6 +73,7 @@ export default function Login() {
   }, [formValues]);
   return (
     <>
+  
       <Form>
         <Form.Group>
           <input

@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import UserCard from "./UserCard";
 import Styled from "styled-components";
 import axios from "axios";
 import Searchbar from "./Searchbar";
+import {UserContext} from "../../utils/contexts/Contexts"
+import geocoder from "react-geocode"
 
 const StyledGrowrView = Styled.div`
   display: flex;
@@ -14,25 +16,21 @@ const StyledGrowrView = Styled.div`
   overflow-y: auto;
 `;
 export default function GrowrView() {
-  const [userGroup, setUserGroup] = useState([]);
   const [role, setRole] = useState(localStorage.getItem("role"));
-  const baseURL = "http://localhost:5000";
-  useEffect(() => {
-    axios
-      .get(`${baseURL}/user`)
-      .then((res) => {
-        console.log(res.data);
-        if (role === "Growr") return setUserGroup([]);
-        return setUserGroup(res.data.filter((user) => user.isGrowr === 1));
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  
+  const {growrs} = useContext(UserContext)
+
+  
   return (
+    
+
     <StyledGrowrView>
       <Searchbar />
-      {userGroup.map((growr) => (
+      {growrs.map((growr) => (
+        
         <UserCard growr={growr} key={growr.id} />
       ))}
     </StyledGrowrView>
+      
   );
 }
