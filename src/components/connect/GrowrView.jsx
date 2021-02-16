@@ -3,8 +3,8 @@ import UserCard from "./UserCard";
 import Styled from "styled-components";
 import axios from "axios";
 import Searchbar from "./Searchbar";
-import {UserContext} from "../../utils/contexts/Contexts"
-import geocoder from "react-geocode"
+import { UserContext } from "../../utils/contexts/Contexts";
+import geocoder from "react-geocode";
 
 const StyledGrowrView = Styled.div`
   display: flex;
@@ -17,20 +17,15 @@ const StyledGrowrView = Styled.div`
 `;
 export default function GrowrView() {
   const [role, setRole] = useState(localStorage.getItem("role"));
-  
-  const {growrs} = useContext(UserContext)
 
-  
+  const { growrs } = useContext(UserContext);
+
   return (
-    
-
     <StyledGrowrView>
       <Searchbar />
       {growrs.map((growr) => (
-        
         <UserCard growr={growr} key={growr.id} />
       ))}
     </StyledGrowrView>
-      
   );
 }

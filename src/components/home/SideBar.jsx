@@ -1,8 +1,9 @@
-import React, { useState, useContext } from "react";
-import { useHistory, Link } from "react-router-dom";
-import axios from "axios";
-import Form from "react-bootstrap/Form";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import Styled from "styled-components";
+import { CurrentUserContext } from "../../utils/contexts/Contexts";
+import pic from "../../assets/img/user-profile.png";
+import logo from "../../assets/img/Asset1.svg";
 import {
   FaHome,
   FaEnvelope,
@@ -11,10 +12,6 @@ import {
   FaSignOutAlt,
   FaEdit,
 } from "react-icons/fa";
-import { CurrentUserContext } from "../../utils/contexts/Contexts";
-import pic from "../../assets/img/user-profile.png";
-
-import logo from "../../assets/img/Asset1.svg";
 
 const StyledSideBar = Styled.div`
   background-image: linear-gradient(to bottom right,#1fdbac, #17a884);

@@ -1,9 +1,12 @@
-// GrowrProfile
-import GrowrProfile from "./home/GrowrProfile";
-import GrowrView from "./home/GrowrView";
-import Searchbar from "./home/Searchbar";
+// Home
 import SideBar from "./home/SideBar";
-import UserCard from "./home/UserCard";
+import Blog from "./home/Blog";
+
+// GrowrProfile
+import Searchbar from "./connect/Searchbar";
+import GrowrProfile from "./connect/GrowrProfile";
+import GrowrView from "./connect/GrowrView";
+import UserCard from "./connect/UserCard";
 
 // Map
 import Map from "./map/Map";
@@ -25,6 +28,7 @@ import RegisterPlantr from "./RegisterAndLogin/RegisterPlantr";
 import Settings from "./settings/Settings";
 
 export {
+  Blog,
   GrowrProfile,
   GrowrView,
   Searchbar,
