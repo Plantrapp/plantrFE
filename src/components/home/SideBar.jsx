@@ -11,6 +11,7 @@ import {
   FaMap,
   FaSignOutAlt,
   FaEdit,
+  FaUsers,
 } from "react-icons/fa";
 
 const StyledSideBar = Styled.div`
@@ -23,9 +24,14 @@ const StyledSideBar = Styled.div`
     align-items: flex-start;
     height: 10vh;
     flex-direction: column;
-    .logo{
-      width: 50%;
-      padding-left: 15%;
+    .sidebar-logo{
+      width:100%;
+      display: flex;
+      padding-top: 5%;
+      padding-left:15%;
+      img{
+        width: 50%;
+      }
     }
   }
   .heading-profile {
@@ -125,7 +131,9 @@ export default function SideBar() {
   return (
     <StyledSideBar>
       <div className="heading">
-        <img src={logo} alt="" className="logo" />
+        <div className="sidebar-logo">
+          <img src={logo} alt="" className="logo" />
+        </div>
         {currentUser && (
           <div className="heading-profile">
             <div className="profile-image">
@@ -144,6 +152,11 @@ export default function SideBar() {
         <Link to="/dashboard">
           <FaHome />
           <span>Home</span>
+        </Link>
+
+        <Link to="/dashboard/connect">
+          <FaUsers />
+          <span>Connect</span>
         </Link>
 
         <Link to="/dashboard/messages">

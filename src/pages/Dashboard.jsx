@@ -8,6 +8,8 @@ import {
   Map,
   Messages,
   Conversation,
+  BlogList,
+  Blog,
 } from "../components";
 import axios from "axios";
 import { UserContext } from "../utils/contexts/Contexts";
@@ -47,7 +49,9 @@ export default function Dashboard() {
       <UserContext.Provider value={{ users, growrs }}>
         <SideBar />
         <div>
-          <Route exact path="/dashboard" component={GrowrView} />
+          <Route exact path="/dashboard" component={BlogList} />
+          <Route path="/dashboard/blogs" component={Blog} />
+          <Route path="/dashboard/connect" component={GrowrView} />
           <Route path="/dashboard/messages" component={Messages} />
           <Route path="/dashboard/conversation" component={Conversation} />
           <Route path="/dashboard/settings" component={Settings} />

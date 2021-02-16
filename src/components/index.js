@@ -1,5 +1,6 @@
 // Home
 import SideBar from "./home/SideBar";
+import BlogList from "./home/BlogList";
 import Blog from "./home/Blog";
 
 // GrowrProfile
@@ -29,6 +30,7 @@ import Settings from "./settings/Settings";
 
 export {
   Blog,
+  BlogList,
   GrowrProfile,
   GrowrView,
   Searchbar,
