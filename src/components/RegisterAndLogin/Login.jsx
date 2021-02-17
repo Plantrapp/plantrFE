@@ -4,7 +4,7 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import * as yup from "yup";
 import { loginFormSchema } from "../../validation/formSchema";
-import {CurrentUserContext} from "../../utils/contexts/Contexts"
+import { CurrentUserContext } from "../../utils/contexts/Contexts";
 
 const initState = {
   username: "",
@@ -12,16 +12,13 @@ const initState = {
 };
 
 export default function Login() {
-  
   const [formValues, setFormValues] = useState(initState);
   const [formErrors, setFormErrors] = useState(initState);
   const [disabled, setDisabled] = useState(true);
 
-  const {setCurrentUser} = useContext(CurrentUserContext)
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
   const history = useHistory();
-  
-
 
   const login = (e) => {
     e.preventDefault();
@@ -33,8 +30,8 @@ export default function Login() {
     axios
       .post("http://localhost:5000/auth/login", creds)
       .then((res) => {
-        setCurrentUser(res.data.user)
-        
+        setCurrentUser(res.data.user);
+
         localStorage.setItem("username", formValues.username);
         localStorage.setItem("role", res.data.role);
         history.push("/dashboard");
@@ -73,7 +70,6 @@ export default function Login() {
   }, [formValues]);
   return (
     <>
-  
       <Form>
         <Form.Group>
           <input

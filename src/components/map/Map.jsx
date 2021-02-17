@@ -28,7 +28,9 @@ import profPic from "../../assets/img/user-profile.png";
 import mapStyles from "./mapStyles";
 import Styled from "styled-components";
 import { UserContext, CurrentUserContext } from "../../utils/contexts/Contexts";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaFilter } from "react-icons/fa";
+import haversine from "haversine";
+import { Form } from "react-bootstrap";
 
 const MapControlStyles = Styled.div`
     position: absolute;
@@ -38,6 +40,13 @@ const MapControlStyles = Styled.div`
     right: 0;
     display: flex;
     flex-direction: column;
+`;
+
+const FitlerStyles = Styled.div`
+background: white;
+  .filter-form {
+    display: flex;
+  }
 `;
 
 const Wrapper = Styled.div`
@@ -69,7 +78,7 @@ function Map(props) {
   const [selected, setSelected] = useState(null);
   const [starRating, setStarRating] = useState([]);
 
-  const { growrs } = useContext(UserContext);
+  const { growrs } = props;
   const { currentUser } = useContext(CurrentUserContext);
 
   const { isLoaded, loadError } = useLoadScript({
@@ -163,6 +172,7 @@ function Map(props) {
       <MapControlStyles>
         <Search panTo={panTo} />
         <Locate panTo={panTo} />
+        <Filters />
       </MapControlStyles>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
@@ -205,7 +215,7 @@ function Map(props) {
             <div>
               <h2>{`${selected.first_name} ${selected.last_name}`}</h2>
               <p>Rate: ${selected.hourly_rate}/hr</p>
-              <p>Miles Away:</p>
+              <p>{selected.distance} miles away</p>
               <p>
                 Rating:
                 {starRating.map((star) => (
@@ -288,6 +298,77 @@ function Search({ panTo }) {
         </ComboboxList>
       </ComboboxPopover>
     </Combobox>
+  );
+}
+function Filters() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <FitlerStyles>
+      {isOpen ? (
+        <Form className="filter-form">
+          <Form.Group>
+            <b>Distance</b>
+
+            <Form.Check label="00-25 miles" />
+            <Form.Check label="26-50 miles" />
+            <Form.Check label="51-75 miles" />
+          </Form.Group>
+          <Form.Group>
+            <b>Price</b>
+
+            <Form.Check label="< $20" />
+            <Form.Check label="$21-$40" />
+            <Form.Check label="$41-$60" />
+          </Form.Group>
+          <Form.Group>
+            <b>Rating</b>
+
+            <Form.Check label={<FaStar size={10} />} />
+            <Form.Check
+              label={
+                <>
+                  <FaStar size={10} /> <FaStar size={10} />
+                </>
+              }
+            />
+            <Form.Check
+              label={
+                <>
+                  <FaStar size={10} /> <FaStar size={10} /> <FaStar size={10} />
+                </>
+              }
+            />
+            <Form.Check
+              label={
+                <>
+                  <FaStar size={10} /> <FaStar size={10} /> <FaStar size={10} />{" "}
+                  <FaStar size={10} />{" "}
+                </>
+              }
+            />
+            <Form.Check
+              label={
+                <>
+                  <FaStar size={10} /> <FaStar size={10} /> <FaStar size={10} />{" "}
+                  <FaStar size={10} /> <FaStar size={10} />
+                </>
+              }
+            />
+          </Form.Group>
+          <Form.Group>
+            <b>Distance</b>
+
+            <Form.Check label="0-50 miles" />
+          </Form.Group>
+          <p onClick={() => setIsOpen(false)}>Close Filters</p>
+        </Form>
+      ) : (
+        <div onClick={() => setIsOpen(true)}>
+          <FaFilter />
+        </div>
+      )}
+    </FitlerStyles>
   );
 }
 

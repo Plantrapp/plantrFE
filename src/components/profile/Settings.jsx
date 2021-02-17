@@ -134,6 +134,7 @@ export default function Settings() {
       .put(`http://localhost:5000/user/${id}`, formValues)
       .then((res) => {
         setCurrentUser(res.data);
+        // setCurrentUser(res.data);
         localStorage.setItem("username", res.data.username);
         console.log("Updated", res);
         setIsEditing(!isEditing);
