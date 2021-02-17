@@ -26,7 +26,8 @@ import RegisterGrowr from "./RegisterAndLogin/RegisterGrowr";
 import RegisterPlantr from "./RegisterAndLogin/RegisterPlantr";
 
 // Settings
-import Settings from "./settings/Settings";
+import Settings from "./profile/Settings";
+import UserProfile from "./profile/UserProfile";
 
 import Connect from "./connect/Connect";
 
@@ -50,4 +51,5 @@ export {
   RegisterPlantr,
   Settings,
   Connect,
+  UserProfile,
 };

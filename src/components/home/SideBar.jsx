@@ -7,8 +7,7 @@ import logo from "../../assets/img/Asset1.svg";
 import {
   FaHome,
   FaEnvelope,
-  FaCog,
-  FaMap,
+  FaUserCircle,
   FaSignOutAlt,
   FaEdit,
   FaUsers,
@@ -41,11 +40,11 @@ const StyledSideBar = Styled.div`
     margin: 5% 0;
     transition: .3s ease-in-out;
     padding-left: 14%;
-    &:hover {
+    /* &:hover {
       background: #1fdbac;
       cursor: pointer; 
       
-    }
+    } */
     .profile-image {
       padding: 2% 0;
       width: 20%;
@@ -142,9 +141,6 @@ export default function SideBar() {
             <div className="profile-username">
               <p>{currentUser.username}</p>
             </div>
-            <div className="profile-icon">
-              <FaEdit />
-            </div>
           </div>
         )}
       </div>
@@ -164,9 +160,9 @@ export default function SideBar() {
           <span>Messages</span>
         </Link>
 
-        <Link to="/dashboard/settings">
-          <FaCog />
-          <span>Settings</span>
+        <Link to="/dashboard/user-profile">
+          <FaUserCircle />
+          <span>Profile</span>
         </Link>
       </div>
       <div className="footer">

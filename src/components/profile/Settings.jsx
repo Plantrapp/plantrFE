@@ -90,7 +90,7 @@ const initFormValues = {
 export default function Settings() {
   const [formValues, setFormValues] = useState(initFormValues);
   const [isEditing, setIsEditing] = useState(false);
-  // const username = localStorage.getItem("username");
+
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
   console.log("helloooo");
@@ -102,17 +102,6 @@ export default function Settings() {
       setFormValues(data);
     }
     console.log("hi");
-    // axios
-    //   .get(`http://localhost:5000/user/info/${username}`)
-    //   .then((res) => {
-    //     const data = res.data[0];
-    //     data.oldPassword = data.password;
-    //     data.password = "";
-    //     setFormValues(data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   }, [currentUser]);
 
   const handleOnchange = (e) => {
@@ -149,7 +138,7 @@ export default function Settings() {
         console.log("Updated", res);
         setIsEditing(!isEditing);
       })
-      .catch((err) => {
+      .catch(() => {
         alert("Username already in use");
       });
   };

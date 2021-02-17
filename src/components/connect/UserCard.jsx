@@ -11,6 +11,8 @@ border-radius: 10px;
 padding: 2%;
 margin: 1%;
 transition: 0.15s ease-in-out;
+color:whitesmoke;
+width: 14.68vw;
 &:hover{
   cursor: pointer;
   background: #303030;
@@ -21,8 +23,6 @@ transition: 0.15s ease-in-out;
   div{
     text-align: left;
   }
-  color:whitesmoke;
-  width: 15vw;
   .footer{
     display: flex;
     justify-content: space-around;

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { Route } from "react-router-dom";
 import {
   SideBar,
-  GrowrView,
   GrowrProfile,
   Settings,
   Map,
@@ -11,6 +10,7 @@ import {
   BlogList,
   Blog,
   Connect,
+  UserProfile,
 } from "../components";
 import axios from "axios";
 import { UserContext, CurrentUserContext } from "../utils/contexts/Contexts";
@@ -57,6 +57,7 @@ export default function Dashboard() {
           <Route path="/dashboard/settings" component={Settings} />
           <Route path="/dashboard/map" component={Map} />
           <Route path="/dashboard/growrProfile" component={GrowrProfile} />
+          <Route path="/dashboard/user-profile" component={UserProfile} />
         </div>
       </UserContext.Provider>
     </>
