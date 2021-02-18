@@ -43,10 +43,9 @@ export default function Dashboard() {
     }
   }, []);
 
-  const growrs = users.filter((user) => user.isGrowr === 1);
   return (
     <>
-      <UserContext.Provider value={{ users, growrs }}>
+      <UserContext.Provider value={{ users, setUsers }}>
         <SideBar />
         <div>
           <Route exact path="/dashboard" component={BlogList} />

@@ -11,10 +11,10 @@ const StyledGrowrView = Styled.div`
   max-height: 90vh;
   padding: 0 2%;
 `;
-export default function GrowrView() {
+export default function GrowrView(props) {
   const [role, setRole] = useState(localStorage.getItem("role"));
 
-  const { growrs } = useContext(UserContext);
+  const { growrs } = props;
 
   return (
     <StyledGrowrView>

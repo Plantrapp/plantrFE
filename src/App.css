@@ -35,11 +35,11 @@
   align-items: center;
   /* justify-content: space-evenly; */
   color: whitesmoke;
-  background-color: blue;
 }
-.tab-container {
-  background-color: blue;
+.all {
+  background-color: #1ac197;
 }
+
 .tabs > p {
   margin: 0 0 0 10%;
 }

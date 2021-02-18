@@ -4,7 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import { CurrentUserContext } from "./utils/contexts/Contexts";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { Route } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PrivateRoute from "./utils/authentication/PrivateRoute";
 import axios from "axios";
 

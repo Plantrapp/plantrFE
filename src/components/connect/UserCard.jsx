@@ -50,7 +50,7 @@ width: 14.68vw;
 export default function UserCard(props) {
   const history = useHistory();
 
-  const { first_name, last_name, role, hourly_rate } = props.growr;
+  const { first_name, last_name, role, hourly_rate, distance } = props.growr;
   return (
     <StyledUserCard
       onClick={() =>
@@ -64,6 +64,7 @@ export default function UserCard(props) {
           {last_name.length > 10 ? `${last_name.split("").pop(0)}.` : last_name}
         </h3>
         <p>{role}</p>
+        <p>{distance} miles away</p>
         <div className="footer">
           <h6>${hourly_rate.toFixed(2)} / hr</h6>
         </div>
