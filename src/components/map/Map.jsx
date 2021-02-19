@@ -34,8 +34,6 @@ import { Form } from "react-bootstrap";
 
 const MapControlStyles = Styled.div`
     position: absolute;
-    /* transform: translateX(-50%) */
-    /* top: 1rem; */
     z-index: 1;
     right: 0;
     display: flex;
@@ -75,17 +73,17 @@ const options = {
 function Map(props) {
   // const [markers, setMarkers] = useState([]);
   // const [counter, setCounter] = useState(0);
+  const { growrs } = props;
   const [selected, setSelected] = useState(null);
   const [starRating, setStarRating] = useState([]);
+  const [markers, setMarkers] = useState([]);
 
-  const { growrs } = props;
   const { currentUser } = useContext(CurrentUserContext);
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyDb9UX7qQuz9mOWLyoBoWCPIZPXJdxl1pw",
     libraries,
   });
-  // const distance = new window.google.maps.DistanceMatrixService();
 
   const mapRef = useRef();
 
@@ -105,7 +103,9 @@ function Map(props) {
     }
     return starsArr;
   }
-
+  useEffect(() => {
+    setMarkers(growrs);
+  }, [growrs]);
   // useEffect(() => {
   //   axios
   //     .get("http://localhost:5000/user")
@@ -172,7 +172,12 @@ function Map(props) {
       <MapControlStyles>
         <Search panTo={panTo} />
         <Locate panTo={panTo} />
-        <Filters />
+        <Filters
+          markers={markers}
+          setMarkers={setMarkers}
+          growrs={growrs}
+          setSelected={setSelected}
+        />
       </MapControlStyles>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
@@ -181,22 +186,23 @@ function Map(props) {
         onLoad={onMapLoad}
         options={options}
       >
-        {growrs.map((marker) => (
-          <Marker
-            key={marker.id}
-            position={{ lat: marker.lat, lng: marker.lng }}
-            icon={{
-              url: profPic,
-              scaledSize: new window.google.maps.Size(30, 30),
-              origin: new window.google.maps.Point(0, 0),
-              anchor: new window.google.maps.Point(15, 15),
-            }}
-            onClick={() => {
-              setSelected(marker);
-              setStarRating(toStarsArr(marker.star_rating));
-            }}
-          />
-        ))}
+        {markers.length > 0 &&
+          markers.map((marker) => (
+            <Marker
+              key={marker.id}
+              position={{ lat: marker.lat, lng: marker.lng }}
+              icon={{
+                url: profPic,
+                scaledSize: new window.google.maps.Size(30, 30),
+                origin: new window.google.maps.Point(0, 0),
+                anchor: new window.google.maps.Point(15, 15),
+              }}
+              onClick={() => {
+                setSelected(marker);
+                setStarRating(toStarsArr(marker.star_rating));
+              }}
+            />
+          ))}
         {currentUser && (
           <Marker
             key={currentUser.id}
@@ -300,8 +306,52 @@ function Search({ panTo }) {
     </Combobox>
   );
 }
-function Filters() {
+
+const initialFilterValues = {
+  minDistance: "",
+  maxDistance: "",
+  minPrice: "",
+  maxPrice: "",
+};
+
+function Filters({ markers, setMarkers, growrs, setSelected }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [filterValues, setFilterValues] = useState(initialFilterValues);
+
+  function handleChange(e) {
+    setFilterValues({
+      ...filterValues,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  function handleApply() {
+    const minD = filterValues.minDistance || 0;
+    const maxD = filterValues.maxDistance || 5000;
+    const minP = filterValues.minPrice || 0;
+    const maxP = filterValues.maxPrice || 5000;
+    setMarkers(
+      growrs
+        .filter((growr) => growr.distance >= minD && growr.distance <= maxD)
+        .filter(
+          (growr) => growr.hourly_rate >= minP && growr.hourly_rate <= maxP
+        )
+    );
+    // setMarkers(
+    //   growrs.filter((marker) => min < marker[field] && marker[field] <= max)
+    // );
+    setSelected(null);
+    setIsOpen(false);
+  }
+
+  function handleReset() {
+    setMarkers(growrs);
+    setFilterValues(initialFilterValues);
+    setSelected(null);
+  }
+  // function handleUnchecks(min, max, filed){
+
+  // }
 
   return (
     <FitlerStyles>
@@ -309,28 +359,71 @@ function Filters() {
         <Form className="filter-form">
           <Form.Group>
             <b>Distance</b>
-
-            <Form.Check label="00-25 miles" />
-            <Form.Check label="26-50 miles" />
-            <Form.Check label="51-75 miles" />
+            <Form.Control
+              placeholder="Min (miles)"
+              value={filterValues.minDistance}
+              name="minDistance"
+              onChange={handleChange}
+            />
+            <Form.Control
+              placeholder="Max (miles)"
+              value={filterValues.maxDistance}
+              name="maxDistance"
+              onChange={handleChange}
+            />
+            {/* 
+            <Form.Check label="00-25 miles" onChange={handleChecks} />
+            <Form.Check
+              label="00-50 miles"
+              onChange={() => handleChecks(26, 50, "distance")}
+            />
+            <Form.Check
+              label="00-75 miles"
+              onChange={() => handleChecks(51, 75, "distance")}
+            /> */}
           </Form.Group>
           <Form.Group>
             <b>Price</b>
+            <Form.Control
+              placeholder="$ Min (USD)"
+              value={filterValues.minPrice}
+              name="minPrice"
+              onChange={handleChange}
+            />
+            <Form.Control
+              placeholder="$ Max (USD)"
+              value={filterValues.maxPrice}
+              name="maxPrice"
+              onChange={handleChange}
+            />
 
-            <Form.Check label="< $20" />
-            <Form.Check label="$21-$40" />
-            <Form.Check label="$41-$60" />
+            {/* <Form.Check
+              label="< $20"
+              onChange={() => handleChecks(0, 20, "hourly_rate")}
+            />
+            <Form.Check
+              label="$21-$40"
+              onChange={() => handleChecks(21, 40, "hourly_rate")}
+            />
+            <Form.Check
+              label="$41-$60"
+              onChange={() => handleChecks(41, 60, "hourly_rate")}
+            /> */}
           </Form.Group>
           <Form.Group>
             <b>Rating</b>
 
-            <Form.Check label={<FaStar size={10} />} />
+            <Form.Check
+              label={<FaStar size={10} />}
+              // onChange={() => handleChecks(0, 5, "star_rating")}
+            />
             <Form.Check
               label={
                 <>
                   <FaStar size={10} /> <FaStar size={10} />
                 </>
               }
+              // onChange={() => handleChecks(1, 5, "star_rating")}
             />
             <Form.Check
               label={
@@ -338,6 +431,7 @@ function Filters() {
                   <FaStar size={10} /> <FaStar size={10} /> <FaStar size={10} />
                 </>
               }
+              // onChange={() => handleChecks(2, 5, "star_rating")}
             />
             <Form.Check
               label={
@@ -346,6 +440,7 @@ function Filters() {
                   <FaStar size={10} />{" "}
                 </>
               }
+              // onChange={() => handleChecks(3, 5, "star_rating")}
             />
             <Form.Check
               label={
@@ -354,14 +449,19 @@ function Filters() {
                   <FaStar size={10} /> <FaStar size={10} />
                 </>
               }
+              // onChange={() => handleChecks(4, 5, "star_rating")}
             />
           </Form.Group>
-          <Form.Group>
+          {/* <Form.Group>
             <b>Distance</b>
 
             <Form.Check label="0-50 miles" />
+          </Form.Group> */}
+          <Form.Group>
+            <p onClick={handleApply}>Apply Filters</p>
+            <p onClick={handleReset}>Reset Filters</p>
+            <p onClick={() => setIsOpen(false)}>Close Filters</p>
           </Form.Group>
-          <p onClick={() => setIsOpen(false)}>Close Filters</p>
         </Form>
       ) : (
         <div onClick={() => setIsOpen(true)}>
