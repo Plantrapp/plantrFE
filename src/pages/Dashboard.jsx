@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Route } from "react-router-dom";
+import { Route, useHistory } from "react-router-dom";
 import {
   SideBar,
   GrowrProfile,
@@ -11,19 +11,25 @@ import {
   Blog,
   Connect,
   UserProfile,
+  NewPost,
+  EditPost,
 } from "../components";
 import axios from "axios";
 import { UserContext, CurrentUserContext } from "../utils/contexts/Contexts";
+import { useSocket } from "../utils/contexts/SocketProvider";
 
-export default function Dashboard() {
+export default function Dashboard(props) {
+  const socket = useSocket();
   const [users, setUsers] = useState([]);
   const username = localStorage.getItem("username");
-
+  const history = useHistory();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
-
   const baseURL = "http://localhost:5000";
 
   useEffect(() => {
+    if (!username) history.push("/");
+    const room_id = currentUser.id;
+    if (username) socket && socket.emit("loggedIn", { username, room_id });
     axios
       .get(`${baseURL}/user`)
       .then((res) => {
@@ -50,13 +56,19 @@ export default function Dashboard() {
         <div>
           <Route exact path="/dashboard" component={BlogList} />
           <Route path="/dashboard/blogs" component={Blog} />
-          <Route path="/dashboard/connect" component={Connect} />
-          <Route path="/dashboard/messages" component={Messages} />
+          <Route exact path="/dashboard/connect" component={Connect} />
+          <Route exact path="/dashboard/messages" component={Messages} />
           <Route path="/dashboard/conversation" component={Conversation} />
-          <Route path="/dashboard/settings" component={Settings} />
-          <Route path="/dashboard/map" component={Map} />
-          <Route path="/dashboard/growrProfile" component={GrowrProfile} />
+          <Route exact path="/dashboard/settings" component={Settings} />
+          <Route exact path="/dashboard/map" component={Map} />
+          <Route
+            exact
+            path="/dashboard/growrProfile"
+            component={GrowrProfile}
+          />
           <Route path="/dashboard/user-profile" component={UserProfile} />
+          <Route exact path="/dashboard/blog-post" component={NewPost} />
+          <Route exact path="/dashboard/blog-post/edit" component={EditPost} />
         </div>
       </UserContext.Provider>
     </>

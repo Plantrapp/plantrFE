@@ -8,7 +8,6 @@ import RegisterPlantr from "./RegisterPlantr";
 import { FaAngleLeft } from "react-icons/fa";
 import * as yup from "yup";
 import geocoder from "react-geocode";
-
 const initState = {
   username: "",
   profile_picture: "",
@@ -50,7 +49,7 @@ export default function Register() {
     formData.append("upload_preset", "prof_pic");
 
     const creds = {
-      username: formValues.username.trim(),
+      username: formValues.username.trim().toLowerCase(),
       email: formValues.email.trim(),
       password: formValues.password.trim(),
       profile_picture: formValues.profile_picture,
@@ -61,8 +60,9 @@ export default function Register() {
       state: formValues.state.trim(),
       zipcode: Number(formValues.zipcode.trim()),
       isGrowr: formValues.isGrowr,
-      role: "Growr",
+      role: formValues.isGrowr ? "growr" : "dwellr", // just for now until we have a list of roles a GROWR can be.
       hourly_rate: Number(formValues.hourly_rate).toFixed(2),
+      created_at: new Date().toString(),
     };
 
     await axios
@@ -123,7 +123,7 @@ export default function Register() {
     <>
       <Form>
         {formValues.isGrowr === null ? (
-          <div className="role-selector-conatiner">
+          <div className="role-selector-container">
             <h2 className="clamped-h2">Select a role</h2>
             <button
               onClick={(e) => {

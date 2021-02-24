@@ -43,3 +43,10 @@
 .tabs > p {
   margin: 0 0 0 10%;
 }
+.toaster {
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 2%;
+}

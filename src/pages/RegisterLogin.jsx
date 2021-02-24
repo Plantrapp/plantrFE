@@ -92,7 +92,7 @@ const FormContainer = Styled.div`
     margin: 0 auto;
     border: 1px solid rgba(255, 255, 255, 0);
   }
-  .role-selector-conatiner{
+  .role-selector-container{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -119,6 +119,7 @@ const FormContainer = Styled.div`
 export default function RegisterLogin() {
   const [isLogin, setIsLogin] = useState(true);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
+
   return (
     <FormContainer>
       <div className="img-container">

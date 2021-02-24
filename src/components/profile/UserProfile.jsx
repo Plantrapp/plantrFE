@@ -116,7 +116,9 @@ export default function UserProfile() {
   const [userInfo, setUserInfo] = useState({});
   const [starRating, setStarRating] = useState([]);
   const [component, setComponent] = useState("portfolio");
+  const [postedBlogs, setPostedBlogs] = useState(null);
   const history = useHistory();
+
   useEffect(() => {
     axios
       .get(`http://localhost:5000/user/info/${username}`)
@@ -127,13 +129,23 @@ export default function UserProfile() {
           starRatingArray.push(i < res.data[0].star_rating);
         }
         setStarRating(starRatingArray);
+        fetchBlogPosts(res.data[0].id);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
-  const changeComponet = (component) => setComponent(component);
+  const fetchBlogPosts = (id) => {
+    axios
+      .get(`http://localhost:5000/blog-posts/user/${id}`)
+      .then((res) => {
+        setPostedBlogs(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const changeComponent = (component) => setComponent(component);
 
   return (
     <StyledUserProfile>
@@ -173,8 +185,8 @@ export default function UserProfile() {
       </div>
       <hr />
       <div className="switch-button-conatiner">
-        <button onClick={() => changeComponet("portfolio")}>Portfolio</button>
-        <button onClick={() => changeComponet("blog")}>Blog</button>
+        <button onClick={() => changeComponent("portfolio")}>Portfolio</button>
+        <button onClick={() => changeComponent("blog")}>Blog</button>
       </div>
       {(() => {
         switch (component) {
@@ -189,9 +201,10 @@ export default function UserProfile() {
           case "blog":
             return (
               <div className="blog">
-                <BlogItem />
-                <BlogItem />
-                <BlogItem />
+                {postedBlogs &&
+                  postedBlogs.map((blog) => (
+                    <BlogItem blog={blog} fetchBlogPosts={fetchBlogPosts} />
+                  ))}
               </div>
             );
         }

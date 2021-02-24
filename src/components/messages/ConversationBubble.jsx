@@ -46,19 +46,27 @@ const StyledConversationBubble = Styled.div`
 `;
 
 export default function ConversationBubble(props) {
+  const { messages, username } = props;
   return (
-    <StyledConversationBubble>
-      {props.username === props.item.text.sender ? (
-        <div className="self">
-          <div>{props.item.text.message}</div>
-          <span>{props.item.text.sender}</span>
-        </div>
-      ) : (
-        <div className="other">
-          <span>{props.item.text.sender}</span>
-          <div>{props.item.text.message}</div>
-        </div>
-      )}
-    </StyledConversationBubble>
+    <div className="messagesContainer">
+      {messages.map((msg) => {
+        const { message, sender } = msg;
+        return username === sender ? (
+          <StyledConversationBubble>
+            <div className="self">
+              <div>{message}</div>
+              <span>{username}</span>
+            </div>
+          </StyledConversationBubble>
+        ) : (
+          <StyledConversationBubble>
+            <div className="other">
+              <span>{sender}</span>
+              <div>{message}</div>
+            </div>
+          </StyledConversationBubble>
+        );
+      })}
+    </div>
   );
 }

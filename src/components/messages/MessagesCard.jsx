@@ -34,14 +34,21 @@ const StyledMessagesCard = Styled.div`
     width: 70%;
   }
 `;
+
 export default function MessagesCard(props) {
   const { pic, user } = props;
   const history = useHistory();
-
+  const pushMe = () => {
+    console.log(user);
+    history.push(`/dashboard/conversation/${user.username}`, {
+      recipient: {
+        username: user.username,
+        id: user.id,
+      },
+    });
+  };
   return (
-    <StyledMessagesCard
-      onClick={() => history.push(`/dashboard/conversation/${user.username}`)}
-    >
+    <StyledMessagesCard onClick={pushMe}>
       <div className="conversation-img">
         <img src={pic} alt="" />
       </div>

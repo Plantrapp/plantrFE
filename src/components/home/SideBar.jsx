@@ -11,6 +11,7 @@ import {
   FaSignOutAlt,
   FaEdit,
   FaUsers,
+  FaPlus,
 } from "react-icons/fa";
 
 const StyledSideBar = Styled.div`
@@ -164,6 +165,11 @@ export default function SideBar() {
         <Link to="/dashboard/user-profile">
           <FaUserCircle />
           <span>Profile</span>
+        </Link>
+
+        <Link to="/dashboard/blog-post/">
+          <FaPlus />
+          <span>New Post</span>
         </Link>
       </div>
       <div className="footer">

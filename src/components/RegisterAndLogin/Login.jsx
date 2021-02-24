@@ -16,14 +16,17 @@ export default function Login() {
   const [formErrors, setFormErrors] = useState(initState);
   const [disabled, setDisabled] = useState(true);
 
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const { setCurrentUser, showToast, setShowToast } = useContext(
+    CurrentUserContext
+  );
 
   const history = useHistory();
 
   const login = (e) => {
     e.preventDefault();
+    const username = formValues.username.toLowerCase();
     const creds = {
-      username: formValues.username.trim(),
+      username,
       password: formValues.password.trim(),
     };
 
@@ -31,13 +34,12 @@ export default function Login() {
       .post("http://localhost:5000/auth/login", creds)
       .then((res) => {
         setCurrentUser(res.data.user);
-
-        localStorage.setItem("username", formValues.username);
+        localStorage.setItem("username", username);
         localStorage.setItem("role", res.data.role);
         history.push("/dashboard");
       })
-      .catch((err) => {
-        alert(err);
+      .catch(() => {
+        setShowToast({ ...showToast, login: true });
       });
   };
   const handleOnchange = (e) => {

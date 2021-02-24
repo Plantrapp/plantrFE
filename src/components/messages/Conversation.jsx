@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Styled from "styled-components";
-import { io } from "socket.io-client";
-
+import { useSocket } from "../../utils/contexts/SocketProvider";
 import pic from "../../assets/img/user-profile.png";
 import ConversationBubble from "./ConversationBubble";
+import { CurrentUserContext } from "../../utils/contexts/Contexts";
 
 const StyledConversation = Styled.div`
   height: 100vh;
@@ -57,34 +57,63 @@ const StyledConversation = Styled.div`
     flex-direction: column;
   }
 `;
-export default function Conversation() {
-  const [socket, setSocket] = useState();
+
+export default function Conversation(props) {
+  const username = localStorage.getItem("username");
+  const socket = useSocket();
+  const recipient = useHistory().location.state.recipient.username;
+  const recipient_id = useHistory().location.state.recipient.id;
+  console.log(useHistory().location.state);
   const [formValue, setFormValue] = useState("");
   const [messages, setMessages] = useState([]);
-  const [username, setUsername] = useState(localStorage.getItem("username"));
+  const { currentUser } = useContext(CurrentUserContext);
+
   useEffect(() => {
-    setSocket(
-      io("localhost:5000", {
-        query: {
-          username,
-        },
+    axios
+      .get(`http://localhost:5000/message/${currentUser.id}/${recipient_id}`)
+      .then((res) => {
+        setMessages(res.data.sort((a, b) => a.id - b.id));
       })
-    );
+      .catch((err) => console.log(err));
   }, []);
+
+  const addMessage = useCallback(
+    ({ message, sender }) => {
+      setMessages((messages) => [...messages, { message, sender }]);
+    },
+    [setMessages]
+  );
+
+  useEffect(() => {
+    if (socket == null) return;
+
+    socket.on("receive-message", addMessage);
+
+    return () => socket.off("receive-message");
+  }, [socket, addMessage]);
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    socket.on("message", (text) => {
-      console.log("HERE", text);
-      const recipient = window.location.pathname.split("/").pop();
-      setMessages([...messages, { username, text }]);
-      axios.post("http://localhost:5000/message", {
-        sender: username,
+    const sender = username;
+    const message = formValue.text;
+    const created_at = new Date().toString();
+    socket.emit("send-message", { recipient: recipient_id, message, sender });
+
+    setMessages((messages) => [...messages, { message, sender }]);
+    console.log("recipient", recipient_id);
+    console.log("currentUser", currentUser.id);
+    axios
+      .post(`http://localhost:5000/message`, {
+        message,
         recipient,
-        message: text.message,
-      });
-    });
-    socket.emit("message", formValue.text);
+        recipient_id,
+        sender,
+        sender_id: currentUser.id,
+        created_at,
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+
     setFormValue({
       text: "",
     });
@@ -96,14 +125,11 @@ export default function Conversation() {
       [e.target.name]: e.target.value,
     });
   };
-  console.log(messages);
+
   return (
     <StyledConversation>
-      <div className="messagesContainer">
-        {messages.map((item) => (
-          <ConversationBubble item={item} username={username} />
-        ))}
-      </div>
+      <ConversationBubble messages={messages} username={username} />
+
       <form id="form" action="">
         <input
           id="input"
