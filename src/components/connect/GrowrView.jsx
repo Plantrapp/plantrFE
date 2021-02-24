@@ -10,6 +10,7 @@ const StyledGrowrView = Styled.div`
   max-width: 85vw;
   max-height: 90vh;
   padding: 0 2%;
+  overflow-y: auto;
 `;
 export default function GrowrView(props) {
   const [role, setRole] = useState(localStorage.getItem("role"));

@@ -39,15 +39,21 @@ export default function Register() {
   const [formValues, setFormValues] = useState(initState);
   const [formErrors, setFormErrors] = useState(initError);
   const [disabled1, setDisabled1] = useState(true);
+  const [selectedImage, setSelectedImage] = useState("");
   const history = useHistory();
 
   const register = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("file", selectedImage);
+    formData.append("upload_preset", "prof_pic");
+
     const creds = {
       username: formValues.username.trim(),
       email: formValues.email.trim(),
       password: formValues.password.trim(),
+      profile_picture: formValues.profile_picture,
       first_name: formValues.first_name.trim(),
       last_name: formValues.last_name.trim(),
       street_address: formValues.street_address.trim(),
@@ -59,6 +65,9 @@ export default function Register() {
       hourly_rate: Number(formValues.hourly_rate).toFixed(2),
     };
 
+    await axios
+      .post("https://api.cloudinary.com/v1_1/samuel-brown/upload", formData)
+      .then((res) => (creds.profile_picture = res.data.secure_url));
     await geocoder
       .fromAddress(
         `${creds.street_address}, ${creds.city}, ${creds.state} ${creds.zipcode}`
@@ -74,6 +83,7 @@ export default function Register() {
       .then((res) => {
         localStorage.setItem("username", formValues.username);
         localStorage.setItem("role", res.data.role);
+        console.log(res.data);
         history.push("/dashboard");
       })
       .catch((err) => {
@@ -158,6 +168,8 @@ export default function Register() {
               formErrors={formErrors}
               disabled1={disabled1}
               register={register}
+              selectedImage={selectedImage}
+              setSelectedImage={setSelectedImage}
             />
           </div>
         ) : (

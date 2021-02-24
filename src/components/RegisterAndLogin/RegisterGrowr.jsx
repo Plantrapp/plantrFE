@@ -1,5 +1,12 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
+import {
+  Image,
+  Video,
+  Transformation,
+  CloudinaryContext,
+} from "cloudinary-react";
+import { Cloudinary } from "cloudinary-core";
 const states = [
   "AL",
   "AK",
@@ -53,6 +60,8 @@ const states = [
   "WY",
 ];
 export default function RegisterGrowr({
+  selectedImage,
+  setSelectedImage,
   formValues,
   formErrors,
   handleOnchange,
@@ -115,6 +124,12 @@ export default function RegisterGrowr({
           name="last_name"
         />
         <p className="error">{formErrors.last_name}</p>
+      </Form.Group>
+      <Form.Group>
+        <input
+          type="file"
+          onChange={(e) => setSelectedImage(e.target.files[0])}
+        />
       </Form.Group>
 
       <Form.Group controlId="">
