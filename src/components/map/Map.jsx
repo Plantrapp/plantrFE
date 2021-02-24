@@ -28,23 +28,60 @@ import profPic from "../../assets/img/user-profile.png";
 import mapStyles from "./mapStyles";
 import Styled from "styled-components";
 import { UserContext, CurrentUserContext } from "../../utils/contexts/Contexts";
-import { FaStar, FaFilter } from "react-icons/fa";
+import { FaStar, FaFilter, FaCompass } from "react-icons/fa";
 import haversine from "haversine";
 import { Form } from "react-bootstrap";
+import Tooltip from "../../utils/tooltip/Tooltip";
+import Hover from "../../utils/tooltip/Hover";
 
 const MapControlStyles = Styled.div`
     position: absolute;
     z-index: 1;
-    right: 0;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
+    /* border: 1px solid black; */
+    padding: 1%;
+    width: 85%;
+    justify-content: space-between;
 `;
 
 const FitlerStyles = Styled.div`
+padding: 1%;
+width: 50%;
+text-align: center;
 background: white;
   .filter-form {
     display: flex;
+    justify-content: space-between;
+    .group {
+      display: flex;
+      flex-direction: column; 
+      align-items: baseline;
+      border: 1px solid black;
+      margin: 1%;
+      .filter-title {
+         align-self: center;
+      }
+    }
   }
+`;
+
+const SearchStyles = Styled.div`
+width: 30%;
+/* border: 1px solid black; */
+[data-reach-combobox-input] {
+  width: 100%;
+}
+[data-reach-combobox-input]:focus {
+  outline: none;
+}
+[data-reach-combobox-input]::placeholder {
+  color: gray;
+}
+[data-reach-combobox-list] {
+  z-index: 2;
+  position: absolute;
+}
 `;
 
 const Wrapper = Styled.div`
@@ -53,6 +90,12 @@ const Wrapper = Styled.div`
   }
   .unchecked {
     color: #525151;
+  }
+  .marker {
+    border: none;
+  }
+  .marker:focus {
+    outline: none;
   }
 `;
 
@@ -99,7 +142,7 @@ function Map(props) {
   function toStarsArr(rating) {
     let starsArr = [];
     for (let i = 0; i < 5; i++) {
-      starsArr.push(i < rating);
+      starsArr.push({ id: i, filled: i < rating });
     }
     return starsArr;
   }
@@ -170,14 +213,22 @@ function Map(props) {
     // </>
     <Wrapper>
       <MapControlStyles>
+        <Hover>
+          {(hovering) => <Locate hovering={hovering} panTo={panTo} />}
+          {/* <Locate panTo={panTo} /> */}
+        </Hover>
         <Search panTo={panTo} />
-        <Locate panTo={panTo} />
-        <Filters
-          markers={markers}
-          setMarkers={setMarkers}
-          growrs={growrs}
-          setSelected={setSelected}
-        />
+        <Hover>
+          {(hovering) => (
+            <Filters
+              markers={markers}
+              setMarkers={setMarkers}
+              growrs={growrs}
+              setSelected={setSelected}
+              hovering={hovering}
+            />
+          )}
+        </Hover>
       </MapControlStyles>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
@@ -189,6 +240,7 @@ function Map(props) {
         {markers.length > 0 &&
           markers.map((marker) => (
             <Marker
+              className="marker"
               key={marker.id}
               position={{ lat: marker.lat, lng: marker.lng }}
               icon={{
@@ -207,6 +259,12 @@ function Map(props) {
           <Marker
             key={currentUser.id}
             position={{ lat: currentUser.lat, lng: currentUser.lng }}
+            icon={{
+              url: currentUser.profile_picture,
+              scaledSize: new window.google.maps.Size(30, 30),
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(15, 15),
+            }}
           />
         )}
 
@@ -225,12 +283,23 @@ function Map(props) {
               <p>
                 Rating:
                 {starRating.map((star) => (
-                  <FaStar className={star ? "checked" : "unchecked"} />
+                  <FaStar
+                    key={star.id}
+                    className={star.filled ? "checked" : "unchecked"}
+                  />
                 ))}
               </p>
-              <Link to={`/dashboard/growrProfile/${selected.username}`}>
-                View Profile
-              </Link>
+              <div>
+                <Link to={`/dashboard/growrProfile/${selected.username}`}>
+                  View Profile
+                </Link>
+                <a
+                  target="_blank"
+                  href={`https://maps.google.com/?q=${selected.lat},${selected.lng}`}
+                >
+                  Get Directions
+                </a>
+              </div>
             </div>
           </InfoWindow>
         ) : null}
@@ -240,23 +309,25 @@ function Map(props) {
   );
 }
 
-function Locate({ panTo }) {
+function Locate({ panTo, hovering }) {
   return (
-    <button
-      onClick={() => {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            panTo({
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            });
-          },
-          (err) => alert(err)
-        );
-      }}
-    >
-      Current Location
-    </button>
+    <div>
+      <FaCompass
+        size={"10%"}
+        onClick={() => {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              panTo({
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+              });
+            },
+            (err) => alert(err)
+          );
+        }}
+      />
+      {hovering ? <Tooltip id="locate" /> : null}
+    </div>
   );
 }
 
@@ -274,36 +345,38 @@ function Search({ panTo }) {
     },
   });
   return (
-    <Combobox
-      onSelect={(address) => {
-        setValue(address, false);
-        clearSuggestions();
+    <SearchStyles>
+      <Combobox
+        onSelect={(address) => {
+          setValue(address, false);
+          clearSuggestions();
 
-        geocoder.fromAddress(address).then((res) => {
-          let lat = res.results[0].geometry.location.lat;
-          let lng = res.results[0].geometry.location.lng;
+          geocoder.fromAddress(address).then((res) => {
+            let lat = res.results[0].geometry.location.lat;
+            let lng = res.results[0].geometry.location.lng;
 
-          panTo({ lat, lng });
-        });
-      }}
-    >
-      <ComboboxInput
-        value={value}
-        onChange={(e) => {
-          setValue(e.target.value);
+            panTo({ lat, lng });
+          });
         }}
-        disabled={!ready}
-        placeholder="Enter an address"
-      />
-      <ComboboxPopover>
-        <ComboboxList>
-          {status === "OK" &&
-            data.map(({ place_id, description }) => (
-              <ComboboxOption key={place_id} value={description} />
-            ))}
-        </ComboboxList>
-      </ComboboxPopover>
-    </Combobox>
+      >
+        <ComboboxInput
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+          disabled={!ready}
+          placeholder="Enter an address"
+        />
+        <ComboboxPopover>
+          <ComboboxList>
+            {status === "OK" &&
+              data.map(({ place_id, description }) => (
+                <ComboboxOption key={place_id} value={description} />
+              ))}
+          </ComboboxList>
+        </ComboboxPopover>
+      </Combobox>
+    </SearchStyles>
   );
 }
 
@@ -312,11 +385,14 @@ const initialFilterValues = {
   maxDistance: "",
   minPrice: "",
   maxPrice: "",
+  stars: 0,
 };
 
-function Filters({ markers, setMarkers, growrs, setSelected }) {
+function Filters({ setMarkers, growrs, setSelected, hovering }) {
   const [isOpen, setIsOpen] = useState(false);
   const [filterValues, setFilterValues] = useState(initialFilterValues);
+  const [selectedStarRating, setSelectedStarRating] = useState(null);
+  console.log(selectedStarRating);
 
   function handleChange(e) {
     setFilterValues({
@@ -331,15 +407,17 @@ function Filters({ markers, setMarkers, growrs, setSelected }) {
     const minP = filterValues.minPrice || 0;
     const maxP = filterValues.maxPrice || 5000;
     setMarkers(
-      growrs
-        .filter((growr) => growr.distance >= minD && growr.distance <= maxD)
-        .filter(
-          (growr) => growr.hourly_rate >= minP && growr.hourly_rate <= maxP
-        )
+      growrs.filter(
+        (growr) =>
+          growr.distance >= minD &&
+          growr.distance <= maxD &&
+          growr.hourly_rate >= minP &&
+          growr.hourly_rate <= maxP &&
+          growr.star_rating >= filterValues.stars &&
+          growr.star_rating <= 5
+      )
     );
-    // setMarkers(
-    //   growrs.filter((marker) => min < marker[field] && marker[field] <= max)
-    // );
+
     setSelected(null);
     setIsOpen(false);
   }
@@ -347,6 +425,7 @@ function Filters({ markers, setMarkers, growrs, setSelected }) {
   function handleReset() {
     setMarkers(growrs);
     setFilterValues(initialFilterValues);
+    setSelectedStarRating(null);
     setSelected(null);
   }
   // function handleUnchecks(min, max, filed){
@@ -354,121 +433,138 @@ function Filters({ markers, setMarkers, growrs, setSelected }) {
   // }
 
   return (
-    <FitlerStyles>
+    <>
       {isOpen ? (
-        <Form className="filter-form">
-          <Form.Group>
-            <b>Distance</b>
-            <Form.Control
-              placeholder="Min (miles)"
-              value={filterValues.minDistance}
-              name="minDistance"
-              onChange={handleChange}
-            />
-            <Form.Control
-              placeholder="Max (miles)"
-              value={filterValues.maxDistance}
-              name="maxDistance"
-              onChange={handleChange}
-            />
-            {/* 
-            <Form.Check label="00-25 miles" onChange={handleChecks} />
-            <Form.Check
-              label="00-50 miles"
-              onChange={() => handleChecks(26, 50, "distance")}
-            />
-            <Form.Check
-              label="00-75 miles"
-              onChange={() => handleChecks(51, 75, "distance")}
-            /> */}
-          </Form.Group>
-          <Form.Group>
-            <b>Price</b>
-            <Form.Control
-              placeholder="$ Min (USD)"
-              value={filterValues.minPrice}
-              name="minPrice"
-              onChange={handleChange}
-            />
-            <Form.Control
-              placeholder="$ Max (USD)"
-              value={filterValues.maxPrice}
-              name="maxPrice"
-              onChange={handleChange}
-            />
+        <FitlerStyles>
+          <Form className="filter-form">
+            <Form.Group className="group">
+              <b className="filter-title">Distance</b>
+              <Form.Control
+                placeholder="Min (miles)"
+                value={filterValues.minDistance}
+                name="minDistance"
+                onChange={handleChange}
+              />
+              <Form.Control
+                placeholder="Max (miles)"
+                value={filterValues.maxDistance}
+                name="maxDistance"
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group className="group">
+              <b className="filter-title">Price</b>
+              <Form.Control
+                placeholder="$ Min (USD)"
+                value={filterValues.minPrice}
+                name="minPrice"
+                onChange={handleChange}
+              />
+              <Form.Control
+                placeholder="$ Max (USD)"
+                value={filterValues.maxPrice}
+                name="maxPrice"
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group className="group">
+              <b className="filter-title">Rating</b>
 
-            {/* <Form.Check
-              label="< $20"
-              onChange={() => handleChecks(0, 20, "hourly_rate")}
-            />
-            <Form.Check
-              label="$21-$40"
-              onChange={() => handleChecks(21, 40, "hourly_rate")}
-            />
-            <Form.Check
-              label="$41-$60"
-              onChange={() => handleChecks(41, 60, "hourly_rate")}
-            /> */}
-          </Form.Group>
-          <Form.Group>
-            <b>Rating</b>
-
-            <Form.Check
-              label={<FaStar size={10} />}
-              // onChange={() => handleChecks(0, 5, "star_rating")}
-            />
-            <Form.Check
-              label={
-                <>
-                  <FaStar size={10} /> <FaStar size={10} />
-                </>
-              }
-              // onChange={() => handleChecks(1, 5, "star_rating")}
-            />
-            <Form.Check
-              label={
-                <>
-                  <FaStar size={10} /> <FaStar size={10} /> <FaStar size={10} />
-                </>
-              }
-              // onChange={() => handleChecks(2, 5, "star_rating")}
-            />
-            <Form.Check
-              label={
-                <>
-                  <FaStar size={10} /> <FaStar size={10} /> <FaStar size={10} />{" "}
-                  <FaStar size={10} />{" "}
-                </>
-              }
-              // onChange={() => handleChecks(3, 5, "star_rating")}
-            />
-            <Form.Check
-              label={
-                <>
-                  <FaStar size={10} /> <FaStar size={10} /> <FaStar size={10} />{" "}
-                  <FaStar size={10} /> <FaStar size={10} />
-                </>
-              }
-              // onChange={() => handleChecks(4, 5, "star_rating")}
-            />
-          </Form.Group>
-          {/* <Form.Group>
+              <Form.Check
+                checked={selectedStarRating === "1"}
+                onChange={(e) => {
+                  setSelectedStarRating(e.target.value);
+                  handleChange(e);
+                }}
+                name="stars"
+                value={1}
+                label={<FaStar size={10} />}
+                // onChange={() => handleChecks(0, 5, "star_rating")}
+              />
+              <Form.Check
+                checked={selectedStarRating === "2"}
+                onChange={(e) => {
+                  setSelectedStarRating(e.target.value);
+                  handleChange(e);
+                }}
+                name="stars"
+                value={2}
+                label={
+                  <>
+                    <FaStar size={10} /> <FaStar size={10} />
+                  </>
+                }
+                // onChange={() => handleChecks(1, 5, "star_rating")}
+              />
+              <Form.Check
+                checked={selectedStarRating === "3"}
+                onChange={(e) => {
+                  setSelectedStarRating(e.target.value);
+                  handleChange(e);
+                }}
+                name="stars"
+                value={3}
+                label={
+                  <>
+                    <FaStar size={10} /> <FaStar size={10} />{" "}
+                    <FaStar size={10} />
+                  </>
+                }
+                // onChange={() => handleChecks(2, 5, "star_rating")}
+              />
+              <Form.Check
+                checked={selectedStarRating === "4"}
+                onChange={(e) => {
+                  setSelectedStarRating(e.target.value);
+                  handleChange(e);
+                }}
+                name="stars"
+                value={4}
+                label={
+                  <>
+                    <FaStar size={10} /> <FaStar size={10} />{" "}
+                    <FaStar size={10} /> <FaStar size={10} />{" "}
+                  </>
+                }
+                // onChange={() => handleChecks(3, 5, "star_rating")}
+              />
+              <Form.Check
+                checked={selectedStarRating === "5"}
+                onChange={(e) => {
+                  setSelectedStarRating(e.target.value);
+                  handleChange(e);
+                }}
+                name="stars"
+                value={5}
+                label={
+                  <>
+                    <FaStar size={10} /> <FaStar size={10} />{" "}
+                    <FaStar size={10} /> <FaStar size={10} />{" "}
+                    <FaStar size={10} />
+                  </>
+                }
+                // onChange={() => handleChecks(4, 5, "star_rating")}
+              />
+            </Form.Group>
+            {/* <Form.Group>
             <b>Distance</b>
 
             <Form.Check label="0-50 miles" />
           </Form.Group> */}
-          <Form.Group>
-            <p onClick={handleApply}>Apply Filters</p>
-            <p onClick={handleReset}>Reset Filters</p>
-            <p onClick={() => setIsOpen(false)}>Close Filters</p>
-          </Form.Group>
-        </Form>
+            <Form.Group>
+              <p onClick={handleApply}>Apply Filters</p>
+              <p onClick={handleReset}>Reset Filters</p>
+              <p onClick={() => setIsOpen(false)}>Close Filters</p>
+            </Form.Group>
+          </Form>
+        </FitlerStyles>
       ) : (
-        <div onClick={() => setIsOpen(true)}>
-          <FaFilter />
+        <div>
+          <FaFilter onClick={() => setIsOpen(true)} size={"10%"} />
+          {hovering ? <Tooltip id="filter" /> : null}
         </div>
       )}
-    </FitlerStyles>
+    </>
   );
 }
 

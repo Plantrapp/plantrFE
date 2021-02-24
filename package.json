@@ -11,6 +11,8 @@
     "@testing-library/user-event": "^12.6.2",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "cloudinary-core": "^2.11.3",
+    "cloudinary-react": "^1.6.8",
     "express": "^4.17.1",
     "geocoder": "^0.2.3",
     "geolocation": "^0.2.0",

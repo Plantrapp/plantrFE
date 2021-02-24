@@ -49,6 +49,7 @@ const StyledSideBar = Styled.div`
       padding: 2% 0;
       width: 20%;
       img {
+        border-radius: 100%;
         width: 100%;
       }
     }
@@ -136,7 +137,7 @@ export default function SideBar() {
         {currentUser && (
           <div className="heading-profile">
             <div className="profile-image">
-              <img src={pic} />
+              <img src={currentUser.profile_picture} />
             </div>
             <div className="profile-username">
               <p>{currentUser.username}</p>
