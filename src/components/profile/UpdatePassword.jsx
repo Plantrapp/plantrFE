@@ -1,0 +1,121 @@
+import React, { useState, useEffect, useContext } from "react";
+import Form from "react-bootstrap/Form";
+import { updatePasswordSchema } from "../../validation/formSchema";
+import axios from "axios";
+import * as yup from "yup";
+import { CurrentUserContext } from "../../utils/contexts/Contexts";
+const initialState = {
+  previous_password: "",
+  password: "",
+};
+export default function UpdatePassword(props) {
+  const [formValues, setFormValues] = useState(initialState);
+  const [formErrors, setFormErrors] = useState(initialState);
+  const [disabled, setDisabled] = useState(false);
+  const { changeComponent, id, FaTimes } = props;
+  const { currentUser, showToast, setShowToast } = useContext(
+    CurrentUserContext
+  );
+  const handleOnchange = (e) => {
+    const { name, value } = e.target;
+    yup
+      .reach(updatePasswordSchema, name)
+      .validate(value)
+      .then(() => {
+        setFormErrors({
+          ...formErrors,
+          [name]: "",
+        });
+      })
+      .catch((err) => {
+        setFormErrors({
+          ...formErrors,
+          [name]: err.errors[0],
+        });
+      });
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const oldPassword = currentUser.password;
+
+    axios
+      .put(`http://localhost:5000/user/${id}`, {
+        previous_password: formValues.previous_password,
+        password: formValues.password,
+        oldPassword,
+      })
+      .then((res) => {
+        console.log("Updated", res);
+        changeComponent("AccountInfo");
+      })
+      .catch((err) => {
+        console.log(err);
+        setShowToast({ ...showToast, updatePassword: true });
+      });
+  };
+
+  useEffect(() => {
+    updatePasswordSchema.isValid(formValues).then((valid) => {
+      setDisabled(!valid);
+    });
+  }, [formValues]);
+  return (
+    <Form onSubmit={handleSubmit}>
+      <div className="form-heading">
+        <h3>Update password</h3>
+        <button onClick={() => changeComponent("AccountInfo")}>
+          <FaTimes />
+        </button>
+      </div>
+      <hr />
+      <Form.Group className="form-group">
+        <div className="form-label">
+          <label>Previous Password:</label>
+        </div>
+        <div className="form-input">
+          <input
+            className="featureless-input"
+            type="password"
+            onChange={handleOnchange}
+            value={formValues.previous_password}
+            name="previous_password"
+          />
+        </div>
+      </Form.Group>
+      <p>{formErrors.previous_password}</p>
+      <hr />
+      <Form.Group className="form-group">
+        <div className="form-label">
+          <label>New Password:</label>
+        </div>
+        <div className="form-input">
+          <input
+            className="featureless-input"
+            type="password"
+            onChange={handleOnchange}
+            value={formValues.password}
+            name="password"
+          />
+        </div>
+      </Form.Group>
+      <p>{formErrors.password}</p>
+      <div className="button">
+        <button
+          type="submit"
+          onClick={handleSubmit}
+          className={`clamped-text ${
+            disabled ? "cta-button-disabled" : "cta-button"
+          }`}
+          disabled={disabled}
+        >
+          Update password
+        </button>
+      </div>
+    </Form>
+  );
+}
