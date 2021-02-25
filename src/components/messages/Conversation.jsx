@@ -69,13 +69,14 @@ export default function Conversation(props) {
   const { currentUser } = useContext(CurrentUserContext);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/message/${currentUser.id}/${recipient_id}`)
-      .then((res) => {
-        setMessages(res.data.sort((a, b) => a.id - b.id));
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    currentUser &&
+      axios
+        .get(`http://localhost:5000/message/${currentUser.id}/${recipient_id}`)
+        .then((res) => {
+          setMessages(res.data.sort((a, b) => a.id - b.id));
+        })
+        .catch((err) => console.log(err));
+  }, [currentUser]);
 
   const addMessage = useCallback(
     ({ message, sender }) => {

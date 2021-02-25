@@ -28,12 +28,14 @@ export default function Dashboard(props) {
 
   useEffect(() => {
     if (!username) history.push("/");
-    const room_id = currentUser.id;
-    if (username) socket && socket.emit("loggedIn", { username, room_id });
+    if (currentUser) {
+      const room_id = currentUser.id;
+      socket && socket.emit("loggedIn", { username, room_id });
+    }
     axios
       .get(`${baseURL}/user`)
       .then((res) => {
-        setUsers(res.data.filter((user) => user.username != username));
+        setUsers(res.data.filter((user) => user.username !== username));
       })
       .catch((err) => console.log(err));
 
@@ -47,7 +49,7 @@ export default function Dashboard(props) {
           console.log(err);
         });
     }
-  }, []);
+  }, [currentUser]);
 
   return (
     <>
@@ -61,11 +63,7 @@ export default function Dashboard(props) {
           <Route path="/dashboard/conversation" component={Conversation} />
           <Route exact path="/dashboard/settings" component={Settings} />
           <Route exact path="/dashboard/map" component={Map} />
-          <Route
-            exact
-            path="/dashboard/growrProfile"
-            component={GrowrProfile}
-          />
+          <Route path="/dashboard/growrProfile" component={GrowrProfile} />
           <Route path="/dashboard/user-profile" component={UserProfile} />
           <Route exact path="/dashboard/blog-post" component={NewPost} />
           <Route exact path="/dashboard/blog-post/edit" component={EditPost} />

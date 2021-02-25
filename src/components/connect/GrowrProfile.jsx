@@ -141,6 +141,11 @@ export default function GrowrProfile() {
       });
   }, []);
 
+  const connect = (e) => {
+    e.preventDefault();
+    axios.post("http://localhost:5000/client-growr-connection");
+  };
+
   return (
     <StyledGrowrProfile>
       <div className="header">
@@ -213,7 +218,7 @@ export default function GrowrProfile() {
       </div>
 
       <div className="footer">
-        <button>Message</button>
+        <button onClick={connect}>Message</button>
       </div>
     </StyledGrowrProfile>
   );
