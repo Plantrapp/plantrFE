@@ -13,8 +13,6 @@ const StyledGrowrView = Styled.div`
   overflow-y: auto;
 `;
 export default function GrowrView(props) {
-  const [role, setRole] = useState(localStorage.getItem("role"));
-
   const { growrs } = props;
 
   return (

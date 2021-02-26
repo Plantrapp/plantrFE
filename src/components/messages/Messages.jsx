@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Styled from "styled-components";
 import pic from "../../assets/img/user-profile.png";
 import MessagesCard from "./MessagesCard";
 
+import { CurrentUserContext } from "../../utils/contexts/Contexts";
 const StyledMessages = Styled.div`
   height:100vh;
   padding: 2%;
@@ -12,24 +13,37 @@ const StyledMessages = Styled.div`
 `;
 
 export default function Messages() {
-  const [userGroup, setUserGroup] = useState([]);
-  const [role, setRole] = useState(localStorage.getItem("role"));
+  const [userGroup, setUserGroup] = useState();
   const baseURL = "http://localhost:5000";
+  const isGrowr = localStorage.getItem("isGrowr");
+  const { currentUser } = useContext(CurrentUserContext);
 
   useEffect(() => {
-    axios
-      .get(`${baseURL}/user`)
-      .then((res) => {
-        // if (role === "Growr") return setUserGroup([]);
-        return setUserGroup(res.data.filter((user) => user.isGrowr === 1));
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    if (!currentUser) return;
+    const id = currentUser.id;
+
+    if (isGrowr > 0) {
+      console.log("run Growr");
+      axios
+        .get(`${baseURL}/client-growr-connection/growr/${id}`)
+        .then((res) => {
+          setUserGroup(res.data);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      console.log("run dweller");
+      axios
+        .get(`${baseURL}/client-growr-connection/dwellr/${id}`)
+        .then((res) => {
+          setUserGroup(res.data);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [currentUser]);
   return (
     <StyledMessages>
-      {userGroup.map((user) => (
-        <MessagesCard pic={pic} user={user} />
-      ))}
+      {userGroup &&
+        userGroup.map((user) => <MessagesCard pic={pic} user={user} />)}
     </StyledMessages>
   );
 }

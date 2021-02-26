@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import UserCard from "./UserCard";
 import Styled from "styled-components";
 import axios from "axios";
 import pic from "../../assets/img/user-profile.png";
 import { FaStar } from "react-icons/fa";
+import { CurrentUserContext } from "../../utils/contexts/Contexts";
 
 const StyledGrowrProfile = Styled.div`
   display: flex;
@@ -125,6 +126,8 @@ export default function GrowrProfile() {
   const username = window.document.URL.split("/").pop();
   const [userInfo, setUserInfo] = useState({});
   const [starRating, setStarRating] = useState([]);
+  const { currentUser } = useContext(CurrentUserContext);
+
   useEffect(() => {
     axios
       .get(`http://localhost:5000/user/info/${username}`)
@@ -143,7 +146,18 @@ export default function GrowrProfile() {
 
   const connect = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:5000/client-growr-connection");
+
+    const dwellr_id = currentUser.id;
+    const growr_id = userInfo.id;
+
+    console.log(dwellr_id, growr_id);
+    axios
+      .post("http://localhost:5000/client-growr-connection", {
+        dwellr_id,
+        growr_id,
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   return (

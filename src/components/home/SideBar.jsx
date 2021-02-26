@@ -177,7 +177,7 @@ export default function SideBar() {
           to="/"
           onClick={() => {
             localStorage.removeItem("username");
-            localStorage.removeItem("role");
+            localStorage.removeItem("isGrowr");
           }}
         >
           <FaSignOutAlt />

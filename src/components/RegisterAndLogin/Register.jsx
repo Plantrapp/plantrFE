@@ -83,6 +83,7 @@ export default function Register() {
       .then((res) => {
         localStorage.setItem("username", formValues.username);
         localStorage.setItem("role", res.data.role);
+        localStorage.setItem("isGrowr", res.data.user.isGrowr);
         console.log(res.data);
         history.push("/dashboard");
       })

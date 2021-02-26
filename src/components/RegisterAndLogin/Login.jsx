@@ -36,6 +36,7 @@ export default function Login() {
         setCurrentUser(res.data.user);
         localStorage.setItem("username", username);
         localStorage.setItem("role", res.data.role);
+        localStorage.setItem("isGrowr", res.data.user.isGrowr);
         history.push("/dashboard");
       })
       .catch(() => {
