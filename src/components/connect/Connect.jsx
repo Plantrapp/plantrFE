@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import ListView from "./GrowrView";
 import MapView from "../map/Map";
-import { Tabs, Tab } from "react-bootstrap";
+import { Tabs, Tab, Nav } from "react-bootstrap";
 import { FaMap, FaListUl } from "react-icons/fa";
 import styled from "styled-components";
 import haversine from "haversine";
@@ -52,7 +52,9 @@ export default function Connect() {
   return (
     <Tabs
       activeKey={key}
-      onSelect={(k) => setKey(k)}
+      onSelect={(k) => {
+        setKey(k);
+      }}
       //   variant="pills"
       className="all"
     >

@@ -17,6 +17,9 @@ const StyledBlogList = Styled.div`
     height: 2px;
     width: 80%;
   }
+  .new {
+    color: white;
+  }
 `;
 
 export default function BlogList() {
