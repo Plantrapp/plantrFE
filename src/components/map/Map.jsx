@@ -233,7 +233,7 @@ function Map(props) {
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={5}
-        center={{ lat: 39.7617, lng: -99.1193 }}
+        center={{ lat: currentUser.lat, lng: currentUser.lng }}
         onLoad={onMapLoad}
         options={options}
       >
