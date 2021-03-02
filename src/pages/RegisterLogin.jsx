@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Styled from "styled-components";
-import logo from "../assets/img/logo1.svg";
+import logo from "../assets/img/wlogo1.svg";
 import { Login, Register, RegisterForgotPassword } from "../components";
 
 const FormContainer = Styled.div`
@@ -27,7 +27,7 @@ const FormContainer = Styled.div`
     display: flex;
     justify-content: center;
     img{
-      width: 25%;
+      width: 12%;
     }
   }
   h1{
