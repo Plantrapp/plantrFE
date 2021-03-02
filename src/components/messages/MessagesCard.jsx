@@ -6,21 +6,20 @@ import axios from "axios";
 const StyledMessagesCard = Styled.div`
   display: flex;
   color: whitesmoke;
-  border-radius:10px;
-  margin-bottom: 1%;
-  padding: 2%;      
-  background: #292929;
+
+  padding: 2%;
   transition: 0.3s ease-in-out;
+  border-bottom: 1px solid white;
   &:hover{
     cursor: pointer;
-  background: #303030;
+    background: #303030;
   }
   div{
     display: flex;
     align-items: center;
   }
   .conversation-img {
-    width: 10%;
+    width: 20%;
     justify-content: center;
     img{
       width:50%;
@@ -53,11 +52,10 @@ export default function MessagesCard(props) {
         <img src={pic} alt="" />
       </div>
       <div className="conversation-name">
-        {user.first_name}
-        <br />
-        {user.last_name}
+        <h2>
+          {user.first_name} {user.last_name}
+        </h2>
       </div>
-      <div className="conversation-message">MESSAGE PIECE</div>
     </StyledMessagesCard>
   );
 }

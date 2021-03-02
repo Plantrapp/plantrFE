@@ -103,6 +103,7 @@ const StyledUserProfile = Styled.div`
     width: 80%;
     display: flex;
     flex-wrap: wrap;
+    padding: 5%;
   }
   .blog{
     width: 80%;
@@ -135,9 +136,10 @@ export default function UserProfile() {
         console.log(err);
       });
   }, []);
-  const fetchBlogPosts = (id) => {
+
+  const fetchBlogPosts = (author_id) => {
     axios
-      .get(`http://localhost:5000/blog-posts/user/${id}`)
+      .get(`http://localhost:5000/blog-posts/user/${author_id}`)
       .then((res) => {
         setPostedBlogs(res.data);
       })
@@ -145,6 +147,7 @@ export default function UserProfile() {
         console.log(err);
       });
   };
+
   const changeComponent = (component) => setComponent(component);
 
   return (
@@ -193,6 +196,7 @@ export default function UserProfile() {
           case "portfolio":
             return (
               <div className="portfolio">
+                <PortfolioItem pic={pic} />
                 <PortfolioItem pic={pic} />
                 <PortfolioItem pic={pic} />
                 <PortfolioItem pic={pic} />

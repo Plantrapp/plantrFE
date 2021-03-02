@@ -122,16 +122,7 @@ export default function NewPost() {
   const [disabled, setDisabled] = useState(false);
   const { currentUser } = useContext(CurrentUserContext);
   console.log(blog);
-  useEffect(() => {
-    if (currentUser) {
-      const data = { ...currentUser };
-      setFormValues({
-        ...formValues,
-        author_id: Number(data.id),
-        author: data.username,
-      });
-    }
-  }, [currentUser]);
+  const history = useHistory();
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
@@ -166,6 +157,7 @@ export default function NewPost() {
       .then((res) => {
         console.log("Updated", res);
         setFormValues(initFormValues);
+        history.push("/");
       })
       .catch(() => {
         alert("Username already in use");
@@ -254,7 +246,7 @@ export default function NewPost() {
             }`}
             disabled={disabled}
           >
-            Post
+            Update
           </button>
         </div>
       </Form>

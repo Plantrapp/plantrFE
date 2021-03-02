@@ -68,7 +68,8 @@ const StyledBlogItem = Styled.div`
 
 export default function BlogItem(props) {
   const { blog, fetchBlogPosts } = props;
-
+  const date = blog.created_at.split(" ");
+  console.log(date);
   const deletePost = () => {
     axios
       .delete(`http://localhost:5000/blog-posts/${blog.id}`)
@@ -100,7 +101,9 @@ export default function BlogItem(props) {
             <strong>Date</strong>
           </div>
           <div>
-            <h2>Date</h2>
+            <h2>
+              {date[1]} {date[2]} {date[3]}
+            </h2>
           </div>
         </div>
         <div className="blog-container-button">

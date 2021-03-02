@@ -129,16 +129,26 @@ export default function NewPost() {
   const [disabled, setDisabled] = useState(false);
   const { currentUser } = useContext(CurrentUserContext);
 
-  useEffect(() => {
-    if (currentUser) {
-      const data = { ...currentUser };
-      setFormValues({
-        ...formValues,
-        author_id: Number(data.id),
-        author: data.username,
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const post = formValues;
+    post.author_id = currentUser.id;
+    post.author = currentUser.username;
+    post.created_at = new Date().toString();
+
+    console.log(post);
+
+    axios
+      .post(`http://localhost:5000/blog-posts/`, post)
+      .then((res) => {
+        console.log("Updated", res);
+        setFormValues(initFormValues);
+      })
+      .catch(() => {
+        alert("error with sending the new post");
       });
-    }
-  }, [currentUser]);
+  };
 
   // const handleNewSections = (e) => {
   //   setFormValues({
@@ -170,22 +180,6 @@ export default function NewPost() {
       ...formValues,
       [name]: value,
     });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(formValues);
-    const post = formValues;
-    post.created_at = new Date().toString();
-    axios
-      .post(`http://localhost:5000/blog-posts/`, post)
-      .then((res) => {
-        console.log("Updated", res);
-        setFormValues(initFormValues);
-      })
-      .catch(() => {
-        alert("Username already in use");
-      });
   };
 
   useEffect(() => {

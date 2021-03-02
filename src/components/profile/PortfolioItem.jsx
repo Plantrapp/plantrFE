@@ -2,10 +2,9 @@ import React from "react";
 import Styled from "styled-components";
 
 const StyledPortfolioItem = Styled.div`
-  min-height: 16rem;
-  min-width: 16rem;
-  margin:2% 5.75%;
   border-radius: 3px;
+  width: 33%;
+  margin: 0.15%;
   img{ 
     width:100%;
     height:100%;
