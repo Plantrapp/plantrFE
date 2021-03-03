@@ -13,6 +13,7 @@ import {
   UserProfile,
   NewPost,
   EditPost,
+  NewPortfolioPost,
 } from "../components";
 import axios from "axios";
 import { UserContext, CurrentUserContext } from "../utils/contexts/Contexts";
@@ -66,6 +67,11 @@ export default function Dashboard(props) {
           <Route path="/dashboard/growrProfile" component={UserProfile} />
           <Route path="/dashboard/user-profile" component={UserProfile} />
           <Route exact path="/dashboard/blog-post" component={NewPost} />
+          <Route
+            exact
+            path="/dashboard/portfolio-post"
+            component={NewPortfolioPost}
+          />
           <Route exact path="/dashboard/blog-post/edit" component={EditPost} />
         </div>
       </UserContext.Provider>

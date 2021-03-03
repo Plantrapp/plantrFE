@@ -40,14 +40,18 @@ const MapControlStyles = Styled.div`
     display: flex;
     /* flex-direction: column; */
     /* border: 1px solid black; */
-    padding: 1%;
+    padding-top: 1%;
     width: 85%;
     justify-content: space-between;
+    .search {
+      z-index: 2;
+    }
+    
 `;
 
 const FitlerStyles = Styled.div`
 padding: 1%;
-width: 50%;
+width: 100%;
 text-align: center;
 background: white;
   .filter-form {
@@ -59,9 +63,14 @@ background: white;
       align-items: baseline;
       border: 1px solid black;
       margin: 1%;
+      width: 33%;
       .filter-title {
          align-self: center;
       }
+    }
+    .filter-controls {
+      display: flex;
+      
     }
   }
 `;
@@ -149,64 +158,9 @@ function Map(props) {
   useEffect(() => {
     setMarkers(growrs);
   }, [growrs]);
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:5000/user")
-  //     .then((res) => {
-  //       let tempArr = [];
-  //       tempArr = res.data.filter((user) => user.isGrowr > 0);
-  //       setCounter(tempArr.length);
 
-  //       tempArr.forEach((user) => {
-  //         console.log(user);
-  //         geocoder
-  //           .fromAddress(
-  //             `${user.street_address}, ${user.city}, ${user.state} ${user.zipcode}`
-  //           )
-  // .then((res) => {
-  //   let lat = res.results[0].geometry.location.lat;
-  //   let lng = res.results[0].geometry.location.lng;
-  //             let newMarker = {
-  //               lat,
-  //               lng,
-  //               time: Date.now(),
-  //               fName: user.first_name,
-  //               lName: user.last_name,
-  //               rate: user.hourly_rate,
-  //             };
-  //             // tempArr.push(newMarker)
-  //             setMarkers((oldMarkers) => [...oldMarkers, newMarker]);
-  //           })
-  //           .catch((err) => {
-  //             console.log(err);
-  //           });
-  //       });
-  //       //   users.forEach(user => {
-
-  //       //       geocoder.fromAddress(  `${user.street_address}, ${user.city}, ${user.state} ${user.zipcode}`)
-  //       //       .then(res => {
-  //       //               let lat = res.results[0].geometry.location.lat
-  //       //               let lng = res.results[0].geometry.location.lng
-  //       //               let newMarker = {lat, lng, time: Date.now()}
-  //       //               user.marker = newMarker
-  //       //               // tempArr.push(newMarker)
-  //       //               setMarkers(oldMarkers=> [
-  //       //                   ...oldMarkers, newMarker
-  //       //               ])
-  //       //       })
-  //       //       .catch(err => {
-  //       //           console.log(err)
-  //       //       })
-  //       //   })
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
   if (loadError) return "Error loading";
   if (!isLoaded) return "Loading Maps";
-
-  // console.log(growrs);
 
   return (
     // <>
@@ -217,7 +171,7 @@ function Map(props) {
           {(hovering) => <Locate hovering={hovering} panTo={panTo} />}
           {/* <Locate panTo={panTo} /> */}
         </Hover>
-        <Search panTo={panTo} />
+        <Search panTo={panTo} className="search" />
         <Hover>
           {(hovering) => (
             <Filters
@@ -551,15 +505,15 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
 
             <Form.Check label="0-50 miles" />
           </Form.Group> */}
-            <Form.Group>
-              <p onClick={handleApply}>Apply Filters</p>
-              <p onClick={handleReset}>Reset Filters</p>
-              <p onClick={() => setIsOpen(false)}>Close Filters</p>
-            </Form.Group>
           </Form>
+          <Form.Group className="filter-controls">
+            <p onClick={handleApply}>Apply Filters</p>
+            <p onClick={handleReset}>Reset Filters</p>
+            <p onClick={() => setIsOpen(false)}>Close Filters</p>
+          </Form.Group>
         </FitlerStyles>
       ) : (
-        <div>
+        <div className={isOpen ? "hidden" : null}>
           <FaFilter onClick={() => setIsOpen(true)} size={"10%"} />
           {hovering ? <Tooltip id="filter" /> : null}
         </div>

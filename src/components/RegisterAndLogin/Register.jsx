@@ -44,10 +44,6 @@ export default function Register() {
   const register = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("file", selectedImage);
-    formData.append("upload_preset", "prof_pic");
-
     const creds = {
       username: formValues.username.trim().toLowerCase(),
       email: formValues.email.trim(),
@@ -65,9 +61,14 @@ export default function Register() {
       created_at: new Date().toString(),
     };
 
-    await axios
-      .post("https://api.cloudinary.com/v1_1/samuel-brown/upload", formData)
-      .then((res) => (creds.profile_picture = res.data.secure_url));
+    if (selectedImage !== "") {
+      const formData = new FormData();
+      formData.append("file", selectedImage);
+      formData.append("upload_preset", "prof_pic");
+      await axios
+        .post("https://api.cloudinary.com/v1_1/samuel-brown/upload", formData)
+        .then((res) => (creds.profile_picture = res.data.secure_url));
+    }
     await geocoder
       .fromAddress(
         `${creds.street_address}, ${creds.city}, ${creds.state} ${creds.zipcode}`
@@ -81,10 +82,10 @@ export default function Register() {
     axios
       .post("http://localhost:5000/auth/register", creds)
       .then((res) => {
+        console.log(res.data);
         localStorage.setItem("username", formValues.username);
         localStorage.setItem("role", res.data.role);
-        localStorage.setItem("isGrowr", res.data.user.isGrowr);
-        console.log(res.data);
+        localStorage.setItem("isGrowr", res.data.isGrowr);
         history.push("/dashboard");
       })
       .catch((err) => {

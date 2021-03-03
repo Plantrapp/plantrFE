@@ -171,6 +171,10 @@ export default function SideBar() {
           <FaPlus />
           <span>New Post</span>
         </Link>
+        <Link to="/dashboard/portfolio-post/">
+          <FaPlus />
+          <span>New Portfolio Post</span>
+        </Link>
       </div>
       <div className="footer">
         <Link
