@@ -33,6 +33,7 @@ import Connect from "./connect/Connect";
 
 import NewPost from "./newPost/NewPost";
 import EditPost from "./newPost/EditPost";
+import NewPortfolioPost from "./newPost/NewPortfolioPost";
 
 export {
   Blog,
@@ -57,4 +58,5 @@ export {
   UserProfile,
   NewPost,
   EditPost,
+  NewPortfolioPost,
 };

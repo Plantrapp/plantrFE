@@ -10,22 +10,6 @@ export default function RegisterGrowr({
   disabled1,
   register,
 }) {
-  let widget = window.cloudinary.createUploadWidget(
-    {
-      cloudName: "samuel-brown",
-      uploadPreset: "prof_pic",
-      sources: ["local", "url", "camera", "facebook", "instagram"],
-    },
-    (err, res) => {
-      if (err) {
-        console.log(err);
-      }
-      console.log(res);
-    }
-  );
-  const openWidget = () => {
-    widget.open();
-  };
   return (
     <div>
       <Form.Group controlId="formBasicEmail">
@@ -83,11 +67,6 @@ export default function RegisterGrowr({
         />
         <p className="error">{formErrors.last_name}</p>
       </Form.Group>
-      {/* <Form.Group>
-        <button type="button" onClick={openWidget}>
-          Open Widget
-        </button>
-      </Form.Group> */}
       <Form.Group>
         <input
           type="file"

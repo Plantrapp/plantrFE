@@ -10,6 +10,7 @@ import * as yup from "yup";
 import UpdatingProfile from "./UpdatingProfile";
 import AccountInfo from "./AccountInfo";
 import UpdatePassword from "./UpdatePassword";
+import { FormCheck } from "react-bootstrap";
 const StyledSettings = Styled.div`
   height: 100vh;
   background-color: rgba(255, 255, 255, 0.05);
@@ -127,6 +128,7 @@ export default function Settings() {
   const [disabled, setDisabled] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [component, setComponent] = useState("AccountInfo");
+  const [selectedImage, setSelectedImage] = useState("");
   const { currentUser, setCurrentUser, toastOn } = useContext(
     CurrentUserContext
   );
@@ -140,6 +142,7 @@ export default function Settings() {
       setAccount(data);
     }
   }, [currentUser]);
+  console.log(formValues);
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
@@ -182,7 +185,14 @@ export default function Settings() {
           formValues.lng = res.results[0].geometry.location.lng;
         });
     }
-    console.table(formValues);
+    if (selectedImage !== currentUser.profile_picture) {
+      const formData = new FormData();
+      formData.append("file", selectedImage);
+      formData.append("upload_preset", "prof_pic");
+      await axios
+        .post("https://api.cloudinary.com/v1_1/samuel-brown/upload", formData)
+        .then((res) => (formValues.profile_picture = res.data.secure_url));
+    }
     axios
       .put(`http://localhost:5000/user/${id}`, formValues)
       .then((res) => {
@@ -193,8 +203,9 @@ export default function Settings() {
         toastOn("successfulProfileUpdate");
         setAccount(formValues);
       })
-      .catch(() => {
-        alert("Username already in use");
+      .catch((err) => {
+        console.log("error", err);
+        // alert("Username already in use");
       });
   };
 
@@ -232,6 +243,7 @@ export default function Settings() {
                   disabled={disabled}
                   changeComponent={changeComponent}
                   FaTimes={FaTimes}
+                  setSelectedImage={setSelectedImage}
                 />
               </StyledSettings>
             );
