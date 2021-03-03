@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Styled from "styled-components";
 import pic from "../../assets/img/user-profile.png";
 import { FaStar } from "react-icons/fa";
@@ -6,6 +6,8 @@ import axios from "axios";
 import PortfolioItem from "./PortfolioItem";
 import BlogItem from "./BlogItem";
 import { useHistory } from "react-router-dom";
+import { CurrentUserContext } from "../../utils/contexts/Contexts";
+import Modaler from "../../utils/modal/Modaler";
 
 const StyledUserProfile = Styled.div`
   display: flex;
@@ -63,7 +65,7 @@ const StyledUserProfile = Styled.div`
         }
       }
     }
-    .edit-button-conatiner {
+    .edit-button-container {
       width: 100%;
       padding: 4%;
       & > button{
@@ -78,10 +80,14 @@ const StyledUserProfile = Styled.div`
           background: #525151;
         }
       }
+      .mint{
+        border: 1px solid #1fdbac;    
+        color: #1fdbac;
+      }
     }
   }
   /*      portfolio       */
-  .switch-button-conatiner{
+  .switch-button-container{
     width: 60%;
 
     & > button{
@@ -110,6 +116,7 @@ const StyledUserProfile = Styled.div`
     display: flex;
     flex-direction: column;
   }
+
 `;
 
 export default function UserProfile() {
@@ -119,23 +126,60 @@ export default function UserProfile() {
   const [component, setComponent] = useState("portfolio");
   const [postedBlogs, setPostedBlogs] = useState(null);
   const history = useHistory();
-
+  const [growr, setGrowr] = useState(history.location.state);
+  const { currentUser } = useContext(CurrentUserContext);
+  const [isConnected, setIsConnected] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
+  const [modalImg, setModalImg] = useState(null);
+  const array = [pic, pic, pic, pic];
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/user/info/${username}`)
-      .then((res) => {
-        setUserInfo(res.data[0]);
-        const starRatingArray = [];
-        for (let i = 0; i < 5; i++) {
-          starRatingArray.push(i < res.data[0].star_rating);
-        }
-        setStarRating(starRatingArray);
-        fetchBlogPosts(res.data[0].id);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    if (growr) {
+      const { username, id } = growr.growr;
+      axios
+        .get(`http://localhost:5000/user/info/${username}`)
+        .then((res) => {
+          setUserInfo(res.data[0]);
+          const starRatingArray = [];
+          for (let i = 0; i < 5; i++) {
+            starRatingArray.push(i < res.data[0].star_rating);
+          }
+          setStarRating(starRatingArray);
+          fetchBlogPosts(res.data[0].id);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      currentUser &&
+        axios
+          .get(
+            `http://localhost:5000/client-growr-connection/dwellr/${currentUser.id}`
+          )
+          .then((res) => {
+            res.data.forEach((user) => {
+              console.log(user);
+              if (user.id === id) return setIsConnected(true);
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    } else {
+      axios
+        .get(`http://localhost:5000/user/info/${username}`)
+        .then((res) => {
+          setUserInfo(res.data[0]);
+          const starRatingArray = [];
+          for (let i = 0; i < 5; i++) {
+            starRatingArray.push(i < res.data[0].star_rating);
+          }
+          setStarRating(starRatingArray);
+          fetchBlogPosts(res.data[0].id);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [growr, currentUser]);
 
   const fetchBlogPosts = (author_id) => {
     axios
@@ -149,9 +193,45 @@ export default function UserProfile() {
   };
 
   const changeComponent = (component) => setComponent(component);
+  const connect = (e) => {
+    e.preventDefault();
 
+    const dwellr_id = currentUser.id;
+    const growr_id = userInfo.id;
+
+    console.log(dwellr_id, growr_id);
+    axios
+      .post("http://localhost:5000/client-growr-connection", {
+        dwellr_id,
+        growr_id,
+      })
+      .then((res) => setIsConnected(true))
+      .catch((err) => console.log(err));
+  };
+  const disconnect = (e) => {
+    e.preventDefault();
+
+    const dwellr_id = currentUser.id;
+    const growr_id = userInfo.id;
+
+    console.log(dwellr_id, growr_id);
+    axios
+      .delete("http://localhost:5000/client-growr-connection", {
+        data: {
+          dwellr_id,
+          growr_id,
+        },
+      })
+      .then((res) => setIsConnected(false))
+      .catch((err) => console.log(err));
+  };
   return (
     <StyledUserProfile>
+      <Modaler
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        img={modalImg}
+      />
       <div className="header">
         <div className="left">
           <img src={pic} />
@@ -163,43 +243,67 @@ export default function UserProfile() {
               {userInfo.first_name} {userInfo.last_name}
             </h1>
             <div className="star-rating-container">
-              {starRating.map((star) => (
-                <span>
-                  <FaStar className={star ? "checked" : "unchecked"} />
-                </span>
-              ))}
+              {userInfo.isGrowr === 1 &&
+                starRating.map((star) => (
+                  <span>
+                    <FaStar className={star ? "checked" : "unchecked"} />
+                  </span>
+                ))}
             </div>
             <div>{userInfo.role}</div>
             <div>
               {userInfo.city}, {userInfo.state}
             </div>
           </div>
-          <div className="rate">
-            <h2 className="clamped-h2">Rate</h2>
-            <p>${userInfo.hourly_rate}</p>
+          {userInfo.isGrowr === 1 && (
+            <div className="rate">
+              <h2 className="clamped-h2">Rate</h2>
+              <p>${userInfo.hourly_rate}</p>
+            </div>
+          )}
+        </div>
+        {!growr ? (
+          <div className="edit-button-container">
+            <button onClick={() => history.push("/dashboard/settings")}>
+              Edit Profile
+            </button>
           </div>
-        </div>
-
-        <div className="edit-button-conatiner">
-          <button onClick={() => history.push("/dashboard/settings")}>
-            Edit Profile
-          </button>
-        </div>
+        ) : isConnected ? (
+          <div className="edit-button-container ">
+            <button className="mint" onClick={disconnect}>
+              Connected
+            </button>
+          </div>
+        ) : (
+          <div className="edit-button-container">
+            <button onClick={connect}>Connect</button>
+          </div>
+        )}
       </div>
       <hr />
-      <div className="switch-button-conatiner">
-        <button onClick={() => changeComponent("portfolio")}>Portfolio</button>
-        <button onClick={() => changeComponent("blog")}>Blog</button>
-      </div>
+      {userInfo.isGrowr === 1 && (
+        <div className="switch-button-container">
+          <button onClick={() => changeComponent("portfolio")}>
+            Portfolio
+          </button>
+          <button onClick={() => changeComponent("blog")}>Blog</button>
+        </div>
+      )}
+
       {(() => {
         switch (component) {
           case "portfolio":
             return (
               <div className="portfolio">
-                <PortfolioItem pic={pic} />
-                <PortfolioItem pic={pic} />
-                <PortfolioItem pic={pic} />
-                <PortfolioItem pic={pic} />
+                {array.map((item) => (
+                  <PortfolioItem
+                    pic={item}
+                    show={() => {
+                      setModalShow(true);
+                    }}
+                    setModalImg={setModalImg}
+                  />
+                ))}
               </div>
             );
           case "blog":
@@ -207,7 +311,11 @@ export default function UserProfile() {
               <div className="blog">
                 {postedBlogs &&
                   postedBlogs.map((blog) => (
-                    <BlogItem blog={blog} fetchBlogPosts={fetchBlogPosts} />
+                    <BlogItem
+                      blog={blog}
+                      fetchBlogPosts={fetchBlogPosts}
+                      currentUser={currentUser}
+                    />
                   ))}
               </div>
             );

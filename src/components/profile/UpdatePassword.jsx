@@ -13,9 +13,7 @@ export default function UpdatePassword(props) {
   const [formErrors, setFormErrors] = useState(initialState);
   const [disabled, setDisabled] = useState(false);
   const { changeComponent, id, FaTimes } = props;
-  const { currentUser, showToast, setShowToast } = useContext(
-    CurrentUserContext
-  );
+  const { currentUser, toastOn } = useContext(CurrentUserContext);
   const handleOnchange = (e) => {
     const { name, value } = e.target;
     yup
@@ -52,10 +50,11 @@ export default function UpdatePassword(props) {
       .then((res) => {
         console.log("Updated", res);
         changeComponent("AccountInfo");
+        toastOn("successfulUpdatePassword");
       })
       .catch((err) => {
         console.log(err);
-        setShowToast({ ...showToast, updatePassword: true });
+        toastOn("invalidUpdatePassword");
       });
   };
 
@@ -72,11 +71,14 @@ export default function UpdatePassword(props) {
           <FaTimes />
         </button>
       </div>
+
       <hr />
+
       <Form.Group className="form-group">
         <div className="form-label">
           <label>Previous Password:</label>
         </div>
+
         <div className="form-input">
           <input
             className="featureless-input"
@@ -87,12 +89,16 @@ export default function UpdatePassword(props) {
           />
         </div>
       </Form.Group>
-      <p>{formErrors.previous_password}</p>
+
+      <p className="error">{formErrors.previous_password}</p>
+
       <hr />
+
       <Form.Group className="form-group">
         <div className="form-label">
           <label>New Password:</label>
         </div>
+
         <div className="form-input">
           <input
             className="featureless-input"
@@ -103,13 +109,15 @@ export default function UpdatePassword(props) {
           />
         </div>
       </Form.Group>
-      <p>{formErrors.password}</p>
+
+      <p className="error">{formErrors.password}</p>
+
       <div className="button">
         <button
           type="submit"
           onClick={handleSubmit}
           className={`clamped-text ${
-            disabled ? "cta-button-disabled" : "cta-button"
+            disabled ? "disabled-button" : "valid-button"
           }`}
           disabled={disabled}
         >

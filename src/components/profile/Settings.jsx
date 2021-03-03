@@ -77,25 +77,33 @@ const StyledSettings = Styled.div`
     display: flex;
     justify-content: center;
     width: 100%;
-    button{
-      display: flex;
-      padding: 0.8%;
-      background: transparent;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      transition: 0.3s ease-in-out;
+    .disabled-button{
       width: 20%;
-      align-items: center;
-      justify-content: center;
-      &:hover {
-        background: #292929;
-      }
-      span{
-        margin-right: 5%;
+      margin:1%;
+      background: transparent;
+      color: whitesmoke;
+      border: 1px solid rgba(255, 255, 255, 0);
+      border-radius: 5px;
+      padding: .5%;
+      transition: 0.3s ease-in-out;
+     }
+    .valid-button{
+      width: 20%;
+      margin:1%;
+      background: transparent;
+      color: whitesmoke;
+      border: 1px solid whitesmoke;
+      border-radius: 5px;
+      padding: .5%;
+      transition: 0.3s ease-in-out;
+      border: 1px solid whitesmoke;
+      &:hover{
+        background: #525151;
       }
     }
-
+  }
+  .error{
+    color: red;
   }
 `;
 
@@ -119,7 +127,9 @@ export default function Settings() {
   const [disabled, setDisabled] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [component, setComponent] = useState("AccountInfo");
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const { currentUser, setCurrentUser, toastOn } = useContext(
+    CurrentUserContext
+  );
 
   const changeComponent = (component) => setComponent(component);
 
@@ -172,6 +182,7 @@ export default function Settings() {
           formValues.lng = res.results[0].geometry.location.lng;
         });
     }
+    console.table(formValues);
     axios
       .put(`http://localhost:5000/user/${id}`, formValues)
       .then((res) => {
@@ -179,6 +190,7 @@ export default function Settings() {
         localStorage.setItem("username", res.data.username);
         console.log("Updated", res);
         changeComponent("AccountInfo");
+        toastOn("successfulProfileUpdate");
         setAccount(formValues);
       })
       .catch(() => {

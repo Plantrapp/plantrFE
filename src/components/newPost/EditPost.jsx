@@ -120,7 +120,7 @@ export default function NewPost() {
   const [formValues, setFormValues] = useState(blog);
   const [formErrors, setFormErrors] = useState(initFormValues);
   const [disabled, setDisabled] = useState(false);
-  const { currentUser } = useContext(CurrentUserContext);
+  const { currentUser, toastOn } = useContext(CurrentUserContext);
   console.log(blog);
   const history = useHistory();
 
@@ -152,12 +152,14 @@ export default function NewPost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formValues);
+
     axios
       .put(`http://localhost:5000/blog-posts/${blog.id}`, formValues)
       .then((res) => {
         console.log("Updated", res);
         setFormValues(initFormValues);
-        history.push("/");
+        toastOn("successfulUpdatePost");
+        history.goBack();
       })
       .catch(() => {
         alert("Username already in use");

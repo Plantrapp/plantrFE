@@ -113,6 +113,27 @@ label {
     }
   }
 }
+.featureless-input{
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    outline: none;
+    width: 100%;
+    color: rgb(255, 255, 255);
+    margin: 2% 0;
+    width: 30vw;
+  }
+  .featureless-input:focus{
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    border-radius: 0;
+    outline-style: none;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+
+  }
 `;
 const initFormValues = {
   title: "",
@@ -127,7 +148,7 @@ export default function NewPost() {
   const [formValues, setFormValues] = useState(initFormValues);
   const [formErrors, setFormErrors] = useState(initFormValues);
   const [disabled, setDisabled] = useState(false);
-  const { currentUser } = useContext(CurrentUserContext);
+  const { currentUser, toastOn } = useContext(CurrentUserContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -144,9 +165,10 @@ export default function NewPost() {
       .then((res) => {
         console.log("Updated", res);
         setFormValues(initFormValues);
+        toastOn("successfulNewPost");
       })
       .catch(() => {
-        alert("error with sending the new post");
+        toastOn("invalidNewPost");
       });
   };
 
@@ -206,6 +228,7 @@ export default function NewPost() {
               onChange={handleOnchange}
               value={formValues.title}
               name="title"
+              style={{ background: "transparent", color: "whitesmoke" }}
             />
           </div>
         </Form.Group>
@@ -222,6 +245,7 @@ export default function NewPost() {
               onChange={handleOnchange}
               value={formValues.description}
               name="description"
+              style={{ background: "transparent", color: "whitesmoke" }}
             />
           </div>
         </Form.Group>
@@ -231,7 +255,7 @@ export default function NewPost() {
             <label>Category</label>
           </div>
           <div className="form-input">
-            <select>
+            <select style={{ background: "transparent", color: "whitesmoke" }}>
               <option value="general">General</option>
               <option value="planting">Planting</option>
               <option value="sustainability">Sustainability</option>
@@ -283,6 +307,8 @@ export default function NewPost() {
               onChange={handleOnchange}
               value={formValues.message}
               name="message"
+              rows="20"
+              style={{ background: "transparent", color: "whitesmoke" }}
             />
           </div>
         </Form.Group>

@@ -33,7 +33,6 @@
 .tabs {
   display: flex;
   align-items: center;
-  /* justify-content: space-evenly; */
   color: whitesmoke;
 }
 .all {
@@ -45,9 +44,6 @@
 }
 .toaster {
   position: absolute;
-  /* display: flex;
-  justify-content: flex-end; */
-  /* width: 0.5%; */
   padding: 2%;
   max-height: 1px;
   right: 0px;

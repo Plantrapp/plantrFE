@@ -127,7 +127,10 @@ export default function RegisterLogin() {
       </div>
 
       {isForgotPassword ? (
-        <RegisterForgotPassword />
+        <RegisterForgotPassword
+          setIsForgotPassword={setIsForgotPassword}
+          isForgotPassword={isForgotPassword}
+        />
       ) : isLogin ? (
         <Login />
       ) : (

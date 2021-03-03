@@ -63,7 +63,7 @@ export default function Dashboard(props) {
           <Route path="/dashboard/conversation" component={Conversation} />
           <Route exact path="/dashboard/settings" component={Settings} />
           <Route exact path="/dashboard/map" component={Map} />
-          <Route path="/dashboard/growrProfile" component={GrowrProfile} />
+          <Route path="/dashboard/growrProfile" component={UserProfile} />
           <Route path="/dashboard/user-profile" component={UserProfile} />
           <Route exact path="/dashboard/blog-post" component={NewPost} />
           <Route exact path="/dashboard/blog-post/edit" component={EditPost} />

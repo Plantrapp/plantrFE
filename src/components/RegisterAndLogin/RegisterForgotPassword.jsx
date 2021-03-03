@@ -4,18 +4,20 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import * as yup from "yup";
 import { forgotPasswordFormSchema } from "../../validation/formSchema";
+import { CurrentUserContext } from "../../utils/contexts/Contexts";
+import { useContext } from "react";
 const initState = {
   email: "",
 };
 
-export default function RegisterForgotPassword() {
+export default function RegisterForgotPassword(props) {
   const [formValues, setFormValues] = useState(initState);
   const [formErrors, setFormErrors] = useState(initState);
   const [disabled, setDisabled] = useState(true);
   const history = useHistory();
-  const login = (e) => {
-    e.preventDefault();
-  };
+  const { toastOn } = useContext(CurrentUserContext);
+  const { setIsForgotPassword, isForgotPassword } = props;
+
   const handleOnchange = (e) => {
     const { name, value } = e.target;
     yup
@@ -44,6 +46,11 @@ export default function RegisterForgotPassword() {
       setDisabled(!valid);
     });
   }, [formValues]);
+  const send = (e) => {
+    e.preventDefault();
+    toastOn("forgotPasswordSent");
+    setIsForgotPassword(!isForgotPassword);
+  };
   return (
     <>
       <Form>
@@ -60,7 +67,7 @@ export default function RegisterForgotPassword() {
         </Form.Group>
         <button
           type="submit"
-          onClick={login}
+          onClick={send}
           className={`clamped-text ${
             disabled ? "cta-button-disabled" : "cta-button"
           }`}

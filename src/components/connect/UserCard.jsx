@@ -51,10 +51,13 @@ export default function UserCard(props) {
   const history = useHistory();
 
   const { first_name, last_name, role, hourly_rate, distance } = props.growr;
+  const growr = props.growr;
   return (
     <StyledUserCard
       onClick={() =>
-        history.push(`/dashboard/growrProfile/${props.growr.username}`)
+        history.push(`/dashboard/growrProfile/${props.growr.username}`, {
+          growr,
+        })
       }
     >
       <img src={pic} />

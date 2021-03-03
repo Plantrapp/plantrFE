@@ -37,7 +37,7 @@ export default function UpdatingProfile(props) {
             />
           </div>
         </Form.Group>
-        <p>{formErrors.email}</p>
+        <p className="error">{formErrors.email}</p>
         <hr />
         <Form.Group className="form-group">
           <div className="form-label">
@@ -54,7 +54,7 @@ export default function UpdatingProfile(props) {
             />
           </div>
         </Form.Group>
-        <p>{formErrors.username}</p>
+        <p className="error">{formErrors.username}</p>
 
         <hr />
         <Form.Group className="form-group">
@@ -72,7 +72,7 @@ export default function UpdatingProfile(props) {
             />
           </div>
         </Form.Group>
-        <p>{formErrors.first_name}</p>
+        <p className="error">{formErrors.first_name}</p>
         <hr />
         <Form.Group className="form-group">
           <div className="form-label">
@@ -89,7 +89,7 @@ export default function UpdatingProfile(props) {
             />
           </div>
         </Form.Group>
-        <p>{formErrors.last_name}</p>
+        <p className="error">{formErrors.last_name}</p>
         <hr />
         <Form.Group className="form-group">
           <div className="form-label">
@@ -106,7 +106,7 @@ export default function UpdatingProfile(props) {
             />
           </div>
         </Form.Group>
-        <p>{formErrors.street_address}</p>
+        <p className="error">{formErrors.street_address}</p>
         <hr />
         <Form.Group className="form-group">
           <div className="form-label">
@@ -123,7 +123,7 @@ export default function UpdatingProfile(props) {
             />
           </div>
         </Form.Group>
-        <p>{formErrors.city}</p>
+        <p className="error">{formErrors.city}</p>
         <hr />
         <Form.Group className="form-group">
           <div className="form-label">
@@ -140,7 +140,7 @@ export default function UpdatingProfile(props) {
             />
           </div>
         </Form.Group>
-        <p>{formErrors.state}</p>
+        <p className="error">{formErrors.state}</p>
         <hr />
         <Form.Group className="form-group">
           <div className="form-label">
@@ -157,7 +157,7 @@ export default function UpdatingProfile(props) {
             />
           </div>
         </Form.Group>
-        <p>{formErrors.zipcode}</p>
+        <p className="error">{formErrors.zipcode}</p>
         <hr />
         {formValues.isGrowr > 0 ? (
           <>
@@ -176,7 +176,7 @@ export default function UpdatingProfile(props) {
                 />
               </div>
             </Form.Group>
-            <p>{formErrors.hourly_rate}</p>
+            <p className="error">{formErrors.hourly_rate}</p>
             <hr />
             <Form.Group className="form-group">
               <div className="form-label">
@@ -193,7 +193,7 @@ export default function UpdatingProfile(props) {
                 />
               </div>
             </Form.Group>
-            <p>{formErrors.max_mile_range}</p>
+            <p className="error">{formErrors.max_mile_range}</p>
             <hr />
           </>
         ) : null}
@@ -202,7 +202,7 @@ export default function UpdatingProfile(props) {
             type="submit"
             onClick={handleSubmit}
             className={`clamped-text ${
-              disabled ? "cta-button-disabled" : "cta-button"
+              disabled ? "disabled-button" : "valid-button"
             }`}
             disabled={disabled}
           >

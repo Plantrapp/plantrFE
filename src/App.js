@@ -7,14 +7,23 @@ import { Route } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import PrivateRoute from "./utils/authentication/PrivateRoute";
 import axios from "axios";
-import Toast from "react-bootstrap/Toast";
+import Toaster from "./utils/toaster/Toaster";
 import { SocketProvider } from "./utils/contexts/SocketProvider";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [showToast, setShowToast] = useState({
-    login: false,
-    updatePassword: false,
+    invalidLogin: false,
+    invalidUpdatePassword: false,
+    postBlogPost: false,
+    updateBlogPost: false,
+    successfulProfileUpdate: false,
+    successfulNewPost: false,
+    successfulUpdatePost: false,
+    successfulDeletePost: false,
+    successfulUpdatePassword: false,
+    forgotPasswordSent: false,
+    invalidNewPost: false,
   });
   useEffect(() => {
     axios.get("http://localhost:5000/").then((res) => {
@@ -22,37 +31,24 @@ function App() {
     });
   }, []);
 
+  const toastOn = (tag) => {
+    setShowToast({ ...showToast, [tag]: true });
+  };
+
   return (
     <div className="App">
       <SocketProvider>
         <CurrentUserContext.Provider
-          value={{ currentUser, setCurrentUser, showToast, setShowToast }}
+          value={{
+            currentUser,
+            setCurrentUser,
+            showToast,
+            setShowToast,
+            toastOn,
+          }}
         >
           <div className="toaster">
-            <Toast
-              onClose={() => setShowToast({ ...showToast, login: false })}
-              show={showToast.login}
-              delay={3000}
-              autohide
-            >
-              <Toast.Header>
-                <strong className="mr-auto">Error</strong>
-              </Toast.Header>
-              <Toast.Body>Username or password was incorrect</Toast.Body>
-            </Toast>
-            <Toast
-              onClose={() =>
-                setShowToast({ ...showToast, updatePassword: false })
-              }
-              show={showToast.updatePassword}
-              delay={3000}
-              autohide
-            >
-              <Toast.Header>
-                <strong className="mr-auto">Error</strong>
-              </Toast.Header>
-              <Toast.Body>Password was incorrect</Toast.Body>
-            </Toast>
+            <Toaster showToast={showToast} setShowToast={setShowToast} />
           </div>
 
           <Route exact path="/" component={RegisterLogin} />

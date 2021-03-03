@@ -113,13 +113,17 @@ export default function AccountInfo(props) {
         </>
       ) : null}
       <div className="button">
-        <button onClick={() => changeComponent("UpdateProfile")}>
+        <button
+          onClick={() => changeComponent("UpdateProfile")}
+          className="valid-button"
+        >
           <span>Edit Profile</span>
-          <FaEdit />
         </button>
-        <button onClick={() => changeComponent("UpdatePassword")}>
+        <button
+          onClick={() => changeComponent("UpdatePassword")}
+          className="valid-button"
+        >
           <span>Update Password</span>
-          <FaEdit />
         </button>
       </div>
     </Form>

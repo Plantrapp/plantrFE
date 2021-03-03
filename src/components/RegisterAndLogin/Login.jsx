@@ -16,9 +16,7 @@ export default function Login() {
   const [formErrors, setFormErrors] = useState(initState);
   const [disabled, setDisabled] = useState(true);
 
-  const { setCurrentUser, showToast, setShowToast } = useContext(
-    CurrentUserContext
-  );
+  const { setCurrentUser, toastOn } = useContext(CurrentUserContext);
 
   const history = useHistory();
 
@@ -40,7 +38,7 @@ export default function Login() {
         history.push("/dashboard");
       })
       .catch(() => {
-        setShowToast({ ...showToast, login: true });
+        toastOn("invalidLogin");
       });
   };
   const handleOnchange = (e) => {

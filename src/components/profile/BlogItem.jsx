@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useEffect } from "react";
+import { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Styled from "styled-components";
+import { CurrentUserContext } from "../../utils/contexts/Contexts";
 const StyledBlogItem = Styled.div`
   width: 100%;
   display: flex;
@@ -59,6 +61,11 @@ const StyledBlogItem = Styled.div`
           background: #4e1d1d;;
         }
       }
+      .mint{
+        border: 1px solid #1fdbac;
+        color: #1fdbac;
+
+      }
     }
   }
   h1, h2 {
@@ -67,24 +74,33 @@ const StyledBlogItem = Styled.div`
 `;
 
 export default function BlogItem(props) {
-  const { blog, fetchBlogPosts } = props;
+  const { blog, fetchBlogPosts, currentUser } = props;
   const date = blog.created_at.split(" ");
-  console.log(date);
+  const history = useHistory();
+  const blogOwner = currentUser.id === blog.author_id;
+  const { toastOn } = useContext(CurrentUserContext);
+
   const deletePost = () => {
     axios
       .delete(`http://localhost:5000/blog-posts/${blog.id}`)
       .then((res) => {
         console.log(res);
         fetchBlogPosts(blog.author_id);
+        toastOn("successfulDeletePost");
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  const history = useHistory();
+
   const editPost = () => {
     history.push("/dashboard/blog-post/edit", { blog });
   };
+
+  const read = () => {
+    history.push(`/dashboard/blogs/${blog.id}`);
+  };
+
   return (
     <StyledBlogItem>
       <div className="blog-container">
@@ -106,14 +122,27 @@ export default function BlogItem(props) {
             </h2>
           </div>
         </div>
-        <div className="blog-container-button">
-          <button onClick={editPost}>Edit</button>
-        </div>
-        <div className="blog-container-button">
-          <button className="delete" onClick={deletePost}>
-            Delete
-          </button>
-        </div>
+        {blogOwner ? (
+          <>
+            <div className="blog-container-button">
+              <button onClick={editPost}>Edit</button>
+            </div>
+            <div className="blog-container-button">
+              <button className="delete" onClick={deletePost}>
+                Delete
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="blog-container-button"></div>
+            <div className="blog-container-button">
+              <button className="mint" onClick={read}>
+                Read
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </StyledBlogItem>
   );
