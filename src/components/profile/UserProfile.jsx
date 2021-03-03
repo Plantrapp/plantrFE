@@ -7,12 +7,9 @@ import PortfolioItem from "./PortfolioItem";
 import BlogItem from "./BlogItem";
 import ProfilePicture from "./ProfilePicture";
 import { useHistory } from "react-router-dom";
-<<<<<<< Updated upstream
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import Modaler from "../../utils/modal/Modaler";
-=======
 import Hover from "../../utils/tooltip/Hover";
->>>>>>> Stashed changes
 
 const StyledUserProfile = Styled.div`
   display: flex;
