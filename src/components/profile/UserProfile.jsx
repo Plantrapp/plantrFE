@@ -120,35 +120,19 @@ const StyledUserProfile = Styled.div`
 `;
 
 export default function UserProfile() {
-<<<<<<< HEAD
   const { goToPage, getHistoryState, getStars } = useTools();
-=======
-  const history = useHistory();
->>>>>>> 0272e855e48f58dde79713580c5279e2f53996bd
   const username = localStorage.getItem("username");
   const [userInfo, setUserInfo] = useState({});
   const [starRating, setStarRating] = useState([]);
   const [component, setComponent] = useState("portfolio");
   const [postedBlogs, setPostedBlogs] = useState(null);
-<<<<<<< HEAD
   const [growr, setGrowr] = useState(getHistoryState());
   const { currentUser } = useContext(CurrentUserContext);
   const [isConnected, setIsConnected] = useState(false);
   const [modalShow, setModalShow] = useState(false);
-  const [modalImg, setModalImg] = useState(null);
-  const array = [pic, pic, pic, pic];
-
-=======
   const [portfolioPosts, setPortfolioPosts] = useState([]);
-  const [isConnected, setIsConnected] = useState(false);
-  const [modalShow, setModalShow] = useState(false);
   const [modalInfo, setModalInfo] = useState({});
-  // const [modalDesc, setModalDesc] = useState("");
-  const [growr, setGrowr] = useState(history.location.state);
-  const { currentUser } = useContext(CurrentUserContext);
 
-  let array = [pic, pic, pic, pic];
->>>>>>> 0272e855e48f58dde79713580c5279e2f53996bd
   useEffect(() => {
     if (growr) {
       const { username, id } = growr.growr;
@@ -265,11 +249,9 @@ export default function UserProfile() {
       .catch((err) => console.log(err));
   };
 
-<<<<<<< HEAD
   const goToSettings = () => goToPage("/dashboard/settings");
   const goToRating = () => goToPage("/dashboard/rating", growr);
 
-=======
   const handleDelete = (id) => {
     axios
       .delete(`http://localhost:5000/portfolio-posts/${modalInfo.id}`)
@@ -284,7 +266,6 @@ export default function UserProfile() {
         console.log(err);
       });
   };
->>>>>>> 0272e855e48f58dde79713580c5279e2f53996bd
   return (
     <StyledUserProfile>
       <Modaler

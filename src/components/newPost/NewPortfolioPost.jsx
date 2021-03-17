@@ -1,11 +1,7 @@
-<<<<<<< HEAD
-import React, { useState } from "react";
-=======
 import React, { useState, useContext, useRef } from "react";
 import axios from "axios";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 
->>>>>>> 0272e855e48f58dde79713580c5279e2f53996bd
 import { Form } from "react-bootstrap";
 
 export default function NewPortfolioPost() {

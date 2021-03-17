@@ -13,7 +13,7 @@ export default function Subscribe() {
     const result = await (await stripe).redirectToCheckout({
       lineItems: [{ price, quantity: 1 }],
 
-      successUrl: "http://localhost:3000/dashboard",
+      successUrl: `http://localhost:3000/subscribed/${user.id}`,
       cancelUrl: "http://localhost:3000/canceled",
       mode: "subscription",
     });
