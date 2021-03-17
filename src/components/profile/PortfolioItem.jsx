@@ -11,14 +11,16 @@ const StyledPortfolioItem = Styled.div`
   } 
 `;
 export default function PortfolioItem(props) {
-  const { pic, show, setModalImg } = props;
+  const { item, show, setModalInfo } = props;
   const spawnModal = () => {
-    setModalImg(pic);
+    setModalInfo(item);
+
     show();
   };
+
   return (
     <StyledPortfolioItem>
-      <img src={pic} alt="" onClick={spawnModal} />
+      <img src={item.url} alt="" onClick={spawnModal} />
     </StyledPortfolioItem>
   );
 }

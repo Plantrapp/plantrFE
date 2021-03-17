@@ -62,14 +62,6 @@ export default function Register() {
       created_at: new Date().toString(),
     };
 
-    if (selectedImage !== "") {
-      const formData = new FormData();
-      formData.append("file", selectedImage);
-      formData.append("upload_preset", "prof_pic");
-      await axios
-        .post("https://api.cloudinary.com/v1_1/samuel-brown/upload", formData)
-        .then((res) => (creds.profile_picture = res.data.secure_url));
-    }
     await geocoder
       .fromAddress(
         `${creds.street_address}, ${creds.city}, ${creds.state} ${creds.zipcode}`
@@ -171,8 +163,6 @@ export default function Register() {
               formErrors={formErrors}
               disabled1={disabled1}
               register={register}
-              selectedImage={selectedImage}
-              setSelectedImage={setSelectedImage}
             />
           </div>
         ) : (

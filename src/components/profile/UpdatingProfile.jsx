@@ -10,12 +10,15 @@ export default function UpdatingProfile(props) {
     disabled,
     FaTimes,
     changeComponent,
-    setSelectedImage,
   } = props;
 
   return (
     <>
-      <Form>
+      <Form
+        encType="multipart/form-data"
+        method="put"
+        action={`http://localhost:5000/user/${formValues.id}`}
+      >
         <div className="form-heading">
           <h3>Edit Profile</h3>
           <button onClick={() => changeComponent("AccountInfo")}>
@@ -23,6 +26,12 @@ export default function UpdatingProfile(props) {
           </button>
         </div>
         <hr />
+        <Form.Group>
+          <div className="form-label">
+            <label>Profile Picture:</label>
+          </div>
+          <input type="file" name="prof_pic" />
+        </Form.Group>
         <Form.Group className="form-group">
           <div className="form-label">
             <label>Email:</label>
@@ -92,16 +101,6 @@ export default function UpdatingProfile(props) {
           </div>
         </Form.Group>
         <p className="error">{formErrors.last_name}</p>
-        <hr />
-        <Form.Group>
-          <div className="form-label">
-            <label>Profile Picture:</label>
-          </div>
-          <input
-            type="file"
-            onChange={(e) => setSelectedImage(e.target.files[0])}
-          />
-        </Form.Group>
         <hr />
         <Form.Group className="form-group">
           <div className="form-label">
@@ -212,7 +211,7 @@ export default function UpdatingProfile(props) {
         <div className="button">
           <button
             type="submit"
-            onClick={handleSubmit}
+            // onClick={handleSubmit}
             className={`clamped-text ${
               disabled ? "disabled-button" : "valid-button"
             }`}
