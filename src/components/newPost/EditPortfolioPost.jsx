@@ -34,9 +34,6 @@ export default function EditPortfolioPost() {
             />
           </div>
         </Form.Group>
-        {/* <button type="button" onClick={openWidget}>
-  Here
-</button> */}
         <button>Submit</button>
 
         <hr />
