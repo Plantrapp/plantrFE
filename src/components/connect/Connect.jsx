@@ -1,9 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import ListView from "./ListView";
 import MapView from "../map/Map";
-import { Tabs, Tab, Nav } from "react-bootstrap";
+import { Tabs, Tab } from "react-bootstrap";
 import { FaMap, FaListUl } from "react-icons/fa";
-import styled from "styled-components";
 import haversine from "haversine";
 import { CurrentUserContext, UserContext } from "../../utils/contexts/Contexts";
 

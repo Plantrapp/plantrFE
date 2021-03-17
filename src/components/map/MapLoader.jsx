@@ -15,7 +15,7 @@ export default function MapLoader() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/user")
+      .get("https://obscure-beyond-36960.herokuapp.com/user")
       .then((res) => {
         setCounter(res.data.length);
         // const tempArr = []

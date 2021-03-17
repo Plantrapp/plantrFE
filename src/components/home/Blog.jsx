@@ -1,8 +1,5 @@
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
 import Styled from "styled-components";
 
 const StyledBlog = Styled.div`
@@ -40,7 +37,7 @@ export default function Blog() {
   const [blogInfo, setBlogInfo] = useState({});
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/blog-posts/${id}`)
+      .get(`https://obscure-beyond-36960.herokuapp.com/blog-posts/${id}`)
       .then((res) => {
         setBlogInfo(res.data);
       })

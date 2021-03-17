@@ -28,6 +28,7 @@ import RegisterPlantr from "./registerAndLogin/RegisterPlantr";
 // Profile
 import Settings from "./profile/Settings";
 import UserProfile from "./profile/UserProfile";
+import Rating from "./profile/Rating";
 
 import Connect from "./connect/Connect";
 
@@ -59,4 +60,5 @@ export {
   NewPost,
   EditPost,
   NewPortfolioPost,
+  Rating,
 };

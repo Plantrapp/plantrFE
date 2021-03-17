@@ -1,6 +1,6 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import Styled from "styled-components";
+import useTools from "../../utils/useTools";
 
 const StyledBlogCard = Styled.div`
   border-radius: 10px;
@@ -39,10 +39,10 @@ const StyledBlogCard = Styled.div`
 
 export default function BlogCard(props) {
   const { id, category, title, author, description } = props.post;
-  const history = useHistory();
-  const goToBlogPost = () => {
-    history.push(`/dashboard/blogs/${id}`);
-  };
+  const { goToPage } = useTools();
+
+  const goToBlogPost = () => goToPage(`/dashboard/blogs/${id}`);
+
   return (
     <StyledBlogCard>
       <div className="heading">

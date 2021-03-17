@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import Form from "react-bootstrap/Form";
-import { updatePasswordSchema } from "../../validation/formSchema";
 import axios from "axios";
 import * as yup from "yup";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
+import { updatePasswordSchema } from "../../validation/formSchema";
+
 const initialState = {
   previous_password: "",
   password: "",
 };
+
 export default function UpdatePassword(props) {
   const [formValues, setFormValues] = useState(initialState);
   const [formErrors, setFormErrors] = useState(initialState);
@@ -42,7 +44,7 @@ export default function UpdatePassword(props) {
     const oldPassword = currentUser.password;
 
     axios
-      .put(`http://localhost:5000/user/${id}`, {
+      .put(`https://obscure-beyond-36960.herokuapp.com/user/${id}`, {
         previous_password: formValues.previous_password,
         password: formValues.password,
         oldPassword,

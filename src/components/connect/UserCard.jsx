@@ -1,10 +1,7 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import axios from "axios";
-import Form from "react-bootstrap/Form";
+import React from "react";
 import pic from "../../assets/img/user-profile.png";
 import Styled from "styled-components";
-
+import useTools from "../../utils/useTools";
 const StyledUserCard = Styled.div`
 background: #292929;
 border-radius: 10px;
@@ -28,19 +25,6 @@ width: 14.68vw;
     justify-content: space-around;
     align-items: center;
   }
-  .arrowright{
-    background: transparent;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    transition: 0.3s ease-in-out;
-    width: 25%;
-    filter: invert(48%) sepia(79%) saturate(0%) hue-rotate(180deg) brightness(100%) contrast(100%);
-    &:hover{
-      background: #000000;
-      cursor: pointer;
-    }
-  }
   h6{
     margin: 0;
     padding: 0;
@@ -48,18 +32,24 @@ width: 14.68vw;
 `;
 
 export default function UserCard(props) {
-  const history = useHistory();
-
-  const { first_name, last_name, role, hourly_rate, distance } = props.growr;
+  const {
+    first_name,
+    last_name,
+    role,
+    hourly_rate,
+    distance,
+    username,
+  } = props.growr;
   const growr = props.growr;
+  const { goToPage } = useTools();
+
+  const goToGrowrProfile = () =>
+    goToPage(`/dashboard/growrProfile/${username}`, {
+      growr,
+    });
+
   return (
-    <StyledUserCard
-      onClick={() =>
-        history.push(`/dashboard/growrProfile/${props.growr.username}`, {
-          growr,
-        })
-      }
-    >
+    <StyledUserCard onClick={goToGrowrProfile}>
       <img src={pic} />
       <div>
         <h3>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import * as yup from "yup";
 import { loginFormSchema } from "../../validation/formSchema";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
+import useTools from "../../utils/useTools";
 
 const initState = {
   username: "",
@@ -18,7 +18,7 @@ export default function Login() {
 
   const { setCurrentUser, toastOn } = useContext(CurrentUserContext);
 
-  const history = useHistory();
+  const { goToPage } = useTools();
 
   const login = (e) => {
     e.preventDefault();
@@ -29,13 +29,13 @@ export default function Login() {
     };
 
     axios
-      .post("http://localhost:5000/auth/login", creds)
+      .post("https://obscure-beyond-36960.herokuapp.com/auth/login", creds)
       .then((res) => {
         setCurrentUser(res.data.user);
         localStorage.setItem("username", username);
         localStorage.setItem("role", res.data.role);
         localStorage.setItem("isGrowr", res.data.user.isGrowr);
-        history.push("/dashboard");
+        goToPage("/dashboard");
       })
       .catch(() => {
         toastOn("invalidLogin");

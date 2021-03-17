@@ -1,9 +1,6 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import axios from "axios";
-import Form from "react-bootstrap/Form";
+import React from "react";
 import Styled from "styled-components";
-import { FaSlidersH } from "react-icons/fa";
+
 const StyledSearchbar = Styled.div` 
   display: flex;
   height:10vh;

@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Route, useHistory } from "react-router-dom";
+import { Route } from "react-router-dom";
+import Subscribe from "../components/home/Subscribe";
+import axios from "axios";
+import { UserContext, CurrentUserContext } from "../utils/contexts/Contexts";
+import { useSocket } from "../utils/contexts/SocketProvider";
+import useTools from "../utils/useTools";
 import {
   SideBar,
-  GrowrProfile,
   Settings,
   Map,
   Messages,
@@ -14,21 +18,20 @@ import {
   NewPost,
   EditPost,
   NewPortfolioPost,
+  Rating,
 } from "../components";
-import axios from "axios";
-import { UserContext, CurrentUserContext } from "../utils/contexts/Contexts";
-import { useSocket } from "../utils/contexts/SocketProvider";
 
-export default function Dashboard(props) {
+export default function Dashboard() {
   const socket = useSocket();
   const [users, setUsers] = useState([]);
   const username = localStorage.getItem("username");
-  const history = useHistory();
+
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
-  const baseURL = "http://localhost:5000";
+  const baseURL = "https://obscure-beyond-36960.herokuapp.com";
+  const { goToPage } = useTools();
 
   useEffect(() => {
-    if (!username) history.push("/");
+    if (!username) goToPage("/");
     if (currentUser) {
       const room_id = currentUser.id;
       socket && socket.emit("loggedIn", { username, room_id });
@@ -66,6 +69,7 @@ export default function Dashboard(props) {
           <Route exact path="/dashboard/map" component={Map} />
           <Route path="/dashboard/growrProfile" component={UserProfile} />
           <Route path="/dashboard/user-profile" component={UserProfile} />
+          <Route path="/dashboard/rating" component={Rating} />
           <Route exact path="/dashboard/blog-post" component={NewPost} />
           <Route
             exact

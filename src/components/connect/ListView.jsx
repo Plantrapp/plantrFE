@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import UserCard from "./UserCard";
 import Styled from "styled-components";
 import Searchbar from "./Searchbar";
-import { UserContext } from "../../utils/contexts/Contexts";
 
 const StyledGrowrView = Styled.div`
   display: flex;
