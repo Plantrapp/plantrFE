@@ -2,6 +2,7 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 
 export default function Modaler(props) {
+  console.log(props);
   return (
     <Modal
       {...props}
@@ -14,10 +15,12 @@ export default function Modaler(props) {
       </Modal.Header>
       <Modal.Body>
         <img
-          src={props.img}
+          src={props.info.url}
           alt=""
           style={{ margin: "0 auto", width: "100%" }}
         />
+        <p>{props.info.description}</p>
+        {props.children}
       </Modal.Body>
     </Modal>
   );

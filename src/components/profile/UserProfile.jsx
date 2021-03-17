@@ -122,18 +122,21 @@ const StyledUserProfile = Styled.div`
 `;
 
 export default function UserProfile() {
+  const history = useHistory();
   const username = localStorage.getItem("username");
   const [userInfo, setUserInfo] = useState({});
   const [starRating, setStarRating] = useState([]);
   const [component, setComponent] = useState("portfolio");
   const [postedBlogs, setPostedBlogs] = useState(null);
-  const history = useHistory();
-  const [growr, setGrowr] = useState(history.location.state);
-  const { currentUser } = useContext(CurrentUserContext);
+  const [portfolioPosts, setPortfolioPosts] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
   const [modalShow, setModalShow] = useState(false);
-  const [modalImg, setModalImg] = useState(null);
-  const array = [pic, pic, pic, pic];
+  const [modalInfo, setModalInfo] = useState({});
+  // const [modalDesc, setModalDesc] = useState("");
+  const [growr, setGrowr] = useState(history.location.state);
+  const { currentUser } = useContext(CurrentUserContext);
+
+  let array = [pic, pic, pic, pic];
   useEffect(() => {
     if (growr) {
       const { username, id } = growr.growr;
@@ -147,6 +150,7 @@ export default function UserProfile() {
           }
           setStarRating(starRatingArray);
           fetchBlogPosts(res.data[0].id);
+          fetchPortfolioPosts(res.data[0].id);
         })
         .catch((err) => {
           console.log(err);
@@ -176,6 +180,7 @@ export default function UserProfile() {
           }
           setStarRating(starRatingArray);
           fetchBlogPosts(res.data[0].id);
+          fetchPortfolioPosts(res.data[0].id);
         })
         .catch((err) => {
           console.log(err);
@@ -188,6 +193,17 @@ export default function UserProfile() {
       .get(`http://localhost:5000/blog-posts/user/${author_id}`)
       .then((res) => {
         setPostedBlogs(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const fetchPortfolioPosts = (user_id) => {
+    axios
+      .get(`http://localhost:5000/portfolio-posts/user/${user_id}`)
+      .then((res) => {
+        setPortfolioPosts(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -227,16 +243,39 @@ export default function UserProfile() {
       .then((res) => setIsConnected(false))
       .catch((err) => console.log(err));
   };
+
+  const handleDelete = (id) => {
+    axios
+      .delete(`http://localhost:5000/portfolio-posts/${modalInfo.id}`)
+      .then((res) => {
+        setPortfolioPosts((oldPosts) =>
+          oldPosts.filter((oldPost) => oldPost.id !== modalInfo.id)
+        );
+        setModalShow(false);
+        setModalInfo({});
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <StyledUserProfile>
       <Modaler
         show={modalShow}
         onHide={() => setModalShow(false)}
-        img={modalImg}
-      />
+        info={modalInfo}
+      >
+        <div
+          className="postButtons"
+          style={{ display: "flex", justifyContent: "space-around" }}
+        >
+          <button onClick={handleDelete}>Delete Post</button>
+          <button>Edit Post</button>
+        </div>
+      </Modaler>
       <div className="header">
         <div className="left">
-          <img src={pic} />
+          <img src={userInfo.profile_picture} />
           {/* <Hover>{(hovering) => <ProfilePicture hovering={hovering} />}</Hover> Experimental feature 💡 Hover for profile pictures */}
         </div>
 
@@ -298,13 +337,14 @@ export default function UserProfile() {
           case "portfolio":
             return (
               <div className="portfolio">
-                {array.map((item) => (
+                {portfolioPosts.map((item) => (
                   <PortfolioItem
-                    pic={item}
+                    item={item}
                     show={() => {
                       setModalShow(true);
                     }}
-                    setModalImg={setModalImg}
+                    setModalInfo={setModalInfo}
+                    // setModalDesc={setModalDesc}
                   />
                 ))}
               </div>

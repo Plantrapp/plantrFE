@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+src/utils/toaster/Toaster.jsximport React, { useContext } from "react";
 import Toast from "react-bootstrap/Toast";
 import { CurrentUserContext } from "../contexts/Contexts";
 
@@ -26,7 +26,7 @@ export default function Toaster() {
         <Toast.Header>
           <strong className="mr-auto">Error</strong>
         </Toast.Header>
-        <Toast.Body>{messaging.invalidLogin}</Toast.Body>
+        <Toast.Body>{messaging.invalidLogin.message}</Toast.Body>
       </Toast>
       <Toast
         onClose={() => toastOff("invalidUpdatePassword")}
