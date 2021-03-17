@@ -186,12 +186,19 @@ export default function Settings() {
         });
     }
     if (selectedImage !== currentUser.profile_picture) {
-      const formData = new FormData();
-      formData.append("file", selectedImage);
-      formData.append("upload_preset", "prof_pic");
-      await axios
-        .post("https://api.cloudinary.com/v1_1/samuel-brown/upload", formData)
-        .then((res) => (formValues.profile_picture = res.data.secure_url));
+      // const formData = new FormData();
+      const formData = selectedImage;
+      // formData.append("file", selectedImage);
+      // formData.append("upload_preset", "prof_pic");
+      console.log(formData);
+      // formData.append("use_filename", true);
+      // formData.append("unique_filename", false);
+      // formData.append("folder", `${formValues.username}`);
+      // await axios
+      //   .post("https://api.cloudinary.com/v1_1/samuel-brown/upload", formData)
+      //   .then((res) => (formValues.profile_picture = res.data.secure_url))
+      //   .catch((err) => console.log(err));
+      await axios.post("http://localhost:5000/", selectedImage);
     }
     axios
       .put(`http://localhost:5000/user/${id}`, formValues)

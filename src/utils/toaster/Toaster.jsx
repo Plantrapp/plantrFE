@@ -26,7 +26,7 @@ export default function Toaster() {
         <Toast.Header>
           <strong className="mr-auto">Error</strong>
         </Toast.Header>
-        <Toast.Body>{messaging.invalidLogin}</Toast.Body>
+        <Toast.Body>{messaging.invalidLogin.message}</Toast.Body>
       </Toast>
       <Toast
         onClose={() => toastOff("invalidUpdatePassword")}
