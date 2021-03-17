@@ -19,11 +19,11 @@ import Messages from "./messages/Messages";
 import MessagesCard from "./messages/MessagesCard";
 
 // RegisterAndLogin
-import Login from "./RegisterAndLogin/Login";
-import Register from "./RegisterAndLogin/Register";
-import RegisterForgotPassword from "./RegisterAndLogin/RegisterForgotPassword";
-import RegisterGrowr from "./RegisterAndLogin/RegisterGrowr";
-import RegisterPlantr from "./RegisterAndLogin/RegisterPlantr";
+import Login from "./registerAndLogin/Login";
+import Register from "./registerAndLogin/Register";
+import RegisterForgotPassword from "./registerAndLogin/RegisterForgotPassword";
+import RegisterGrowr from "./registerAndLogin/RegisterGrowr";
+import RegisterPlantr from "./registerAndLogin/RegisterPlantr";
 
 // Profile
 import Settings from "./profile/Settings";
