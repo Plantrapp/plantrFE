@@ -132,9 +132,6 @@ export default function UserProfile() {
   const [modalShow, setModalShow] = useState(false);
   const [portfolioPosts, setPortfolioPosts] = useState([]);
   const [modalInfo, setModalInfo] = useState({});
-  // const [modalDesc, setModalDesc] = useState("");
-  const [growr, setGrowr] = useState(history.location.state);
-  const { currentUser } = useContext(CurrentUserContext);
   const [showEditInput, setShowEditInput] = useState(false);
 
   useEffect(() => {
