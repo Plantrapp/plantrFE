@@ -36,7 +36,10 @@ export default function NewPortfolioPost() {
     formData.append("user_id", currentUser.id);
 
     axios
-      .post("http://localhost:5000/portfolio-posts", formData)
+      .post(
+        "https://obscure-beyond-36960.herokuapp.com/portfolio-posts",
+        formData
+      )
       .then((res) => {
         setSelectedImage(null);
         setDescription("");

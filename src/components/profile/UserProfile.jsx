@@ -203,7 +203,9 @@ export default function UserProfile() {
 
   const fetchPortfolioPosts = (user_id) => {
     axios
-      .get(`http://localhost:5000/portfolio-posts/user/${user_id}`)
+      .get(
+        `https://obscure-beyond-36960.herokuapp.com/portfolio-posts/user/${user_id}`
+      )
       .then((res) => {
         setPortfolioPosts(res.data);
       })
@@ -258,7 +260,9 @@ export default function UserProfile() {
 
   const handleDelete = () => {
     axios
-      .delete(`http://localhost:5000/portfolio-posts/${modalInfo.id}`)
+      .delete(
+        `https://obscure-beyond-36960.herokuapp.com/portfolio-posts/${modalInfo.id}`
+      )
       .then((res) => {
         setPortfolioPosts((oldPosts) =>
           oldPosts.filter((oldPost) => oldPost.id !== modalInfo.id)

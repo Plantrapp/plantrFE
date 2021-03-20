@@ -8,6 +8,7 @@ import { FaAngleLeft } from "react-icons/fa";
 import * as yup from "yup";
 import geocoder from "react-geocode";
 import useTools from "../../utils/useTools";
+import Subscribe from "./Subscribe";
 
 const initState = {
   username: "",
@@ -60,6 +61,7 @@ export default function Register() {
       role: formValues.isGrowr ? "growr" : "dwellr", // just for now until we have a list of roles a GROWR can be.
       hourly_rate: Number(formValues.hourly_rate).toFixed(2),
       created_at: new Date().toString(),
+      isSubscribed: formValues.isGrowr ? false : true,
     };
 
     await geocoder
@@ -78,8 +80,12 @@ export default function Register() {
         console.log(res.data);
         localStorage.setItem("username", formValues.username);
         localStorage.setItem("role", res.data.role);
-        localStorage.setItem("isGrowr", res.data.isGrowr);
-        goToPage("/dashboard");
+        localStorage.setItem("isGrowr", formValues.isGrowr);
+        if (formValues.isGrowr) {
+          Subscribe(res.data);
+        } else {
+          goToPage("/dashboard");
+        }
       })
       .catch((err) => {
         alert(err);

@@ -198,7 +198,10 @@ export default function Settings() {
       //   .post("https://api.cloudinary.com/v1_1/samuel-brown/upload", formData)
       //   .then((res) => (formValues.profile_picture = res.data.secure_url))
       //   .catch((err) => console.log(err));
-      await axios.post("http://localhost:5000/", selectedImage);
+      await axios.post(
+        "https://obscure-beyond-36960.herokuapp.com/",
+        selectedImage
+      );
     }
     axios
       .put(`https://obscure-beyond-36960.herokuapp.com/user/${id}`, formValues)

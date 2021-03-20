@@ -24,6 +24,9 @@ import Register from "./registerAndLogin/Register";
 import RegisterForgotPassword from "./registerAndLogin/RegisterForgotPassword";
 import RegisterGrowr from "./registerAndLogin/RegisterGrowr";
 import RegisterPlantr from "./registerAndLogin/RegisterPlantr";
+import Subscribe from "./registerAndLogin/Subscribe";
+import GrowrSubscribed from "./registerAndLogin/GrowrSubscribed";
+import SubscribeButton from "./registerAndLogin/SubscribeButton";
 
 // Profile
 import Settings from "./profile/Settings";
@@ -61,4 +64,7 @@ export {
   EditPost,
   NewPortfolioPost,
   Rating,
+  Subscribe,
+  GrowrSubscribed,
+  SubscribeButton,
 };

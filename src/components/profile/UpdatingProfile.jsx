@@ -17,7 +17,7 @@ export default function UpdatingProfile(props) {
       <Form
         encType="multipart/form-data"
         method="put"
-        action={`http://localhost:5000/user/${formValues.id}`}
+        action={`https://obscure-beyond-36960.herokuapp.com/user/${formValues.id}`}
       >
         <div className="form-heading">
           <h3>Edit Profile</h3>

@@ -1,6 +1,7 @@
 import "./App.css";
 import RegisterLogin from "./pages/RegisterLogin";
 import Dashboard from "./pages/Dashboard";
+import { GrowrSubscribed, Subscribe } from "./components";
 import { CurrentUserContext } from "./utils/contexts/Contexts";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { Route } from "react-router-dom";
@@ -56,6 +57,7 @@ function App() {
           <Route exact path="/" component={RegisterLogin} />
           {/* <PrivateRoute path="/dashboard" component={Dashboard} /> */}
           <Route path="/dashboard" component={Dashboard} />
+          <Route path="/subscribed" component={GrowrSubscribed} />
         </CurrentUserContext.Provider>
       </SocketProvider>
     </div>
