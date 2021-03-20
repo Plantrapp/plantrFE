@@ -2,14 +2,12 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Styled from "styled-components";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
-import pic from "../../assets/img/user-profile.png";
 import logo from "../../assets/img/Asset1.svg";
 import {
   FaHome,
   FaEnvelope,
   FaUserCircle,
   FaSignOutAlt,
-  FaEdit,
   FaUsers,
   FaPlus,
 } from "react-icons/fa";

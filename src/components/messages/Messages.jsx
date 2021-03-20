@@ -14,7 +14,7 @@ const StyledMessages = Styled.div`
 
 export default function Messages() {
   const [userGroup, setUserGroup] = useState();
-  const baseURL = "http://localhost:5000";
+  const baseURL = "https://obscure-beyond-36960.herokuapp.com";
   const isGrowr = localStorage.getItem("isGrowr");
   const { currentUser } = useContext(CurrentUserContext);
 

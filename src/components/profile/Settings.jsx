@@ -2,15 +2,15 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Styled from "styled-components";
-import { FaEdit, FaTimes } from "react-icons/fa";
-import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import geocoder from "react-geocode";
-import { updateProfileSchema } from "../../validation/formSchema";
 import * as yup from "yup";
 import UpdatingProfile from "./UpdatingProfile";
 import AccountInfo from "./AccountInfo";
 import UpdatePassword from "./UpdatePassword";
-import { FormCheck } from "react-bootstrap";
+import { FaEdit, FaTimes } from "react-icons/fa";
+import { updateProfileSchema } from "../../validation/formSchema";
+import { CurrentUserContext } from "../../utils/contexts/Contexts";
+
 const StyledSettings = Styled.div`
   height: 100vh;
   background-color: rgba(255, 255, 255, 0.05);
@@ -201,7 +201,7 @@ export default function Settings() {
       await axios.post("http://localhost:5000/", selectedImage);
     }
     axios
-      .put(`http://localhost:5000/user/${id}`, formValues)
+      .put(`https://obscure-beyond-36960.herokuapp.com/user/${id}`, formValues)
       .then((res) => {
         setCurrentUser(res.data);
         localStorage.setItem("username", res.data.username);

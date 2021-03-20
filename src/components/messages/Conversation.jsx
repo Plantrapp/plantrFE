@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Styled from "styled-components";
 import { useSocket } from "../../utils/contexts/SocketProvider";
-import pic from "../../assets/img/user-profile.png";
 import ConversationBubble from "./ConversationBubble";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
+import useTools from "../../utils/useTools";
 
 const StyledConversation = Styled.div`
   height: 100vh;
@@ -60,10 +59,10 @@ const StyledConversation = Styled.div`
 
 export default function Conversation(props) {
   const username = localStorage.getItem("username");
+  const { getHistoryState } = useTools();
   const socket = useSocket();
-  const recipient = useHistory().location.state.recipient.username;
-  const recipient_id = useHistory().location.state.recipient.id;
-  console.log(useHistory().location.state);
+  const recipient = getHistoryState().recipient.username;
+  const recipient_id = getHistoryState().recipient.id;
   const [formValue, setFormValue] = useState("");
   const [messages, setMessages] = useState([]);
   const { currentUser } = useContext(CurrentUserContext);
@@ -71,7 +70,9 @@ export default function Conversation(props) {
   useEffect(() => {
     currentUser &&
       axios
-        .get(`http://localhost:5000/message/${currentUser.id}/${recipient_id}`)
+        .get(
+          `https://obscure-beyond-36960.herokuapp.com/message/${currentUser.id}/${recipient_id}`
+        )
         .then((res) => {
           setMessages(res.data.sort((a, b) => a.id - b.id));
         })
@@ -104,7 +105,7 @@ export default function Conversation(props) {
     console.log("recipient", recipient_id);
     console.log("currentUser", currentUser.id);
     axios
-      .post(`http://localhost:5000/message`, {
+      .post(`https://obscure-beyond-36960.herokuapp.com/message`, {
         message,
         recipient,
         recipient_id,

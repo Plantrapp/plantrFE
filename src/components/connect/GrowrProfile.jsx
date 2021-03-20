@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import UserCard from "./UserCard";
 import Styled from "styled-components";
 import axios from "axios";
 import pic from "../../assets/img/user-profile.png";
@@ -130,7 +129,7 @@ export default function GrowrProfile() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/user/info/${username}`)
+      .get(`https://obscure-beyond-36960.herokuapp.com/user/info/${username}`)
       .then((res) => {
         setUserInfo(res.data[0]);
         const starRatingArray = [];
@@ -152,10 +151,13 @@ export default function GrowrProfile() {
 
     console.log(dwellr_id, growr_id);
     axios
-      .post("http://localhost:5000/client-growr-connection", {
-        dwellr_id,
-        growr_id,
-      })
+      .post(
+        "https://obscure-beyond-36960.herokuapp.com/client-growr-connection",
+        {
+          dwellr_id,
+          growr_id,
+        }
+      )
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };

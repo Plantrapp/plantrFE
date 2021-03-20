@@ -1,9 +1,9 @@
+import React from "react";
 import axios from "axios";
-import React, { useEffect } from "react";
 import { useContext } from "react";
-import { useHistory } from "react-router-dom";
 import Styled from "styled-components";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
+import useTools from "../../utils/useTools";
 const StyledBlogItem = Styled.div`
   width: 100%;
   display: flex;
@@ -76,13 +76,15 @@ const StyledBlogItem = Styled.div`
 export default function BlogItem(props) {
   const { blog, fetchBlogPosts, currentUser } = props;
   const date = blog.created_at.split(" ");
-  const history = useHistory();
   const blogOwner = currentUser.id === blog.author_id;
   const { toastOn } = useContext(CurrentUserContext);
+  const { goToPage } = useTools();
 
   const deletePost = () => {
     axios
-      .delete(`http://localhost:5000/blog-posts/${blog.id}`)
+      .delete(
+        `https://obscure-beyond-36960.herokuapp.com/blog-posts/${blog.id}`
+      )
       .then((res) => {
         console.log(res);
         fetchBlogPosts(blog.author_id);
@@ -93,13 +95,8 @@ export default function BlogItem(props) {
       });
   };
 
-  const editPost = () => {
-    history.push("/dashboard/blog-post/edit", { blog });
-  };
-
-  const read = () => {
-    history.push(`/dashboard/blogs/${blog.id}`);
-  };
+  const editPost = () => goToPage("/dashboard/blog-post/edit", { blog });
+  const read = () => goToPage(`/dashboard/blogs/${blog.id}`);
 
   return (
     <StyledBlogItem>

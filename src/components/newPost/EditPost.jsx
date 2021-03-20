@@ -5,7 +5,7 @@ import Styled from "styled-components";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { newPostSchema } from "../../validation/formSchema";
 import * as yup from "yup";
-import { useHistory } from "react-router-dom";
+import useTools from "../../utils/useTools";
 
 const StyledSettings = Styled.div`
 height: 100vh;
@@ -116,13 +116,13 @@ const initFormValues = {
   message: "",
 };
 export default function NewPost() {
-  const { blog } = useHistory().location.state;
+  const { getHistoryState, goBack } = useTools();
+  const { blog } = getHistoryState();
   const [formValues, setFormValues] = useState(blog);
   const [formErrors, setFormErrors] = useState(initFormValues);
   const [disabled, setDisabled] = useState(false);
   const { currentUser, toastOn } = useContext(CurrentUserContext);
   console.log(blog);
-  const history = useHistory();
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
@@ -154,12 +154,15 @@ export default function NewPost() {
     console.log(formValues);
 
     axios
-      .put(`http://localhost:5000/blog-posts/${blog.id}`, formValues)
+      .put(
+        `https://obscure-beyond-36960.herokuapp.com/blog-posts/${blog.id}`,
+        formValues
+      )
       .then((res) => {
         console.log("Updated", res);
         setFormValues(initFormValues);
         toastOn("successfulUpdatePost");
-        history.goBack();
+        goBack();
       })
       .catch(() => {
         alert("Username already in use");

@@ -1,17 +1,18 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+
+import useTools from "../../utils/useTools";
 
 export default function AccountInfo(props) {
-  const { Form, account, FaEdit, changeComponent, FaTimes } = props;
-  const history = useHistory();
-  const backToProfile = () => {
-    history.push("/dashboard/user-profile");
-  };
+  const { Form, account, changeComponent, FaTimes } = props;
+  const { goToPage } = useTools();
+
+  const goToProfile = () => goToPage("/dashboard/user-profile");
+
   return (
     <Form>
       <div className="form-heading">
         <h3>Account Information</h3>
-        <button onClick={backToProfile}>
+        <button onClick={goToProfile}>
           <FaTimes />
         </button>
       </div>

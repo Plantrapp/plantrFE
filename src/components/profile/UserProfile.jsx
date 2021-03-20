@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import Styled from "styled-components";
 import pic from "../../assets/img/user-profile.png";
-import { FaStar } from "react-icons/fa";
 import axios from "axios";
 import PortfolioItem from "./PortfolioItem";
 import BlogItem from "./BlogItem";
-import ProfilePicture from "./ProfilePicture";
-import { useHistory } from "react-router-dom";
-import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import Modaler from "../../utils/modal/Modaler";
-import Hover from "../../utils/tooltip/Hover";
+import useTools from "../../utils/useTools";
+import { FaStar } from "react-icons/fa";
+import { CurrentUserContext } from "../../utils/contexts/Contexts";
 
 const StyledUserProfile = Styled.div`
   display: flex;
@@ -21,7 +19,7 @@ const StyledUserProfile = Styled.div`
   align-items: center;
   color:whitesmoke;
   overflow-y: auto;
-
+  
   hr{
     background: #292929;
     height: 2px;
@@ -122,28 +120,28 @@ const StyledUserProfile = Styled.div`
 `;
 
 export default function UserProfile() {
-  const history = useHistory();
+  const { goToPage, getHistoryState, getStars } = useTools();
   const username = localStorage.getItem("username");
   const [userInfo, setUserInfo] = useState({});
   const [starRating, setStarRating] = useState([]);
   const [component, setComponent] = useState("portfolio");
   const [postedBlogs, setPostedBlogs] = useState(null);
-  const [portfolioPosts, setPortfolioPosts] = useState([]);
+  const [growr, setGrowr] = useState(getHistoryState());
+  const { currentUser } = useContext(CurrentUserContext);
   const [isConnected, setIsConnected] = useState(false);
   const [modalShow, setModalShow] = useState(false);
+  const [portfolioPosts, setPortfolioPosts] = useState([]);
   const [modalInfo, setModalInfo] = useState({});
   // const [modalDesc, setModalDesc] = useState("");
   const [growr, setGrowr] = useState(history.location.state);
   const { currentUser } = useContext(CurrentUserContext);
-  const [description, setDescription] = useState("");
   const [showEditInput, setShowEditInput] = useState(false);
 
-  let array = [pic, pic, pic, pic];
   useEffect(() => {
     if (growr) {
       const { username, id } = growr.growr;
       axios
-        .get(`http://localhost:5000/user/info/${username}`)
+        .get(`https://obscure-beyond-36960.herokuapp.com/user/info/${username}`)
         .then((res) => {
           setUserInfo(res.data[0]);
           const starRatingArray = [];
@@ -160,7 +158,7 @@ export default function UserProfile() {
       currentUser &&
         axios
           .get(
-            `http://localhost:5000/client-growr-connection/dwellr/${currentUser.id}`
+            `https://obscure-beyond-36960.herokuapp.com/client-growr-connection/dwellr/${currentUser.id}`
           )
           .then((res) => {
             res.data.forEach((user) => {
@@ -173,7 +171,7 @@ export default function UserProfile() {
           });
     } else {
       axios
-        .get(`http://localhost:5000/user/info/${username}`)
+        .get(`https://obscure-beyond-36960.herokuapp.com/user/info/${username}`)
         .then((res) => {
           setUserInfo(res.data[0]);
           const starRatingArray = [];
@@ -192,7 +190,9 @@ export default function UserProfile() {
 
   const fetchBlogPosts = (author_id) => {
     axios
-      .get(`http://localhost:5000/blog-posts/user/${author_id}`)
+      .get(
+        `https://obscure-beyond-36960.herokuapp.com/blog-posts/user/${author_id}`
+      )
       .then((res) => {
         setPostedBlogs(res.data);
       })
@@ -213,6 +213,7 @@ export default function UserProfile() {
   };
 
   const changeComponent = (component) => setComponent(component);
+
   const connect = (e) => {
     e.preventDefault();
 
@@ -221,10 +222,13 @@ export default function UserProfile() {
 
     console.log(dwellr_id, growr_id);
     axios
-      .post("http://localhost:5000/client-growr-connection", {
-        dwellr_id,
-        growr_id,
-      })
+      .post(
+        "https://obscure-beyond-36960.herokuapp.com/client-growr-connection",
+        {
+          dwellr_id,
+          growr_id,
+        }
+      )
       .then((res) => setIsConnected(true))
       .catch((err) => console.log(err));
   };
@@ -236,15 +240,21 @@ export default function UserProfile() {
 
     console.log(dwellr_id, growr_id);
     axios
-      .delete("http://localhost:5000/client-growr-connection", {
-        data: {
-          dwellr_id,
-          growr_id,
-        },
-      })
+      .delete(
+        "https://obscure-beyond-36960.herokuapp.com/client-growr-connection",
+        {
+          data: {
+            dwellr_id,
+            growr_id,
+          },
+        }
+      )
       .then((res) => setIsConnected(false))
       .catch((err) => console.log(err));
   };
+
+  const goToSettings = () => goToPage("/dashboard/settings");
+  const goToRating = () => goToPage("/dashboard/rating", growr);
 
   const handleDelete = () => {
     axios
@@ -340,14 +350,15 @@ export default function UserProfile() {
         </div>
         {!growr ? (
           <div className="edit-button-container">
-            <button onClick={() => history.push("/dashboard/settings")}>
-              Edit Profile
-            </button>
+            <button onClick={goToSettings}>Edit Profile</button>
           </div>
         ) : isConnected ? (
           <div className="edit-button-container ">
             <button className="mint" onClick={disconnect}>
               Connected
+            </button>
+            <button style={{ marginTop: "2%" }} onClick={goToRating}>
+              Leave a review
             </button>
           </div>
         ) : (

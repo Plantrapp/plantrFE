@@ -1,6 +1,7 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
 import { states } from "../../utils/misc";
+
 export default function RegisterGrowr({
   selectedImage,
   setSelectedImage,
@@ -138,6 +139,17 @@ export default function RegisterGrowr({
         />
         <p className="error">{formErrors.hourly_rate}</p>
       </Form.Group>
+      <h6
+        style={{
+          border: "2px solid yellow",
+          padding: "2%",
+          color: "whitesmoke",
+          borderRadius: "3px",
+        }}
+      >
+        **Please note that the Growr account requires a $20 monthly subscription
+        to our service in order to utilize the tools provided.
+      </h6>
       <button
         type="submit"
         onClick={register}
@@ -146,7 +158,7 @@ export default function RegisterGrowr({
         }`}
         disabled={disabled1}
       >
-        Register
+        Subscribe
       </button>
     </div>
   );

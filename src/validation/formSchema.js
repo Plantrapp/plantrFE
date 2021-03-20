@@ -74,6 +74,7 @@ export const updateProfileSchema = yup.object().shape({
     .required()
     .matches(/^[0-9]+$/, "Must be only digits"),
 });
+
 export const updatePasswordSchema = yup.object().shape({
   password: yup
     .string()
@@ -81,7 +82,13 @@ export const updatePasswordSchema = yup.object().shape({
     .min(7, "Password must be at least 7 characters"),
   previous_password: yup.string().required("Previous Password is Required"),
 });
+
 export const newPostSchema = yup.object().shape({
   title: yup.string().required("Title is Required"),
+  message: yup.string().required("Message is Required"),
+});
+
+export const submitReviewSchema = yup.object().shape({
+  star_rating: yup.string().required("A Star Rating is Required"),
   message: yup.string().required("Message is Required"),
 });

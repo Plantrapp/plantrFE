@@ -1,7 +1,5 @@
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
 import Styled from "styled-components";
 import BlogCard from "./BlogCard";
 
@@ -27,7 +25,7 @@ export default function BlogList() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/blog-posts")
+      .get("https://obscure-beyond-36960.herokuapp.com/blog-posts")
       .then((res) => {
         setPosts(res.data);
       })

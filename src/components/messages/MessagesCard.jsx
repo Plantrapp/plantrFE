@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import Styled from "styled-components";
-import axios from "axios";
+import useTools from "../../utils/useTools";
 
 const StyledMessagesCard = Styled.div`
   display: flex;
@@ -36,18 +35,19 @@ const StyledMessagesCard = Styled.div`
 
 export default function MessagesCard(props) {
   const { pic, user } = props;
-  const history = useHistory();
-  const pushMe = () => {
-    console.log(user);
-    history.push(`/dashboard/conversation/${user.username}`, {
+
+  const { goToPage } = useTools();
+
+  const goToConvo = () =>
+    goToPage(`/dashboard/conversation/${user.username}`, {
       recipient: {
         username: user.username,
         id: user.id,
       },
     });
-  };
+
   return (
-    <StyledMessagesCard onClick={pushMe}>
+    <StyledMessagesCard onClick={goToConvo}>
       <div className="conversation-img">
         <img src={pic} alt="" />
       </div>

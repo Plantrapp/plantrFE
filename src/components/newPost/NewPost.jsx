@@ -161,7 +161,7 @@ export default function NewPost() {
     console.log(post);
 
     axios
-      .post(`http://localhost:5000/blog-posts/`, post)
+      .post(`https://obscure-beyond-36960.herokuapp.com/blog-posts/`, post)
       .then((res) => {
         console.log("Updated", res);
         setFormValues(initFormValues);
@@ -216,7 +216,7 @@ export default function NewPost() {
         <div className="form-heading">
           <h3>New Blog Post</h3>
         </div>
-        <hr />
+
         <Form.Group className="form-group">
           <div className="form-label">
             <label>Title*</label>
@@ -233,7 +233,7 @@ export default function NewPost() {
           </div>
         </Form.Group>
         <p>{formErrors.title}</p>
-        <hr />
+
         <Form.Group className="form-group">
           <div className="form-label">
             <label>Short Description</label>
@@ -249,7 +249,7 @@ export default function NewPost() {
             />
           </div>
         </Form.Group>
-        <hr />
+
         <Form.Group className="form-group">
           <div className="form-label">
             <label>Category</label>
@@ -262,7 +262,7 @@ export default function NewPost() {
             </select>
           </div>
         </Form.Group>
-        <hr />
+
         {/* <Form.Group>
           <div className="form-label">
             <label>Add more content</label>
@@ -307,13 +307,17 @@ export default function NewPost() {
               onChange={handleOnchange}
               value={formValues.message}
               name="message"
-              rows="20"
-              style={{ background: "transparent", color: "whitesmoke" }}
+              rows="10"
+              style={{
+                background: "transparent",
+                color: "whitesmoke",
+                border: "1px solid whitesmoke",
+              }}
             />
           </div>
         </Form.Group>
         <p>{formErrors.message}</p>
-        <hr />
+
         <div className="button">
           <button
             type="submit"

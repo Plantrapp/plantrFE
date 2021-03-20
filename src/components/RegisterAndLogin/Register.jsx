@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import { registerFormSchemaPart1 } from "../../validation/formSchema";
@@ -8,6 +7,8 @@ import RegisterPlantr from "./RegisterPlantr";
 import { FaAngleLeft } from "react-icons/fa";
 import * as yup from "yup";
 import geocoder from "react-geocode";
+import useTools from "../../utils/useTools";
+
 const initState = {
   username: "",
   profile_picture: "",
@@ -39,7 +40,7 @@ export default function Register() {
   const [formErrors, setFormErrors] = useState(initError);
   const [disabled1, setDisabled1] = useState(true);
   const [selectedImage, setSelectedImage] = useState("");
-  const history = useHistory();
+  const { goToPage } = useTools();
 
   const register = async (e) => {
     e.preventDefault();
@@ -72,13 +73,13 @@ export default function Register() {
     console.log(creds);
 
     axios
-      .post("http://localhost:5000/auth/register", creds)
+      .post("https://obscure-beyond-36960.herokuapp.com/auth/register", creds)
       .then((res) => {
         console.log(res.data);
         localStorage.setItem("username", formValues.username);
         localStorage.setItem("role", res.data.role);
         localStorage.setItem("isGrowr", res.data.isGrowr);
-        history.push("/dashboard");
+        goToPage("/dashboard");
       })
       .catch((err) => {
         alert(err);
@@ -131,7 +132,7 @@ export default function Register() {
               }}
               className={`clamped-text role-button `}
             >
-              Plantr
+              Dwellr
             </button>
             <button
               onClick={(e) => {

@@ -117,6 +117,18 @@ export default function Toaster() {
         </Toast.Header>
         <Toast.Body>Forgot Password was sent to the requested email</Toast.Body>
       </Toast>
+
+      <Toast
+        onClose={() => toastOff("successfulReviewSubmitted")}
+        show={showToast.successfulReviewSubmitted}
+        delay={5000}
+        autohide
+      >
+        <Toast.Header>
+          <strong className="mr-auto">Success</strong>
+        </Toast.Header>
+        <Toast.Body>Review was successfully submitted</Toast.Body>
+      </Toast>
     </>
   );
 }
