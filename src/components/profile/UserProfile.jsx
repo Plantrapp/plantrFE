@@ -279,9 +279,12 @@ export default function UserProfile() {
     e.preventDefault();
     console.log(modalInfo);
     axios
-      .put(`http://localhost:5000/portfolio-posts/${modalInfo.id}`, {
-        description: modalInfo.description,
-      })
+      .put(
+        `https://obscure-beyond-36960.herokuapp.com/portfolio-posts/${modalInfo.id}`,
+        {
+          description: modalInfo.description,
+        }
+      )
       .then((res) => {
         console.log(res);
         setShowEditInput(false);
