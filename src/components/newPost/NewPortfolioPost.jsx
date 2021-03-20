@@ -9,7 +9,6 @@ export default function NewPortfolioPost() {
   const [selectedImage, setSelectedImage] = useState(null);
   const { currentUser, toastOn } = useContext(CurrentUserContext);
 
-  const picRef = useRef();
   //   let widget = window.cloudinary.createUploadWidget(
   //     {
   //       cloudName: "samuel-brown",
