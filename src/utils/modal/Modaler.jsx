@@ -2,7 +2,6 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 
 export default function Modaler(props) {
-  console.log(props);
   return (
     <Modal
       {...props}

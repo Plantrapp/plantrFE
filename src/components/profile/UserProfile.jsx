@@ -132,6 +132,10 @@ export default function UserProfile() {
   const [modalShow, setModalShow] = useState(false);
   const [portfolioPosts, setPortfolioPosts] = useState([]);
   const [modalInfo, setModalInfo] = useState({});
+  // const [modalDesc, setModalDesc] = useState("");
+  const [growr, setGrowr] = useState(history.location.state);
+  const { currentUser } = useContext(CurrentUserContext);
+  const [showEditInput, setShowEditInput] = useState(false);
 
   useEffect(() => {
     if (growr) {
@@ -252,7 +256,7 @@ export default function UserProfile() {
   const goToSettings = () => goToPage("/dashboard/settings");
   const goToRating = () => goToPage("/dashboard/rating", growr);
 
-  const handleDelete = (id) => {
+  const handleDelete = () => {
     axios
       .delete(`http://localhost:5000/portfolio-posts/${modalInfo.id}`)
       .then((res) => {
@@ -266,6 +270,22 @@ export default function UserProfile() {
         console.log(err);
       });
   };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    console.log(modalInfo);
+    axios
+      .put(`http://localhost:5000/portfolio-posts/${modalInfo.id}`, {
+        description: modalInfo.description,
+      })
+      .then((res) => {
+        console.log(res);
+        setShowEditInput(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <StyledUserProfile>
       <Modaler
@@ -273,13 +293,29 @@ export default function UserProfile() {
         onHide={() => setModalShow(false)}
         info={modalInfo}
       >
-        <div
-          className="postButtons"
-          style={{ display: "flex", justifyContent: "space-around" }}
-        >
-          <button onClick={handleDelete}>Delete Post</button>
-          <button>Edit Post</button>
-        </div>
+        {showEditInput ? (
+          <form>
+            <input
+              value={modalInfo.description}
+              onChange={(e) =>
+                setModalInfo((oldInfo) => {
+                  return { ...oldInfo, description: e.target.value };
+                })
+              }
+            />
+            <button type="submit" onClick={handleEdit}>
+              Done
+            </button>
+          </form>
+        ) : (
+          <div
+            className="postButtons"
+            style={{ display: "flex", justifyContent: "space-around" }}
+          >
+            <button onClick={handleDelete}>Delete Post</button>
+            <button onClick={setShowEditInput}>Edit Description</button>
+          </div>
+        )}
       </Modaler>
       <div className="header">
         <div className="left">
