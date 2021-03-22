@@ -17,8 +17,8 @@ export default function Subscribe(input) {
     const result = await (await stripe).redirectToCheckout({
       lineItems: [{ price, quantity: 1 }],
 
-      successUrl: `deployed-plantr-fe-sambrown0322.vercel.app/subscribed/${id}`,
-      cancelUrl: "deployed-plantr-fe-sambrown0322.vercel.app/dashboard",
+      successUrl: `https://deployed-plantr-fe-sambrown0322.vercel.app/subscribed/${id}`,
+      cancelUrl: "https://deployed-plantr-fe-sambrown0322.vercel.app/dashboard",
       mode: "subscription",
     });
     if (result.error) {
