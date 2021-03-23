@@ -142,7 +142,6 @@ export default function Settings() {
       setAccount(data);
     }
   }, [currentUser]);
-  console.log(formValues);
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
@@ -208,7 +207,6 @@ export default function Settings() {
       .then((res) => {
         setCurrentUser(res.data);
         localStorage.setItem("username", res.data.username);
-        console.log("Updated", res);
         changeComponent("AccountInfo");
         toastOn("successfulProfileUpdate");
         setAccount(formValues);
@@ -222,7 +220,6 @@ export default function Settings() {
   useEffect(() => {
     updateProfileSchema.isValid(formValues).then((valid) => {
       setDisabled(!valid);
-      console.log(disabled);
     });
   }, [formValues]);
 

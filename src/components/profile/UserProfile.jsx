@@ -8,6 +8,7 @@ import Modaler from "../../utils/modal/Modaler";
 import useTools from "../../utils/useTools";
 import { FaStar } from "react-icons/fa";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
+import { baseURL } from "../../utils/misc";
 
 const StyledUserProfile = Styled.div`
   display: flex;
@@ -134,17 +135,35 @@ export default function UserProfile() {
   const [modalInfo, setModalInfo] = useState({});
   const [showEditInput, setShowEditInput] = useState(false);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (growr) {
       const { username, id } = growr.growr;
-      axios
-        .get(`https://obscure-beyond-36960.herokuapp.com/user/info/${username}`)
+      let stars;
+      await axios
+        .get(`${baseURL}/reviews/${id}`)
+        .then((response) => {
+          console.log(response.data.average);
+          stars = response.data.average;
+        })
+        .catch((err) => console.log(err));
+
+      await axios
+        .get(`${baseURL}/user/info/${username}`)
         .then((res) => {
-          setUserInfo(res.data[0]);
+          setUserInfo({ ...res.data[0], stars });
+          console.log(stars);
+          console.log(stars);
           const starRatingArray = [];
+
           for (let i = 0; i < 5; i++) {
-            starRatingArray.push(i < res.data[0].star_rating);
+            console.log(userInfo);
+            console.log(userInfo.id);
+            console.log(userInfo.username);
+            console.log(userInfo.stars);
+
+            starRatingArray.push(i < userInfo.stars);
           }
+
           setStarRating(starRatingArray);
           fetchBlogPosts(res.data[0].id);
           fetchPortfolioPosts(res.data[0].id);
@@ -154,12 +173,9 @@ export default function UserProfile() {
         });
       currentUser &&
         axios
-          .get(
-            `https://obscure-beyond-36960.herokuapp.com/client-growr-connection/dwellr/${currentUser.id}`
-          )
+          .get(`${baseURL}/client-growr-connection/dwellr/${currentUser.id}`)
           .then((res) => {
             res.data.forEach((user) => {
-              console.log(user);
               if (user.id === id) return setIsConnected(true);
             });
           })
@@ -168,7 +184,7 @@ export default function UserProfile() {
           });
     } else {
       axios
-        .get(`https://obscure-beyond-36960.herokuapp.com/user/info/${username}`)
+        .get(`${baseURL}/user/info/${username}`)
         .then((res) => {
           setUserInfo(res.data[0]);
           const starRatingArray = [];
@@ -187,9 +203,7 @@ export default function UserProfile() {
 
   const fetchBlogPosts = (author_id) => {
     axios
-      .get(
-        `https://obscure-beyond-36960.herokuapp.com/blog-posts/user/${author_id}`
-      )
+      .get(`${baseURL}/blog-posts/user/${author_id}`)
       .then((res) => {
         setPostedBlogs(res.data);
       })
@@ -200,9 +214,7 @@ export default function UserProfile() {
 
   const fetchPortfolioPosts = (user_id) => {
     axios
-      .get(
-        `https://obscure-beyond-36960.herokuapp.com/portfolio-posts/user/${user_id}`
-      )
+      .get(`${baseURL}/portfolio-posts/user/${user_id}`)
       .then((res) => {
         setPortfolioPosts(res.data);
       })
@@ -219,15 +231,11 @@ export default function UserProfile() {
     const dwellr_id = currentUser.id;
     const growr_id = userInfo.id;
 
-    console.log(dwellr_id, growr_id);
     axios
-      .post(
-        "https://obscure-beyond-36960.herokuapp.com/client-growr-connection",
-        {
-          dwellr_id,
-          growr_id,
-        }
-      )
+      .post(`${baseURL}/client-growr-connection`, {
+        dwellr_id,
+        growr_id,
+      })
       .then((res) => setIsConnected(true))
       .catch((err) => console.log(err));
   };
@@ -237,17 +245,13 @@ export default function UserProfile() {
     const dwellr_id = currentUser.id;
     const growr_id = userInfo.id;
 
-    console.log(dwellr_id, growr_id);
     axios
-      .delete(
-        "https://obscure-beyond-36960.herokuapp.com/client-growr-connection",
-        {
-          data: {
-            dwellr_id,
-            growr_id,
-          },
-        }
-      )
+      .delete(`${baseURL}/client-growr-connection`, {
+        data: {
+          dwellr_id,
+          growr_id,
+        },
+      })
       .then((res) => setIsConnected(false))
       .catch((err) => console.log(err));
   };
@@ -257,9 +261,7 @@ export default function UserProfile() {
 
   const handleDelete = () => {
     axios
-      .delete(
-        `https://obscure-beyond-36960.herokuapp.com/portfolio-posts/${modalInfo.id}`
-      )
+      .delete(`${baseURL}/portfolio-posts/${modalInfo.id}`)
       .then((res) => {
         setPortfolioPosts((oldPosts) =>
           oldPosts.filter((oldPost) => oldPost.id !== modalInfo.id)
@@ -274,16 +276,11 @@ export default function UserProfile() {
 
   const handleEdit = (e) => {
     e.preventDefault();
-    console.log(modalInfo);
     axios
-      .put(
-        `https://obscure-beyond-36960.herokuapp.com/portfolio-posts/${modalInfo.id}`,
-        {
-          description: modalInfo.description,
-        }
-      )
+      .put(`${baseURL}/portfolio-posts/${modalInfo.id}`, {
+        description: modalInfo.description,
+      })
       .then((res) => {
-        console.log(res);
         setShowEditInput(false);
       })
       .catch((err) => {

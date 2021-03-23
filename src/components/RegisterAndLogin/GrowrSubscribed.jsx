@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import useTools from "../../utils/useTools";
+import { baseURL } from "../../utils/misc";
 
 export default function GrowrSubscribed() {
   const id = window.document.URL.split("/").pop();
@@ -10,7 +11,7 @@ export default function GrowrSubscribed() {
       isSubscribed: true,
     };
     axios
-      .put(`https://obscure-beyond-36960.herokuapp.com/user/${id}`, subscribed)
+      .put(`${baseURL}/user/${id}`, subscribed)
       .then(() => {
         goToPage("/dashboard");
       })

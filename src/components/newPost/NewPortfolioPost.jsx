@@ -1,7 +1,7 @@
 import React, { useState, useContext, useRef } from "react";
 import axios from "axios";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
-
+import { baseURL } from "../../utils/misc";
 import { Form } from "react-bootstrap";
 
 export default function NewPortfolioPost() {
@@ -36,10 +36,7 @@ export default function NewPortfolioPost() {
     formData.append("user_id", currentUser.id);
 
     axios
-      .post(
-        "https://obscure-beyond-36960.herokuapp.com/portfolio-posts",
-        formData
-      )
+      .post(`${baseURL}/portfolio-posts`, formData)
       .then((res) => {
         setSelectedImage(null);
         setDescription("");

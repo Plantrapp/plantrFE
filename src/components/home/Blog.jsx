@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Styled from "styled-components";
-
+import { baseURL } from "../../utils/misc";
 const StyledBlog = Styled.div`
   width: 85vw;
   height: 100vh;
@@ -37,7 +37,7 @@ export default function Blog() {
   const [blogInfo, setBlogInfo] = useState({});
   useEffect(() => {
     axios
-      .get(`https://obscure-beyond-36960.herokuapp.com/blog-posts/${id}`)
+      .get(`${baseURL}/blog-posts/${id}`)
       .then((res) => {
         setBlogInfo(res.data);
       })
@@ -45,7 +45,7 @@ export default function Blog() {
         console.log(err);
       });
   }, []);
-  console.log(blogInfo);
+
   return (
     <StyledBlog>
       <h1>{blogInfo.title}</h1>

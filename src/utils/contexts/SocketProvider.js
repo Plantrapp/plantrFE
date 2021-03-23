@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
-
+import { baseURL } from "../../utils/misc";
 const SocketContext = React.createContext();
 
 export function useSocket() {
@@ -11,7 +11,7 @@ export function SocketProvider({ children }) {
   const [socket, setSocket] = useState();
 
   useEffect(() => {
-    const newSocket = io("https://obscure-beyond-36960.herokuapp.com");
+    const newSocket = io(baseURL);
     setSocket(newSocket);
     return () => newSocket.close();
   }, []);

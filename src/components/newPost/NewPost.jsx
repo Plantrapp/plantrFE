@@ -5,7 +5,7 @@ import Styled from "styled-components";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { newPostSchema } from "../../validation/formSchema";
 import * as yup from "yup";
-
+import { baseURL } from "../../utils/misc";
 const StyledSettings = Styled.div`
 height: 100vh;
 background-color: rgba(255, 255, 255, 0.05);
@@ -158,12 +158,9 @@ export default function NewPost() {
     post.author = currentUser.username;
     post.created_at = new Date().toString();
 
-    console.log(post);
-
     axios
-      .post(`https://obscure-beyond-36960.herokuapp.com/blog-posts/`, post)
+      .post(`${baseURL}/blog-posts/`, post)
       .then((res) => {
-        console.log("Updated", res);
         setFormValues(initFormValues);
         toastOn("successfulNewPost");
       })

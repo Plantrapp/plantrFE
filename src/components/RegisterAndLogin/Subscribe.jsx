@@ -13,7 +13,6 @@ export default function Subscribe(input) {
     id = input.data.id;
   }
   async function startCheckout() {
-    console.log("here");
     const result = await (await stripe).redirectToCheckout({
       lineItems: [{ price, quantity: 1 }],
 
@@ -23,8 +22,6 @@ export default function Subscribe(input) {
     });
     if (result.error) {
       alert("Our payment system is broke please try again at a later time");
-    } else {
-      console.log(result);
     }
   }
 

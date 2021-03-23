@@ -9,6 +9,7 @@ import * as yup from "yup";
 import geocoder from "react-geocode";
 import useTools from "../../utils/useTools";
 import Subscribe from "./Subscribe";
+import { baseURL } from "../../utils/misc";
 
 const initState = {
   username: "",
@@ -72,12 +73,10 @@ export default function Register() {
         creds.lat = res.results[0].geometry.location.lat;
         creds.lng = res.results[0].geometry.location.lng;
       });
-    console.log(creds);
 
     axios
-      .post("https://obscure-beyond-36960.herokuapp.com/auth/register", creds)
+      .post(`${baseURL}/auth/register`, creds)
       .then((res) => {
-        console.log(res.data);
         localStorage.setItem("username", formValues.username);
         localStorage.setItem("role", res.data.role);
         localStorage.setItem("isGrowr", formValues.isGrowr);

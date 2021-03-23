@@ -28,12 +28,6 @@ function App() {
     successfulReviewSubmitted: false,
   });
 
-  useEffect(() => {
-    axios.get("https://obscure-beyond-36960.herokuapp.com/").then((res) => {
-      console.log(res);
-    });
-  }, []);
-
   const toastOn = (tag) => {
     setShowToast({ ...showToast, [tag]: true });
   };

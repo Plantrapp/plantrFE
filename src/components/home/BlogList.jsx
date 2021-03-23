@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Styled from "styled-components";
 import BlogCard from "./BlogCard";
-
+import { baseURL } from "../../utils/misc";
 const StyledBlogList = Styled.div`
   width:  85vw;
   height: 100vh;
@@ -25,7 +25,7 @@ export default function BlogList() {
 
   useEffect(() => {
     axios
-      .get("https://obscure-beyond-36960.herokuapp.com/blog-posts")
+      .get(`${baseURL}/blog-posts`)
       .then((res) => {
         setPosts(res.data);
       })

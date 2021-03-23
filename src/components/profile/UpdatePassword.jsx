@@ -4,6 +4,7 @@ import axios from "axios";
 import * as yup from "yup";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { updatePasswordSchema } from "../../validation/formSchema";
+import { baseURL } from "../../utils/misc";
 
 const initialState = {
   previous_password: "",
@@ -44,13 +45,12 @@ export default function UpdatePassword(props) {
     const oldPassword = currentUser.password;
 
     axios
-      .put(`https://obscure-beyond-36960.herokuapp.com/user/${id}`, {
+      .put(`${baseURL}/user/${id}`, {
         previous_password: formValues.previous_password,
         password: formValues.password,
         oldPassword,
       })
       .then((res) => {
-        console.log("Updated", res);
         changeComponent("AccountInfo");
         toastOn("successfulUpdatePassword");
       })

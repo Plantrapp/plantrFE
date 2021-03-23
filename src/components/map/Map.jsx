@@ -346,7 +346,6 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
   const [isOpen, setIsOpen] = useState(false);
   const [filterValues, setFilterValues] = useState(initialFilterValues);
   const [selectedStarRating, setSelectedStarRating] = useState(null);
-  console.log(selectedStarRating);
 
   function handleChange(e) {
     setFilterValues({

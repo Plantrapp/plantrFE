@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { loginFormSchema } from "../../validation/formSchema";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import useTools from "../../utils/useTools";
+import { baseURL } from "../../utils/misc";
 
 const initState = {
   username: "",
@@ -29,7 +30,7 @@ export default function Login() {
     };
 
     axios
-      .post("https://obscure-beyond-36960.herokuapp.com/auth/login", creds)
+      .post(`${baseURL}/auth/login`, creds)
       .then((res) => {
         setCurrentUser(res.data.user);
         localStorage.setItem("username", username);

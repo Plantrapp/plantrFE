@@ -5,7 +5,7 @@ import { useSocket } from "../../utils/contexts/SocketProvider";
 import ConversationBubble from "./ConversationBubble";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import useTools from "../../utils/useTools";
-
+import { baseURL } from "../../utils/misc";
 const StyledConversation = Styled.div`
   height: 100vh;
   padding: 2%;
@@ -70,9 +70,7 @@ export default function Conversation(props) {
   useEffect(() => {
     currentUser &&
       axios
-        .get(
-          `https://obscure-beyond-36960.herokuapp.com/message/${currentUser.id}/${recipient_id}`
-        )
+        .get(`${baseURL}/message/${currentUser.id}/${recipient_id}`)
         .then((res) => {
           setMessages(res.data.sort((a, b) => a.id - b.id));
         })
@@ -102,10 +100,9 @@ export default function Conversation(props) {
     socket.emit("send-message", { recipient: recipient_id, message, sender });
 
     setMessages((messages) => [...messages, { message, sender }]);
-    console.log("recipient", recipient_id);
-    console.log("currentUser", currentUser.id);
+
     axios
-      .post(`https://obscure-beyond-36960.herokuapp.com/message`, {
+      .post(`${baseURL}/message`, {
         message,
         recipient,
         recipient_id,
@@ -113,7 +110,7 @@ export default function Conversation(props) {
         sender_id: currentUser.id,
         created_at,
       })
-      .then((res) => console.log(res))
+      .then(() => {})
       .catch((err) => console.log(err));
 
     setFormValue({

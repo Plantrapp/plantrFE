@@ -6,6 +6,7 @@ import { submitReviewSchema } from "../../validation/formSchema";
 import * as yup from "yup";
 import useTools from "../../utils/useTools";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
+import { baseURL } from "../../utils/misc";
 
 const StyledRating = Styled.div`
   width: 85vw;
@@ -171,17 +172,17 @@ export default function Rating() {
   };
 
   const handleSubmit = () => {
-    setFormValues({
+    const review = {
       ...formValues,
       reviewee_id: growr.id,
       reviewer_id: currentUser.id,
       created_at: new Date().toString(),
-    });
-    console.log(formValues);
+    };
+
+    console.log(review);
     axios
-      .post(`https://obscure-beyond-36960.herokuapp.com/reviews`, formValues)
+      .post(`${baseURL}/reviews`, review)
       .then((res) => {
-        console.log(res);
         goBack();
         toastOn("successfulReviewSubmitted");
       })

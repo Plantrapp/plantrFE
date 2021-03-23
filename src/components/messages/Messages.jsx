@@ -3,6 +3,7 @@ import axios from "axios";
 import Styled from "styled-components";
 import pic from "../../assets/img/user-profile.png";
 import MessagesCard from "./MessagesCard";
+import { baseURL } from "../../utils/misc";
 
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 const StyledMessages = Styled.div`
@@ -14,7 +15,7 @@ const StyledMessages = Styled.div`
 
 export default function Messages() {
   const [userGroup, setUserGroup] = useState();
-  const baseURL = "https://obscure-beyond-36960.herokuapp.com";
+
   const isGrowr = localStorage.getItem("isGrowr");
   const { currentUser } = useContext(CurrentUserContext);
 

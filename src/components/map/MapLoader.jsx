@@ -3,7 +3,7 @@ import axios from "axios";
 import { Marker } from "react-google-maps";
 import geocoder from "react-geocode";
 import Map from "./Map";
-
+import { baseURL } from "../../utils/misc";
 geocoder.setApiKey("AIzaSyDb9UX7qQuz9mOWLyoBoWCPIZPXJdxl1pw");
 
 export default function MapLoader() {
@@ -15,7 +15,7 @@ export default function MapLoader() {
 
   useEffect(() => {
     axios
-      .get("https://obscure-beyond-36960.herokuapp.com/user")
+      .get(`${baseURL}/user`)
       .then((res) => {
         setCounter(res.data.length);
         // const tempArr = []

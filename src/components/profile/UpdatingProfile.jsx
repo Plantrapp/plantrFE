@@ -1,6 +1,6 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
-
+import { baseURL } from "../../utils/misc";
 export default function UpdatingProfile(props) {
   const {
     handleOnchange,
@@ -17,7 +17,7 @@ export default function UpdatingProfile(props) {
       <Form
         encType="multipart/form-data"
         method="put"
-        action={`https://obscure-beyond-36960.herokuapp.com/user/${formValues.id}`}
+        action={`${baseURL}/user/${formValues.id}`}
       >
         <div className="form-heading">
           <h3>Edit Profile</h3>

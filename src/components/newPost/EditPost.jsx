@@ -6,6 +6,7 @@ import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { newPostSchema } from "../../validation/formSchema";
 import * as yup from "yup";
 import useTools from "../../utils/useTools";
+import { baseURL } from "../../utils/misc";
 
 const StyledSettings = Styled.div`
 height: 100vh;
@@ -122,7 +123,6 @@ export default function NewPost() {
   const [formErrors, setFormErrors] = useState(initFormValues);
   const [disabled, setDisabled] = useState(false);
   const { currentUser, toastOn } = useContext(CurrentUserContext);
-  console.log(blog);
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
@@ -151,15 +151,10 @@ export default function NewPost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formValues);
 
     axios
-      .put(
-        `https://obscure-beyond-36960.herokuapp.com/blog-posts/${blog.id}`,
-        formValues
-      )
+      .put(`${baseURL}/blog-posts/${blog.id}`, formValues)
       .then((res) => {
-        console.log("Updated", res);
         setFormValues(initFormValues);
         toastOn("successfulUpdatePost");
         goBack();

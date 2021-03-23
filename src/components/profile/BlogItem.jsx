@@ -4,6 +4,8 @@ import { useContext } from "react";
 import Styled from "styled-components";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import useTools from "../../utils/useTools";
+import { baseURL } from "../../utils/misc";
+
 const StyledBlogItem = Styled.div`
   width: 100%;
   display: flex;
@@ -82,11 +84,8 @@ export default function BlogItem(props) {
 
   const deletePost = () => {
     axios
-      .delete(
-        `https://obscure-beyond-36960.herokuapp.com/blog-posts/${blog.id}`
-      )
+      .delete(`${baseURL}/blog-posts/${blog.id}`)
       .then((res) => {
-        console.log(res);
         fetchBlogPosts(blog.author_id);
         toastOn("successfulDeletePost");
       })

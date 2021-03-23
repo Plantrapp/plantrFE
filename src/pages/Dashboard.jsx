@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Route } from "react-router-dom";
-
+import { baseURL } from "../utils/misc";
 import axios from "axios";
 import { UserContext, CurrentUserContext } from "../utils/contexts/Contexts";
 import { useSocket } from "../utils/contexts/SocketProvider";
@@ -28,7 +28,6 @@ export default function Dashboard() {
   const username = localStorage.getItem("username");
 
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
-  const baseURL = "https://obscure-beyond-36960.herokuapp.com";
   const { goToPage } = useTools();
 
   useEffect(() => {
@@ -48,7 +47,6 @@ export default function Dashboard() {
       axios
         .get(`${baseURL}/user/info/${username}`)
         .then((res) => {
-          console.log(res);
           setCurrentUser(res.data[0]);
         })
         .catch((err) => {
