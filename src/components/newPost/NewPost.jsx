@@ -6,7 +6,7 @@ import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { newPostSchema } from "../../validation/formSchema";
 import * as yup from "yup";
 import { baseURL } from "../../utils/misc";
-const StyledSettings = Styled.div`
+const StyledNewPost = Styled.div`
 height: 100vh;
 background-color: rgba(255, 255, 255, 0.05);
 overflow-y: auto;
@@ -138,9 +138,6 @@ label {
 const initFormValues = {
   title: "",
   category: "general",
-  // subtitles: [],
-  // paragraphs: [],
-  // media: [],
   description: "",
   message: "",
 };
@@ -160,7 +157,7 @@ export default function NewPost() {
 
     axios
       .post(`${baseURL}/blog-posts/`, post)
-      .then((res) => {
+      .then(() => {
         setFormValues(initFormValues);
         toastOn("successfulNewPost");
       })
@@ -168,13 +165,6 @@ export default function NewPost() {
         toastOn("invalidNewPost");
       });
   };
-
-  // const handleNewSections = (e) => {
-  //   setFormValues({
-  //     ...formValues,
-  //     [e.target.name]: [...formValues[e.target.name], e.target.value],
-  //   });
-  // };
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
@@ -208,7 +198,7 @@ export default function NewPost() {
   }, [formValues]);
 
   return (
-    <StyledSettings>
+    <StyledNewPost>
       <Form onSubmit={handleSubmit}>
         <div className="form-heading">
           <h3>New Blog Post</h3>
@@ -260,39 +250,6 @@ export default function NewPost() {
           </div>
         </Form.Group>
 
-        {/* <Form.Group>
-          <div className="form-label">
-            <label>Add more content</label>
-          </div>
-          <div>
-            <button
-              type="button"
-              value={""}
-              name="subtitles"
-              onClick={handleNewSections}
-            >
-              New subtitle
-            </button>
-            <button type="button">New media</button>
-            <button type="button">New paragraph</button>
-          </div>
-        </Form.Group> */}
-        {/* {formValues.subtitles.length > 0 ? (
-          <Form.Group className="form-group">
-            <div className="form-label">
-              <label>Subtitle</label>
-            </div>
-            <div className="form-input">
-              <input
-                className="featureless-input"
-                type="text"
-                onChange={handleNewSections}
-                value={formValues.subtitles[formValues.subtitles.length - 1]}
-                name="subtitles"
-              />
-            </div>
-          </Form.Group>
-        ) : null} */}
         <Form.Group className="form-group">
           <div className="form-label">
             <label>Message*</label>
@@ -328,13 +285,6 @@ export default function NewPost() {
           </button>
         </div>
       </Form>
-      {/* <div className="postPreview">
-        <h2>{formValues.title}</h2>
-        <h5>{formValues.description}</h5>
-        <h4>{formValues.subtitles[formValues.subtitles.length - 1]}</h4>
-
-        <p>{formValues.message}</p>
-      </div> */}
-    </StyledSettings>
+    </StyledNewPost>
   );
 }

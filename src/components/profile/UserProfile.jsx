@@ -136,31 +136,25 @@ export default function UserProfile() {
   const [showEditInput, setShowEditInput] = useState(false);
 
   useEffect(async () => {
+    console.log(growr);
     if (growr) {
-      const { username, id } = growr.growr;
-      let stars;
+      const { username, id } = growr;
       await axios
         .get(`${baseURL}/reviews/${id}`)
         .then((response) => {
           console.log(response.data.average);
-          stars = response.data.average;
+          // stars = response.data.average;
         })
         .catch((err) => console.log(err));
 
       await axios
         .get(`${baseURL}/user/info/${username}`)
         .then((res) => {
-          setUserInfo({ ...res.data[0], stars });
-          console.log(stars);
-          console.log(stars);
+          setUserInfo(res.data[0]);
+
           const starRatingArray = [];
 
           for (let i = 0; i < 5; i++) {
-            console.log(userInfo);
-            console.log(userInfo.id);
-            console.log(userInfo.username);
-            console.log(userInfo.stars);
-
             starRatingArray.push(i < userInfo.stars);
           }
 
@@ -187,6 +181,7 @@ export default function UserProfile() {
         .get(`${baseURL}/user/info/${username}`)
         .then((res) => {
           setUserInfo(res.data[0]);
+
           const starRatingArray = [];
           for (let i = 0; i < 5; i++) {
             starRatingArray.push(i < res.data[0].star_rating);
@@ -200,6 +195,12 @@ export default function UserProfile() {
         });
     }
   }, [growr, currentUser]);
+
+  useEffect(async () => {
+    if (growr) {
+      const stars = getStars(growr.id);
+    }
+  }, [growr]);
 
   const fetchBlogPosts = (author_id) => {
     axios

@@ -92,9 +92,9 @@ const initialFormValues = {
 };
 
 export default function Rating() {
-  const { getHistoryState, goBack } = useTools();
+  const { getHistoryState, goToPage } = useTools();
   const { currentUser, toastOn } = useContext(CurrentUserContext);
-  const [growr] = useState(getHistoryState().growr);
+  const [growr] = useState(getHistoryState());
   const [disabled, setDisabled] = useState(true);
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormValues);
@@ -172,6 +172,7 @@ export default function Rating() {
   };
 
   const handleSubmit = () => {
+    const back = growr.username;
     const review = {
       ...formValues,
       reviewee_id: growr.id,
@@ -183,7 +184,7 @@ export default function Rating() {
     axios
       .post(`${baseURL}/reviews`, review)
       .then((res) => {
-        goBack();
+        goToPage(`/dashboard/growrProfile/${back}`, growr);
         toastOn("successfulReviewSubmitted");
       })
       .catch((error) => console.log(error));

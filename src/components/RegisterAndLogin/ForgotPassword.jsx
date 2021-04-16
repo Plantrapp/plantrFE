@@ -3,44 +3,30 @@ import Form from "react-bootstrap/Form";
 import * as yup from "yup";
 import { forgotPasswordFormSchema } from "../../validation/formSchema";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
-import nodemailer from "nodemailer";
+import { baseURL } from "../../utils/misc";
+import axios from "axios";
 const initState = {
   email: "",
 };
 
-export default function RegisterForgotPassword(props) {
+export default function ForgotPassword(props) {
   const { setIsForgotPassword, isForgotPassword } = props;
   const [formValues, setFormValues] = useState(initState);
   const [formErrors, setFormErrors] = useState(initState);
   const [disabled, setDisabled] = useState(true);
   const { toastOn } = useContext(CurrentUserContext);
-  const sendForgotPasswordEmail = async (e) => {
-    e.preventDefault();
-    const testAccount = await nodemailer.createTestAccount();
-    const transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
-      secure: false,
-      auth: {
-        user: testAccount.user,
-        pass: testAccount.pass,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
-    const info = await transporter.sendMail({
-      from: "'ZaveDev' <zavedev@example.com>",
-      to: `${formValues.email}`,
-      subject: "TEST TEST TEST",
-      html: `
-      <h1>Tester Bester</h1>
-      <p>This is the best choice.</p>
-      `,
-    });
 
-    console.log("Message sent: %s", info.messageId);
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  const sendForgotPasswordEmail = (e) => {
+    e.preventDefault();
+    axios
+      .post(`${baseURL}/forgot/password`, formValues)
+      .then((res) => {
+        toastOn("forgotPasswordSent");
+        setIsForgotPassword(!isForgotPassword);
+      })
+      .catch((err) => {
+        toastOn("forgotPasswordAlreadySent");
+      });
   };
   const handleOnchange = (e) => {
     const { name, value } = e.target;
@@ -73,8 +59,6 @@ export default function RegisterForgotPassword(props) {
 
   const send = (e) => {
     e.preventDefault();
-    toastOn("forgotPasswordSent");
-    setIsForgotPassword(!isForgotPassword);
   };
 
   return (

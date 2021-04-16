@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Styled from "styled-components";
 import logo from "../assets/img/wlogo1.svg";
-import { Login, Register, RegisterForgotPassword } from "../components";
+import { Login, Register, ForgotPassword } from "../components";
 
 const FormContainer = Styled.div`
   margin: 0 auto;
@@ -127,7 +127,7 @@ export default function RegisterLogin() {
       </div>
 
       {isForgotPassword ? (
-        <RegisterForgotPassword
+        <ForgotPassword
           setIsForgotPassword={setIsForgotPassword}
           isForgotPassword={isForgotPassword}
         />

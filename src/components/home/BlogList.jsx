@@ -27,7 +27,7 @@ export default function BlogList() {
     axios
       .get(`${baseURL}/blog-posts`)
       .then((res) => {
-        setPosts(res.data);
+        setPosts(res.data.reverse());
       })
       .catch((err) => {
         console.log(err);

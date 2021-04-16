@@ -48,3 +48,11 @@
   max-height: 1px;
   right: 0px;
 }
+
+.success-toast-body {
+  background: rgb(170, 210, 160);
+}
+
+.error-toast-body {
+  background: rgb(200, 160, 160);
+}

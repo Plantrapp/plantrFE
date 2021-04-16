@@ -16,16 +16,16 @@ export default function useTools() {
     return history.location.state;
   };
 
-  const getStars = async (user) => {
+  const getStars = (user) => {
     let res;
-    await axios
+    axios
       .get(`${baseURL}/reviews/${user}`)
       .then((response) => {
         console.log(response.data.average);
         res = response.data.average;
+        return res;
       })
       .catch((err) => console.log(err));
-    return res;
   };
   return {
     goBack,
