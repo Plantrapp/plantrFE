@@ -44,9 +44,7 @@ export default function UserCard(props) {
   const { goToPage } = useTools();
 
   const goToGrowrProfile = () =>
-    goToPage(`/dashboard/growrProfile/${username}`, {
-      growr,
-    });
+    goToPage(`/dashboard/growrProfile/${username}`, growr);
 
   return (
     <StyledUserCard onClick={goToGrowrProfile}>

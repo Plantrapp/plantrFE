@@ -1,6 +1,8 @@
+import axios from "axios";
 import React from "react";
 import Styled from "styled-components";
 import useTools from "../../utils/useTools";
+import { baseURL } from "../../utils/misc";
 
 const StyledBlogCard = Styled.div`
   border-radius: 10px;
@@ -42,7 +44,12 @@ export default function BlogCard(props) {
   const { goToPage } = useTools();
 
   const goToBlogPost = () => goToPage(`/dashboard/blogs/${id}`);
-
+  const goToAuthorPage = async () => {
+    await axios.get(`${baseURL}/user/info/${author}`).then((res) => {
+      const growr = res.data[0];
+      goToPage(`/dashboard/growrProfile/${author}`, growr);
+    });
+  };
   return (
     <StyledBlogCard>
       <div className="heading">
@@ -52,7 +59,7 @@ export default function BlogCard(props) {
       </div>
 
       <p>
-        by <span>{author}</span>
+        by <span onClick={goToAuthorPage}>{author}</span>
       </p>
 
       <footer>

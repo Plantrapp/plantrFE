@@ -26,7 +26,7 @@ const StyledP = styled.p`
 export default function ProfilePicture(props) {
   return props.hovering ? (
     <ProfPicContainer onClick={props.onClick}>
-      <img src={pic} />
+      <img src={props.source} />
       <p>
         <FaUserEdit /> Edit profile picture
       </p>

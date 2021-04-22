@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, Suspense } from "react";
 import Styled from "styled-components";
 import pic from "../../assets/img/user-profile.png";
 import axios from "axios";
@@ -136,33 +136,27 @@ export default function UserProfile() {
   const [portfolioPosts, setPortfolioPosts] = useState([]);
   const [modalInfo, setModalInfo] = useState({});
   const [showEditInput, setShowEditInput] = useState(false);
-
+  console.log(getHistoryState());
   useEffect(async () => {
-    if (growr) {
-      const { username, id } = growr.growr;
-      let stars;
+    console.log(growr);
+    if (growr && Object.keys(growr).length !== 0) {
+      const { username, id } = growr;
       await axios
         .get(`${baseURL}/reviews/${id}`)
         .then((response) => {
           console.log(response.data.average);
-          stars = response.data.average;
+          // stars = response.data.average;
         })
         .catch((err) => console.log(err));
 
       await axios
         .get(`${baseURL}/user/info/${username}`)
         .then((res) => {
-          setUserInfo({ ...res.data[0], stars });
-          console.log(stars);
-          console.log(stars);
+          setUserInfo(res.data[0]);
+
           const starRatingArray = [];
 
           for (let i = 0; i < 5; i++) {
-            console.log(userInfo);
-            console.log(userInfo.id);
-            console.log(userInfo.username);
-            console.log(userInfo.stars);
-
             starRatingArray.push(i < userInfo.stars);
           }
 
@@ -174,7 +168,7 @@ export default function UserProfile() {
           console.log(err);
         });
       currentUser &&
-        axios
+        (await axios
           .get(`${baseURL}/client-growr-connection/dwellr/${currentUser.id}`)
           .then((res) => {
             res.data.forEach((user) => {
@@ -183,12 +177,13 @@ export default function UserProfile() {
           })
           .catch((err) => {
             console.log(err);
-          });
+          }));
     } else {
-      axios
+      await axios
         .get(`${baseURL}/user/info/${username}`)
         .then((res) => {
           setUserInfo(res.data[0]);
+
           const starRatingArray = [];
           for (let i = 0; i < 5; i++) {
             starRatingArray.push(i < res.data[0].star_rating);
@@ -202,6 +197,12 @@ export default function UserProfile() {
         });
     }
   }, [growr, currentUser]);
+
+  useEffect(async () => {
+    if (growr) {
+      const stars = getStars(growr.id);
+    }
+  }, [growr]);
 
   const fetchBlogPosts = (author_id) => {
     axios
@@ -322,13 +323,15 @@ export default function UserProfile() {
         )}
       </Modaler>
       <div className="header">
-        {/* <div className="left">
-          <img src={userInfo.profile_picture} />
-        </div> */}
         <Hover className="left">
           {(hovering) => (
             <ProfilePicture
               hovering={hovering}
+              source={
+                userInfo.hasOwnProperty("profile_picture")
+                  ? userInfo.profile_picture
+                  : pic
+              }
               onClick={() => goToSettings("UpdateProfile")}
             />
           )}
@@ -359,9 +362,9 @@ export default function UserProfile() {
             </div>
           )}
         </div>
-        {!growr ? (
+        {growr && !isConnected ? (
           <div className="edit-button-container">
-            <button onClick={goToSettings}>Edit Profile</button>
+            <button onClick={connect}>Connect</button>
           </div>
         ) : isConnected ? (
           <div className="edit-button-container ">
@@ -374,7 +377,7 @@ export default function UserProfile() {
           </div>
         ) : (
           <div className="edit-button-container">
-            <button onClick={connect}>Connect</button>
+            <button onClick={goToSettings}>Edit Profile</button>
           </div>
         )}
       </div>

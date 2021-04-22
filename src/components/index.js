@@ -21,7 +21,8 @@ import MessagesCard from "./messages/MessagesCard";
 // RegisterAndLogin
 import Login from "./registerAndLogin/Login";
 import Register from "./registerAndLogin/Register";
-import RegisterForgotPassword from "./registerAndLogin/RegisterForgotPassword";
+import ForgotPassword from "./registerAndLogin/ForgotPassword";
+import ForgotPasswordUpdate from "./registerAndLogin/ForgotPasswordUpdate";
 import RegisterGrowr from "./registerAndLogin/RegisterGrowr";
 import RegisterPlantr from "./registerAndLogin/RegisterPlantr";
 import Subscribe from "./registerAndLogin/Subscribe";
@@ -32,9 +33,7 @@ import SubscribeButton from "./registerAndLogin/SubscribeButton";
 import Settings from "./profile/Settings";
 import UserProfile from "./profile/UserProfile";
 import Rating from "./profile/Rating";
-
 import Connect from "./connect/Connect";
-
 import NewPost from "./newPost/NewPost";
 import EditPost from "./newPost/EditPost";
 import NewPortfolioPost from "./newPost/NewPortfolioPost";
@@ -54,7 +53,8 @@ export {
   MessagesCard,
   Login,
   Register,
-  RegisterForgotPassword,
+  ForgotPassword,
+  ForgotPasswordUpdate,
   RegisterGrowr,
   RegisterPlantr,
   Settings,

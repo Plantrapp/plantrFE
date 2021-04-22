@@ -83,6 +83,17 @@ export const updatePasswordSchema = yup.object().shape({
   previous_password: yup.string().required("Previous Password is Required"),
 });
 
+export const forgotPasswordSchema = yup.object().shape({
+  password: yup
+    .string()
+    .required("Password is Required")
+    .min(7, "Password must be at least 7 characters"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords don't match!")
+    .required("Required"),
+});
+
 export const newPostSchema = yup.object().shape({
   title: yup.string().required("Title is Required"),
   message: yup.string().required("Message is Required"),

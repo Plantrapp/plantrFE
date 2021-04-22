@@ -10,6 +10,7 @@ import PrivateRoute from "./utils/authentication/PrivateRoute";
 import axios from "axios";
 import Toaster from "./utils/toaster/Toaster";
 import { SocketProvider } from "./utils/contexts/SocketProvider";
+import ForgotPasswordUpdate from "./components/registerAndLogin/ForgotPasswordUpdate";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -24,6 +25,7 @@ function App() {
     successfulDeletePost: false,
     successfulUpdatePassword: false,
     forgotPasswordSent: false,
+    forgotPasswordAlreadySent: false,
     invalidNewPost: false,
     successfulReviewSubmitted: false,
   });
@@ -49,6 +51,7 @@ function App() {
           </div>
 
           <Route exact path="/" component={RegisterLogin} />
+          <Route path="/forgot-password" component={ForgotPasswordUpdate} />
           {/* <PrivateRoute path="/dashboard" component={Dashboard} /> */}
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/subscribed" component={GrowrSubscribed} />

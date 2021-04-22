@@ -206,6 +206,20 @@ export default function Settings() {
           // alert("Username already in use");
         });
     }
+
+    axios
+      .put(`https://obscure-beyond-36960.herokuapp.com/user/${id}`, formValues)
+      .then((res) => {
+        changeComponent("AccountInfo");
+        setCurrentUser(res.data);
+        localStorage.setItem("username", res.data.username);
+        toastOn("successfulProfileUpdate");
+        setAccount(formValues);
+      })
+      .catch((err) => {
+        console.log("error", err);
+        // alert("Username already in use");
+      });
   };
 
   useEffect(() => {

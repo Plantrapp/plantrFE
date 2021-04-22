@@ -33,6 +33,7 @@ import haversine from "haversine";
 import { Form } from "react-bootstrap";
 import Tooltip from "../../utils/tooltip/Tooltip";
 import Hover from "../../utils/tooltip/Hover";
+import useTools from "../../utils/useTools";
 
 const MapControlStyles = Styled.div`
     position: absolute;
@@ -152,7 +153,7 @@ function Map(props) {
   const [selected, setSelected] = useState(null);
   const [starRating, setStarRating] = useState([]);
   const [markers, setMarkers] = useState([]);
-
+  const { goToPage } = useTools();
   const { currentUser } = useContext(CurrentUserContext);
 
   const { isLoaded, loadError } = useLoadScript({
@@ -266,10 +267,20 @@ function Map(props) {
                   />
                 ))}
               </p>
+
               <div>
-                <Link to={`/dashboard/growrProfile/${selected.username}`}>
+                <a
+                  className="link"
+                  onClick={() => {
+                    console.log(selected);
+                    goToPage(
+                      `/dashboard/growrProfile/${selected.username}`,
+                      selected
+                    );
+                  }}
+                >
                   View Profile
-                </Link>
+                </a>
                 <a
                   target="_blank"
                   href={`https://maps.google.com/?q=${selected.lat},${selected.lng}`}
