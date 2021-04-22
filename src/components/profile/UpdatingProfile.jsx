@@ -14,11 +14,7 @@ export default function UpdatingProfile(props) {
 
   return (
     <>
-      <Form
-        encType="multipart/form-data"
-        method="put"
-        action={`${baseURL}/user/${formValues.id}`}
-      >
+      <Form>
         <div className="form-heading">
           <h3>Edit Profile</h3>
           <button onClick={() => changeComponent("AccountInfo")}>
@@ -211,7 +207,7 @@ export default function UpdatingProfile(props) {
         <div className="button">
           <button
             type="submit"
-            // onClick={handleSubmit}
+            onClick={handleSubmit}
             className={`clamped-text ${
               disabled ? "disabled-button" : "valid-button"
             }`}

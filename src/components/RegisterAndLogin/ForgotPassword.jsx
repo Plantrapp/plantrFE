@@ -25,6 +25,7 @@ export default function ForgotPassword(props) {
         setIsForgotPassword(!isForgotPassword);
       })
       .catch((err) => {
+        console.log(err.status);
         toastOn("forgotPasswordAlreadySent");
       });
   };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, Suspense } from "react";
 import Styled from "styled-components";
 import pic from "../../assets/img/user-profile.png";
 import axios from "axios";
@@ -134,10 +134,10 @@ export default function UserProfile() {
   const [portfolioPosts, setPortfolioPosts] = useState([]);
   const [modalInfo, setModalInfo] = useState({});
   const [showEditInput, setShowEditInput] = useState(false);
-
+  console.log(getHistoryState());
   useEffect(async () => {
     console.log(growr);
-    if (growr) {
+    if (growr && Object.keys(growr).length !== 0) {
       const { username, id } = growr;
       await axios
         .get(`${baseURL}/reviews/${id}`)
@@ -166,7 +166,7 @@ export default function UserProfile() {
           console.log(err);
         });
       currentUser &&
-        axios
+        (await axios
           .get(`${baseURL}/client-growr-connection/dwellr/${currentUser.id}`)
           .then((res) => {
             res.data.forEach((user) => {
@@ -175,9 +175,9 @@ export default function UserProfile() {
           })
           .catch((err) => {
             console.log(err);
-          });
+          }));
     } else {
-      axios
+      await axios
         .get(`${baseURL}/user/info/${username}`)
         .then((res) => {
           setUserInfo(res.data[0]);
@@ -321,7 +321,13 @@ export default function UserProfile() {
       </Modaler>
       <div className="header">
         <div className="left">
-          <img src={userInfo.profile_picture} />
+          <img
+            src={
+              userInfo.hasOwnProperty("profile_picture")
+                ? userInfo.profile_picture
+                : pic
+            }
+          />
           {/* <Hover>{(hovering) => <ProfilePicture hovering={hovering} />}</Hover> Experimental feature 💡 Hover for profile pictures */}
         </div>
 
@@ -350,9 +356,9 @@ export default function UserProfile() {
             </div>
           )}
         </div>
-        {!growr ? (
+        {growr && !isConnected ? (
           <div className="edit-button-container">
-            <button onClick={goToSettings}>Edit Profile</button>
+            <button onClick={connect}>Connect</button>
           </div>
         ) : isConnected ? (
           <div className="edit-button-container ">
@@ -365,7 +371,7 @@ export default function UserProfile() {
           </div>
         ) : (
           <div className="edit-button-container">
-            <button onClick={connect}>Connect</button>
+            <button onClick={goToSettings}>Edit Profile</button>
           </div>
         )}
       </div>

@@ -205,9 +205,9 @@ export default function Settings() {
     axios
       .put(`https://obscure-beyond-36960.herokuapp.com/user/${id}`, formValues)
       .then((res) => {
+        changeComponent("AccountInfo");
         setCurrentUser(res.data);
         localStorage.setItem("username", res.data.username);
-        changeComponent("AccountInfo");
         toastOn("successfulProfileUpdate");
         setAccount(formValues);
       })
