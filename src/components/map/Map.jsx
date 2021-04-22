@@ -41,9 +41,12 @@ const MapControlStyles = Styled.div`
     display: flex;
     /* flex-direction: column; */
     /* border: 1px solid black; */
-    padding-top: 1%;
+    padding: 1%;
     width: 85%;
     justify-content: space-between;
+    * {
+      flex-basis: 30%;
+    }
     .search {
       z-index: 2;
     }
@@ -55,6 +58,10 @@ padding: 1%;
 width: 100%;
 text-align: center;
 background: white;
+background-color: #303030;
+color: white;
+border-radius: 10px;
+
   .filter-form {
     display: flex;
     justify-content: space-between;
@@ -62,11 +69,23 @@ background: white;
       display: flex;
       flex-direction: column; 
       align-items: baseline;
-      border: 1px solid black;
+      justify-content: space-around;
+      
+      /* border: 1px solid black; */
       margin: 1%;
       width: 33%;
       .filter-title {
+        
          align-self: center;
+      }
+      .input {
+        color: black;
+      }
+      .input:active {
+        outline: none !important;
+      }
+      .stars {
+        color: yellow;
       }
     }
     .filter-controls {
@@ -81,6 +100,10 @@ width: 30%;
 /* border: 1px solid black; */
 [data-reach-combobox-input] {
   width: 100%;
+  background-color: #303030;
+  caret-color: white;
+  color: white;
+  border-radius: 5px;
 }
 [data-reach-combobox-input]:focus {
   outline: none;
@@ -278,7 +301,7 @@ function Locate({ panTo, hovering }) {
   return (
     <div>
       <FaCompass
-        size={"10%"}
+        size={"7%"}
         onClick={() => {
           navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -408,12 +431,14 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
                 value={filterValues.minDistance}
                 name="minDistance"
                 onChange={handleChange}
+                className="input"
               />
               <Form.Control
                 placeholder="Max (miles)"
                 value={filterValues.maxDistance}
                 name="maxDistance"
                 onChange={handleChange}
+                className="input"
               />
             </Form.Group>
             <Form.Group className="group">
@@ -423,12 +448,14 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
                 value={filterValues.minPrice}
                 name="minPrice"
                 onChange={handleChange}
+                className="input"
               />
               <Form.Control
                 placeholder="$ Max (USD)"
                 value={filterValues.maxPrice}
                 name="maxPrice"
                 onChange={handleChange}
+                className="input"
               />
             </Form.Group>
             <Form.Group className="group">
@@ -442,7 +469,11 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
                 }}
                 name="stars"
                 value={1}
-                label={<FaStar size={10} />}
+                label={
+                  <span className="stars">
+                    <FaStar size={10} />
+                  </span>
+                }
                 // onChange={() => handleChecks(0, 5, "star_rating")}
               />
               <Form.Check
@@ -454,9 +485,9 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
                 name="stars"
                 value={2}
                 label={
-                  <>
+                  <span className="stars">
                     <FaStar size={10} /> <FaStar size={10} />
-                  </>
+                  </span>
                 }
                 // onChange={() => handleChecks(1, 5, "star_rating")}
               />
@@ -469,10 +500,10 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
                 name="stars"
                 value={3}
                 label={
-                  <>
+                  <span className="stars">
                     <FaStar size={10} /> <FaStar size={10} />{" "}
                     <FaStar size={10} />
-                  </>
+                  </span>
                 }
                 // onChange={() => handleChecks(2, 5, "star_rating")}
               />
@@ -485,10 +516,10 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
                 name="stars"
                 value={4}
                 label={
-                  <>
+                  <span className="stars">
                     <FaStar size={10} /> <FaStar size={10} />{" "}
                     <FaStar size={10} /> <FaStar size={10} />{" "}
-                  </>
+                  </span>
                 }
                 // onChange={() => handleChecks(3, 5, "star_rating")}
               />
@@ -501,11 +532,11 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
                 name="stars"
                 value={5}
                 label={
-                  <>
+                  <span className="stars">
                     <FaStar size={10} /> <FaStar size={10} />{" "}
                     <FaStar size={10} /> <FaStar size={10} />{" "}
                     <FaStar size={10} />
-                  </>
+                  </span>
                 }
                 // onChange={() => handleChecks(4, 5, "star_rating")}
               />
@@ -524,7 +555,7 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
         </FitlerStyles>
       ) : (
         <div className={isOpen ? "hidden" : null}>
-          <FaFilter onClick={() => setIsOpen(true)} size={"10%"} />
+          <FaFilter onClick={() => setIsOpen(true)} size={"7%"} />
           {hovering ? <Tooltip id="filter" /> : null}
         </div>
       )}

@@ -10,6 +10,7 @@ import UpdatePassword from "./UpdatePassword";
 import { FaEdit, FaTimes } from "react-icons/fa";
 import { updateProfileSchema } from "../../validation/formSchema";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
+import useTools from "../../utils/useTools";
 
 const StyledSettings = Styled.div`
   height: 100vh;
@@ -122,12 +123,12 @@ const initFormValues = {
 };
 
 export default function Settings() {
+  const { getHistoryState } = useTools();
   const [formValues, setFormValues] = useState(initFormValues);
   const [account, setAccount] = useState(formValues);
   const [formErrors, setFormErrors] = useState(initFormValues);
   const [disabled, setDisabled] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [component, setComponent] = useState("AccountInfo");
+  const [component, setComponent] = useState(getHistoryState());
   const [selectedImage, setSelectedImage] = useState("");
   const { currentUser, setCurrentUser, toastOn } = useContext(
     CurrentUserContext
@@ -184,24 +185,28 @@ export default function Settings() {
           formValues.lng = res.results[0].geometry.location.lng;
         });
     }
-    if (selectedImage !== currentUser.profile_picture) {
-      // const formData = new FormData();
-      const formData = selectedImage;
-      // formData.append("file", selectedImage);
-      // formData.append("upload_preset", "prof_pic");
-      console.log(formData);
-      // formData.append("use_filename", true);
-      // formData.append("unique_filename", false);
-      // formData.append("folder", `${formValues.username}`);
-      // await axios
-      //   .post("https://api.cloudinary.com/v1_1/samuel-brown/upload", formData)
-      //   .then((res) => (formValues.profile_picture = res.data.secure_url))
-      //   .catch((err) => console.log(err));
-      await axios.post(
-        "https://obscure-beyond-36960.herokuapp.com/",
-        selectedImage
-      );
+    if (selectedImage) {
+      const formData = new FormData();
+      formData.append("file", selectedImage);
+      for (let key in formValues) {
+        formData.append(key, formValues[key]);
+      }
+
+      axios
+        .put(`http://localhost:5000/user/${id}`, formData)
+        .then((res) => {
+          setCurrentUser(res.data);
+          localStorage.setItem("username", res.data.username);
+          changeComponent("AccountInfo");
+          toastOn("successfulProfileUpdate");
+          setAccount(formValues);
+        })
+        .catch((err) => {
+          console.log("error", err);
+          // alert("Username already in use");
+        });
     }
+
     axios
       .put(`https://obscure-beyond-36960.herokuapp.com/user/${id}`, formValues)
       .then((res) => {

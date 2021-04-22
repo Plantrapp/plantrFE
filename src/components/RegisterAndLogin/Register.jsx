@@ -41,7 +41,7 @@ export default function Register() {
   const [formValues, setFormValues] = useState(initState);
   const [formErrors, setFormErrors] = useState(initError);
   const [disabled1, setDisabled1] = useState(true);
-  const [selectedImage, setSelectedImage] = useState("");
+
   const { goToPage } = useTools();
 
   const register = async (e) => {

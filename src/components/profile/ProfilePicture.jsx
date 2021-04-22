@@ -5,25 +5,33 @@ import styled from "styled-components";
 import { FaUserEdit } from "react-icons/fa";
 
 const ProfPicContainer = styled.div`
-  border: 1px solid white;
-  img {
+  position: relative;
+  cursor: pointer;
+
+  p {
+    position: absolute;
+    top: 50%;
+    text-align: center;
     width: 100%;
   }
+  img {
+    opacity: 0.7;
+  }
+`;
+const StyledP = styled.p`
+  text-align: center;
+  position: absolute;
 `;
 
 export default function ProfilePicture(props) {
-  return (
-    <ProfPicContainer>
-      {props.hovering ? (
-        <div>
-          <img src={pic} />
-          <p>
-            <FaUserEdit /> Edit profile picture
-          </p>
-        </div>
-      ) : (
-        <img src={pic} />
-      )}
+  return props.hovering ? (
+    <ProfPicContainer onClick={props.onClick}>
+      <img src={props.source} />
+      <p>
+        <FaUserEdit /> Edit profile picture
+      </p>
     </ProfPicContainer>
+  ) : (
+    <img src={pic} />
   );
 }

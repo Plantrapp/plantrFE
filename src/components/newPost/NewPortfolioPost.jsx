@@ -3,29 +3,63 @@ import axios from "axios";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { baseURL } from "../../utils/misc";
 import { Form } from "react-bootstrap";
+import styled from "styled-components";
+
+const StyledForm = styled.div`
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+  text-align: left;
+  width: 60%;
+  margin: 0 auto;
+  border-radius: 10px;
+  padding: 0 4%;
+  width: 85vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  .form-group {
+    display: flex;
+    align-items: center;
+    .form-label {
+      width: 40%;
+      padding-left: 2%;
+      font-weight: bold;
+    }
+    .form-input {
+      width: 60%;
+    }
+  }
+  label {
+    margin: 0;
+  }
+  .featureless-input {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    outline: none;
+    width: 100%;
+    color: rgb(255, 255, 255);
+    margin: 2% 0;
+    width: 30vw;
+  }
+  .featureless-input:focus {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    border-radius: 0;
+    outline-style: none;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+  }
+`;
 
 export default function NewPortfolioPost() {
   const [description, setDescription] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const { currentUser, toastOn } = useContext(CurrentUserContext);
 
-  //   let widget = window.cloudinary.createUploadWidget(
-  //     {
-  //       cloudName: "samuel-brown",
-  //       uploadPreset: "prof_pic",
-  //       sources: ["local", "url", "camera", "facebook", "instagram"],
-  //     },
-  //     (err, res) => {
-  //       if (err) {
-  //         console.log(err);
-  //       }
-  //       console.log(res);
-  //     }
-  //   );
-
-  //   const openWidget = () => {
-  //     widget.open();
-  //   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -48,13 +82,13 @@ export default function NewPortfolioPost() {
   };
 
   return (
-    <div>
+    <StyledForm>
       {currentUser && (
         <Form onSubmit={handleSubmit}>
           <div className="form-heading">
             <h3>New Blog Post</h3>
           </div>
-          <hr />
+
           <Form.Group>
             <div className="form-label">
               <label>Profile Picture:</label>
@@ -83,10 +117,8 @@ export default function NewPortfolioPost() {
           Here
         </button> */}
           <button>Submit</button>
-
-          <hr />
         </Form>
       )}
-    </div>
+    </StyledForm>
   );
 }
