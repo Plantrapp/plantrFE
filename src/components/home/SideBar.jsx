@@ -149,7 +149,7 @@ export default function SideBar() {
           <FaHome />
           <span>Home</span>
         </Link>
-        {currentUser && currentUser.isSubscribed > 0 ? (
+        {/* {currentUser && currentUser.isSubscribed > 0 ? ( */}
           <>
             <Link to="/dashboard/connect">
               <FaUsers />
@@ -175,7 +175,7 @@ export default function SideBar() {
               <span>New Portfolio Post</span>
             </Link>
           </>
-        ) : null}
+        {/* ) : null} */}
       </div>
       <div className="footer">
         <Link

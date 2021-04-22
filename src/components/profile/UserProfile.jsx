@@ -9,6 +9,8 @@ import useTools from "../../utils/useTools";
 import { FaStar } from "react-icons/fa";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { baseURL } from "../../utils/misc";
+import Hover from "../../utils/tooltip/Hover";
+import ProfilePicture from "./ProfilePicture";
 
 const StyledUserProfile = Styled.div`
   display: flex;
@@ -32,7 +34,7 @@ const StyledUserProfile = Styled.div`
     display: flex;
     width: 60%; 
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     flex-wrap: wrap;
     .left{
       display: flex;
@@ -256,7 +258,8 @@ export default function UserProfile() {
       .catch((err) => console.log(err));
   };
 
-  const goToSettings = () => goToPage("/dashboard/settings");
+  const goToSettings = (view = "AccountInfo") =>
+    goToPage("/dashboard/settings", view);
   const goToRating = () => goToPage("/dashboard/rating", growr);
 
   const handleDelete = () => {
@@ -319,10 +322,17 @@ export default function UserProfile() {
         )}
       </Modaler>
       <div className="header">
-        <div className="left">
+        {/* <div className="left">
           <img src={userInfo.profile_picture} />
-          {/* <Hover>{(hovering) => <ProfilePicture hovering={hovering} />}</Hover> Experimental feature 💡 Hover for profile pictures */}
-        </div>
+        </div> */}
+        <Hover className="left">
+          {(hovering) => (
+            <ProfilePicture
+              hovering={hovering}
+              onClick={() => goToSettings("UpdateProfile")}
+            />
+          )}
+        </Hover>
 
         <div className="right">
           <div className="info">
@@ -390,7 +400,6 @@ export default function UserProfile() {
                       setModalShow(true);
                     }}
                     setModalInfo={setModalInfo}
-                    // setModalDesc={setModalDesc}
                   />
                 ))}
               </div>

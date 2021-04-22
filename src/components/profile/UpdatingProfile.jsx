@@ -10,6 +10,7 @@ export default function UpdatingProfile(props) {
     disabled,
     FaTimes,
     changeComponent,
+    setSelectedImage,
   } = props;
 
   return (
@@ -30,8 +31,14 @@ export default function UpdatingProfile(props) {
           <div className="form-label">
             <label>Profile Picture:</label>
           </div>
-          <input type="file" name="prof_pic" />
+          <input
+            className="form-input"
+            type="file"
+            name="prof_pic"
+            onChange={(e) => setSelectedImage(e.target.files[0])}
+          />
         </Form.Group>
+        <hr />
         <Form.Group className="form-group">
           <div className="form-label">
             <label>Email:</label>
@@ -211,7 +218,7 @@ export default function UpdatingProfile(props) {
         <div className="button">
           <button
             type="submit"
-            // onClick={handleSubmit}
+            onClick={handleSubmit}
             className={`clamped-text ${
               disabled ? "disabled-button" : "valid-button"
             }`}

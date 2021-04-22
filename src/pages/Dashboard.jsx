@@ -59,7 +59,7 @@ export default function Dashboard() {
     <>
       <UserContext.Provider value={{ users, setUsers }}>
         <SideBar />
-        {currentUser && currentUser.isSubscribed > 0 ? (
+        {/* {currentUser && currentUser.isSubscribed > 0 ? ( */}
           <div>
             <Route exact path="/dashboard" component={BlogList} />
             <Route path="/dashboard/blogs" component={Blog} />
@@ -83,9 +83,9 @@ export default function Dashboard() {
               component={EditPost}
             />
           </div>
-        ) : (
+        {/* ) : (
           <SubscribeButton />
-        )}
+        )} */}
       </UserContext.Provider>
     </>
   );

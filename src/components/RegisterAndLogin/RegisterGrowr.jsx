@@ -3,8 +3,6 @@ import Form from "react-bootstrap/Form";
 import { states } from "../../utils/misc";
 
 export default function RegisterGrowr({
-  selectedImage,
-  setSelectedImage,
   formValues,
   formErrors,
   handleOnchange,
@@ -67,12 +65,6 @@ export default function RegisterGrowr({
           name="last_name"
         />
         <p className="error">{formErrors.last_name}</p>
-      </Form.Group>
-      <Form.Group>
-        <input
-          type="file"
-          onChange={(e) => setSelectedImage(e.target.files[0])}
-        />
       </Form.Group>
 
       <Form.Group controlId="">
