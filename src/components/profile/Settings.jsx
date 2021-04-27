@@ -128,7 +128,7 @@ export default function Settings() {
   const [account, setAccount] = useState(formValues);
   const [formErrors, setFormErrors] = useState(initFormValues);
   const [disabled, setDisabled] = useState(false);
-  const [component, setComponent] = useState(getHistoryState());
+  const [component, setComponent] = useState("AccountInfo");
   const [selectedImage, setSelectedImage] = useState("");
   const { currentUser, setCurrentUser, toastOn } = useContext(
     CurrentUserContext

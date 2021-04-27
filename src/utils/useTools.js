@@ -9,23 +9,20 @@ export default function useTools() {
   };
 
   const goToPage = (page, data = {}) => {
-    console.log("from tools", data);
+    // console.log("from tools", data);
     history.push(page, data);
   };
 
   const getHistoryState = () => {
-    console.log(history.location);
+    // console.log(history.location);
     return history.location.state;
   };
 
-  const getStars = (user) => {
-    let res;
+  const getStars = (user_id, setter) => {
     axios
-      .get(`${baseURL}/reviews/${user}`)
+      .get(`${baseURL}/reviews/${user_id}`)
       .then((response) => {
-        console.log(response.data.average);
-        res = response.data.average;
-        return res;
+        return setter(response.data.average);
       })
       .catch((err) => console.log(err));
   };
