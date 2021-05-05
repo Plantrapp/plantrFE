@@ -63,8 +63,6 @@ export default function Register() {
       hourly_rate: Number(formValues.hourly_rate).toFixed(2),
       created_at: new Date().toString(),
       isSubscribed: formValues.isGrowr ? false : true,
-      lat: 0,
-      lng: 0,
     };
 
     await geocoder
