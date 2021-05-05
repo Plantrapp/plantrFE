@@ -90,7 +90,7 @@ border-radius: 10px;
     }
     .filter-controls {
       display: flex;
-      
+
     }
   }
 `;
@@ -547,7 +547,7 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
             <Form.Check label="0-50 miles" />
           </Form.Group> */}
           </Form>
-          <Form.Group className="filter-controls">
+          <Form.Group className="filter-controls" style={{ cursor: "pointer" }}>
             <p onClick={handleApply}>Apply Filters</p>
             <p onClick={handleReset}>Reset Filters</p>
             <p onClick={() => setIsOpen(false)}>Close Filters</p>

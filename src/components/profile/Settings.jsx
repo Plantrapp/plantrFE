@@ -11,6 +11,7 @@ import { FaEdit, FaTimes } from "react-icons/fa";
 import { updateProfileSchema } from "../../validation/formSchema";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import useTools from "../../utils/useTools";
+import { baseURL } from "../../utils/misc";
 
 const StyledSettings = Styled.div`
   height: 100vh;
@@ -193,7 +194,7 @@ export default function Settings() {
       }
 
       axios
-        .put(`http://localhost:5000/user/${id}`, formData)
+        .put(`${baseURL}/user/${id}`, formData)
         .then((res) => {
           setCurrentUser(res.data);
           localStorage.setItem("username", res.data.username);
@@ -208,7 +209,7 @@ export default function Settings() {
     }
 
     axios
-      .put(`https://obscure-beyond-36960.herokuapp.com/user/${id}`, formValues)
+      .put(`${baseURL}/user/${id}`, formValues)
       .then((res) => {
         changeComponent("AccountInfo");
         setCurrentUser(res.data);

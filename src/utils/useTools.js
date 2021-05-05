@@ -9,7 +9,6 @@ export default function useTools() {
   };
 
   const goToPage = (page, data = {}) => {
-    // console.log("from tools", data);
     history.push(page, data);
   };
 

@@ -169,7 +169,8 @@ export default function NewPost(props) {
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
-    if (name !== "description") {
+    console.log(name, value);
+    if (name !== "description" && name !== "category") {
       yup
         .reach(newPostSchema, name)
         .validate(value)
@@ -246,6 +247,7 @@ export default function NewPost(props) {
               value={formValues.description}
               name="description"
               style={{ background: "transparent", color: "whitesmoke" }}
+              maxLength="100"
             />
           </div>
         </Form.Group>
@@ -255,10 +257,15 @@ export default function NewPost(props) {
             <label>Category</label>
           </div>
           <div className="form-input">
-            <select style={{ background: "transparent", color: "whitesmoke" }}>
-              <option value="general">General</option>
-              <option value="planting">Planting</option>
-              <option value="sustainability">Sustainability</option>
+            <select
+              style={{ background: "transparent", color: "whitesmoke" }}
+              onChange={handleOnchange}
+              value={formValues.category}
+              name="category"
+            >
+              <option value="General">General</option>
+              <option value="Planting">Planting</option>
+              <option value="Sustainability">Sustainability</option>
             </select>
           </div>
         </Form.Group>

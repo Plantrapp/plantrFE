@@ -63,6 +63,8 @@ export default function Register() {
       hourly_rate: Number(formValues.hourly_rate).toFixed(2),
       created_at: new Date().toString(),
       isSubscribed: formValues.isGrowr ? false : true,
+      lat: 0,
+      lng: 0,
     };
 
     await geocoder
@@ -78,8 +80,10 @@ export default function Register() {
       .post(`${baseURL}/auth/register`, creds)
       .then((res) => {
         localStorage.setItem("username", formValues.username);
-        localStorage.setItem("role", res.data.role);
         localStorage.setItem("isGrowr", formValues.isGrowr);
+        formValues.isGrowr
+          ? localStorage.setItem("role", "Growr")
+          : localStorage.setItem("role", "Dwellr");
         if (formValues.isGrowr) {
           Subscribe(res.data);
         } else {

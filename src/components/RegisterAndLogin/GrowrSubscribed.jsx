@@ -13,6 +13,7 @@ export default function GrowrSubscribed() {
     axios
       .put(`${baseURL}/user/${id}`, subscribed)
       .then(() => {
+        console.log("success!");
         goToPage("/dashboard");
       })
       .catch((error) => console.error(error));
