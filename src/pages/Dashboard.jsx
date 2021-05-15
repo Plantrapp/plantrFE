@@ -60,29 +60,25 @@ export default function Dashboard() {
       <UserContext.Provider value={{ users, setUsers }}>
         <SideBar />
         {/* {currentUser && currentUser.isSubscribed > 0 ? ( */}
-          <div>
-            <Route exact path="/dashboard" component={BlogList} />
-            <Route path="/dashboard/blogs" component={Blog} />
-            <Route exact path="/dashboard/connect" component={Connect} />
-            <Route exact path="/dashboard/messages" component={Messages} />
-            <Route path="/dashboard/conversation" component={Conversation} />
-            <Route exact path="/dashboard/settings" component={Settings} />
-            <Route exact path="/dashboard/map" component={Map} />
-            <Route path="/dashboard/growrProfile" component={UserProfile} />
-            <Route path="/dashboard/user-profile" component={UserProfile} />
-            <Route path="/dashboard/rating" component={Rating} />
-            <Route exact path="/dashboard/blog-post" component={NewPost} />
-            <Route
-              exact
-              path="/dashboard/portfolio-post"
-              component={NewPortfolioPost}
-            />
-            <Route
-              exact
-              path="/dashboard/blog-post/edit"
-              component={EditPost}
-            />
-          </div>
+        <div>
+          <Route exact path="/dashboard" component={BlogList} />
+          <Route path="/dashboard/blogs" component={Blog} />
+          <Route exact path="/dashboard/connect" component={Connect} />
+          <Route exact path="/dashboard/messages" component={Messages} />
+          <Route path="/dashboard/conversation" component={Conversation} />
+          <Route exact path="/dashboard/settings" component={Settings} />
+          <Route exact path="/dashboard/map" component={Map} />
+          <Route path="/dashboard/growrProfile" component={UserProfile} />
+          <Route path="/dashboard/user-profile" component={UserProfile} />
+          <Route path="/dashboard/rating" component={Rating} />
+          <Route exact path="/dashboard/blog-post" component={NewPost} />
+          <Route
+            exact
+            path="/dashboard/portfolio-post"
+            component={NewPortfolioPost}
+          />
+          <Route exact path="/dashboard/blog-post/edit" component={EditPost} />
+        </div>
         {/* ) : (
           <SubscribeButton />
         )} */}

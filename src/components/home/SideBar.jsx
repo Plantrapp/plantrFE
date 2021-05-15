@@ -150,31 +150,31 @@ export default function SideBar() {
           <span>Home</span>
         </Link>
         {/* {currentUser && currentUser.isSubscribed > 0 ? ( */}
-          <>
-            <Link to="/dashboard/connect">
-              <FaUsers />
-              <span>Connect</span>
-            </Link>
+        <>
+          <Link to="/dashboard/connect">
+            <FaUsers />
+            <span>Connect</span>
+          </Link>
 
-            <Link to="/dashboard/messages">
-              <FaEnvelope />
-              <span>Messages</span>
-            </Link>
+          <Link to="/dashboard/messages">
+            <FaEnvelope />
+            <span>Messages</span>
+          </Link>
 
-            <Link to="/dashboard/user-profile">
-              <FaUserCircle />
-              <span>Profile</span>
-            </Link>
+          <Link to="/dashboard/user-profile">
+            <FaUserCircle />
+            <span>Profile</span>
+          </Link>
 
-            <Link to="/dashboard/blog-post/">
-              <FaPlus />
-              <span>New Post</span>
-            </Link>
-            <Link to="/dashboard/portfolio-post/">
-              <FaPlus />
-              <span>New Portfolio Post</span>
-            </Link>
-          </>
+          <Link to="/dashboard/blog-post/">
+            <FaPlus />
+            <span>New Post</span>
+          </Link>
+          <Link to="/dashboard/portfolio-post/">
+            <FaPlus />
+            <span>New Portfolio Post</span>
+          </Link>
+        </>
         {/* ) : null} */}
       </div>
       <div className="footer">
