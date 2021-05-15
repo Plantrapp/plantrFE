@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import Form from "react-bootstrap/Form";
-import axios from "axios";
 import * as yup from "yup";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { updatePasswordSchema } from "../../validation/formSchema";
-import { baseURL } from "../../utils/misc";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const initialState = {

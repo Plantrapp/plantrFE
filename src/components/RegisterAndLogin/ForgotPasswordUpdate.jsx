@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import Form from "react-bootstrap/Form";
-import axios from "axios";
 import * as yup from "yup";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import Styled from "styled-components";
-
 import { forgotPasswordSchema } from "../../validation/formSchema";
-import { baseURL } from "../../utils/misc";
-import { FaTimes } from "react-icons/fa";
 import useTools from "../../utils/useTools";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
@@ -296,6 +292,8 @@ export default function ForgotPasswordUpdate() {
                 </button>
               </Form>
             );
+          default:
+            return null;
         }
       })()}
     </FormContainer>

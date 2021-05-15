@@ -17,20 +17,16 @@ const ProfPicContainer = styled.div`
     opacity: 0.7;
   }
 `;
-const StyledP = styled.p`
-  text-align: center;
-  position: absolute;
-`;
 
 export default function ProfilePicture(props) {
   return props.hovering ? (
     <ProfPicContainer onClick={props.onClick}>
-      <img src={props.source} />
+      <img src={props.source} alt="user profile" />
       <p>
         <FaUserEdit /> Edit profile picture
       </p>
     </ProfPicContainer>
   ) : (
-    <img src={pic} />
+    <img src={pic} alt="user profile" />
   );
 }

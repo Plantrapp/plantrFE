@@ -1,7 +1,5 @@
-import axios from "axios";
 import { useEffect } from "react";
 import useTools from "../../utils/useTools";
-import { baseURL } from "../../utils/misc";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 export default function GrowrSubscribed() {

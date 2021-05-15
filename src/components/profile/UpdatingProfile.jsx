@@ -1,6 +1,6 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
-import { baseURL } from "../../utils/misc";
+
 export default function UpdatingProfile(props) {
   const {
     handleOnchange,

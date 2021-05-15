@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Styled from "styled-components";
 import geocoder from "react-geocode";
@@ -10,8 +9,6 @@ import UpdatePassword from "./UpdatePassword";
 import { FaEdit, FaTimes } from "react-icons/fa";
 import { updateProfileSchema } from "../../validation/formSchema";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
-import useTools from "../../utils/useTools";
-import { baseURL } from "../../utils/misc";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledSettings = Styled.div`
@@ -125,7 +122,6 @@ const initFormValues = {
 };
 
 export default function Settings() {
-  const { getHistoryState } = useTools();
   const [formValues, setFormValues] = useState(initFormValues);
   const [account, setAccount] = useState(formValues);
   const [formErrors, setFormErrors] = useState(initFormValues);
@@ -173,10 +169,10 @@ export default function Settings() {
     e.preventDefault();
     const id = formValues.id;
     if (
-      formValues.street_address != currentUser.street_address ||
-      formValues.city != currentUser.city ||
-      formValues.state != currentUser.state ||
-      formValues.zipcode != currentUser.zipcode
+      formValues.street_address !== currentUser.street_address ||
+      formValues.city !== currentUser.city ||
+      formValues.state !== currentUser.state ||
+      formValues.zipcode !== currentUser.zipcode
     ) {
       await geocoder
         .fromAddress(
@@ -271,6 +267,8 @@ export default function Settings() {
                 />
               </StyledSettings>
             );
+          default:
+            return null;
         }
       })()}
     </>

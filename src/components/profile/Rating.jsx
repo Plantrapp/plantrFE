@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import Styled from "styled-components";
 import { FaStar } from "react-icons/fa";
-import axios from "axios";
 import { submitReviewSchema } from "../../validation/formSchema";
 import * as yup from "yup";
 import useTools from "../../utils/useTools";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
-import { baseURL } from "../../utils/misc";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledRating = Styled.div`

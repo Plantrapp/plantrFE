@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import Styled from "styled-components";
 import useTools from "../../utils/useTools";
-import { baseURL } from "../../utils/misc";
+
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledBlogCard = Styled.div`

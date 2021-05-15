@@ -5,7 +5,7 @@ import { useSocket } from "../../utils/contexts/SocketProvider";
 import ConversationBubble from "./ConversationBubble";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import useTools from "../../utils/useTools";
-import { baseURL } from "../../utils/misc";
+
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 const StyledConversation = Styled.div`
   height: 100vh;
