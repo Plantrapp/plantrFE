@@ -5,7 +5,6 @@ import Blog from "./home/Blog";
 
 // GrowrProfile
 import Searchbar from "./connect/Searchbar";
-import GrowrProfile from "./connect/GrowrProfile";
 import GrowrView from "./connect/ListView";
 import UserCard from "./connect/UserCard";
 
@@ -32,11 +31,15 @@ import SubscribeButton from "./registerAndLogin/SubscribeButton";
 // Profile
 import Settings from "./profile/Settings";
 import UserProfile from "./profile/UserProfile";
+import GrowrProfile from "./profile/GrowrProfile";
 import Rating from "./profile/Rating";
 import Connect from "./connect/Connect";
+
+//newPost
 import NewPost from "./newPost/NewPost";
-import EditPost from "./newPost/EditPost";
+import NewBlogPost from "./newPost/NewBlogPost";
 import NewPortfolioPost from "./newPost/NewPortfolioPost";
+import EditPost from "./newPost/EditPost";
 
 export {
   Blog,
@@ -63,6 +66,7 @@ export {
   NewPost,
   EditPost,
   NewPortfolioPost,
+  NewBlogPost,
   Rating,
   Subscribe,
   GrowrSubscribed,

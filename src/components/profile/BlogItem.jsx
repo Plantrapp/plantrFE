@@ -5,6 +5,7 @@ import Styled from "styled-components";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import useTools from "../../utils/useTools";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledBlogItem = Styled.div`
   width: 100%;
@@ -83,8 +84,8 @@ export default function BlogItem(props) {
   const { goToPage } = useTools();
 
   const deletePost = () => {
-    axios
-      .delete(`${baseURL}/blog-posts/${blog.id}`)
+    axiosWithAuth()
+      .delete(`/blog-posts/${blog.id}`)
       .then((res) => {
         fetchBlogPosts(blog.author_id);
         toastOn("successfulDeletePost");

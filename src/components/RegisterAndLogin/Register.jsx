@@ -10,6 +10,7 @@ import geocoder from "react-geocode";
 import useTools from "../../utils/useTools";
 import Subscribe from "./Subscribe";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const initState = {
   username: "",
@@ -74,13 +75,15 @@ export default function Register() {
         creds.lng = res.results[0].geometry.location.lng;
       });
 
-    axios
-      .post(`${baseURL}/auth/register`, creds)
+    axiosWithAuth()
+      .post(`/auth/register`, creds)
       .then((res) => {
         console.log(res.data);
         localStorage.setItem("username", formValues.username);
-        localStorage.setItem("role", res.data.role);
         localStorage.setItem("isGrowr", formValues.isGrowr);
+        formValues.isGrowr
+          ? localStorage.setItem("role", "Growr")
+          : localStorage.setItem("role", "Dwellr");
         if (formValues.isGrowr) {
           Subscribe(res.data);
         } else {

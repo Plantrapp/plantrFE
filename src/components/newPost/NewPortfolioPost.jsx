@@ -4,6 +4,7 @@ import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { baseURL } from "../../utils/misc";
 import { Form } from "react-bootstrap";
 import styled from "styled-components";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledForm = styled.div`
   height: 100vh;
@@ -17,7 +18,7 @@ const StyledForm = styled.div`
   width: 85vw;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   .form-group {
     display: flex;
     align-items: center;
@@ -53,13 +54,49 @@ const StyledForm = styled.div`
     text-decoration: none;
     color: rgb(255, 255, 255);
   }
+  .button {
+    text-align: center;
+    margin: 1% 0 3% 0;
+
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    .cta-button-disabled,
+    cta-button {
+      transition: 0.3s ease-in-out;
+      display: flex;
+      padding: 0.8%;
+      background: transparent;
+      color: whitesmoke;
+      border: 1px solid rgba(245, 245, 245, 0);
+      border-radius: 5px;
+      width: 20%;
+      align-items: center;
+      justify-content: center;
+    }
+    .cta-button {
+      transition: 0.3s ease-in-out;
+      display: flex;
+      padding: 0.8%;
+      background: transparent;
+      color: whitesmoke;
+      border-radius: 5px;
+      width: 20%;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid whitesmoke;
+      &:hover {
+        background: #292929;
+      }
+    }
+  }
 `;
 
-export default function NewPortfolioPost() {
+export default function NewPortfolioPost(props) {
   const [description, setDescription] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const { currentUser, toastOn } = useContext(CurrentUserContext);
-
+  const { changeComponent } = props;
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -69,8 +106,8 @@ export default function NewPortfolioPost() {
     formData.append("username", currentUser.username);
     formData.append("user_id", currentUser.id);
 
-    axios
-      .post(`${baseURL}/portfolio-posts`, formData)
+    axiosWithAuth()
+      .post(`/portfolio-posts`, formData)
       .then((res) => {
         setSelectedImage(null);
         setDescription("");
@@ -83,10 +120,24 @@ export default function NewPortfolioPost() {
 
   return (
     <StyledForm>
+      {currentUser && currentUser.isGrowr ? (
+        <div
+          className="button"
+          style={{ justifyContent: "space-evenly", paddingTop: "2%" }}
+        >
+          <button className="cta-button" onClick={() => changeComponent(1)}>
+            New Portfolio Piece
+          </button>
+          <button className="cta-button" onClick={() => changeComponent(2)}>
+            New Blog Post
+          </button>
+        </div>
+      ) : null}
+      <hr style={{ width: "100%", background: "whitesmoke" }} />
       {currentUser && (
         <Form onSubmit={handleSubmit}>
           <div className="form-heading">
-            <h3>New Blog Post</h3>
+            <h3>New Portfolio Post</h3>
           </div>
 
           <Form.Group>
@@ -116,7 +167,15 @@ export default function NewPortfolioPost() {
           {/* <button type="button" onClick={openWidget}>
           Here
         </button> */}
-          <button>Submit</button>
+          <div className="button">
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className={`clamped-text cta-button`}
+            >
+              Submit
+            </button>
+          </div>
         </Form>
       )}
     </StyledForm>

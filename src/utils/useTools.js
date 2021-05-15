@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { axiosWithAuth } from "./authentication/AxiosWithAuth";
 import { baseURL } from "./misc";
 export default function useTools() {
   const history = useHistory();
@@ -9,23 +10,19 @@ export default function useTools() {
   };
 
   const goToPage = (page, data = {}) => {
-    console.log("from tools", data);
     history.push(page, data);
   };
 
   const getHistoryState = () => {
-    console.log(history.location);
+    // console.log(history.location);
     return history.location.state;
   };
 
-  const getStars = (user) => {
-    let res;
-    axios
-      .get(`${baseURL}/reviews/${user}`)
+  const getStars = (user_id, setter) => {
+    axiosWithAuth()
+      .get(`/reviews/${user_id}`)
       .then((response) => {
-        console.log(response.data.average);
-        res = response.data.average;
-        return res;
+        return setter(response.data.average);
       })
       .catch((err) => console.log(err));
   };

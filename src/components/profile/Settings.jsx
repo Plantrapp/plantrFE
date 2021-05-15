@@ -11,6 +11,8 @@ import { FaEdit, FaTimes } from "react-icons/fa";
 import { updateProfileSchema } from "../../validation/formSchema";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import useTools from "../../utils/useTools";
+import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledSettings = Styled.div`
   height: 100vh;
@@ -128,11 +130,10 @@ export default function Settings() {
   const [account, setAccount] = useState(formValues);
   const [formErrors, setFormErrors] = useState(initFormValues);
   const [disabled, setDisabled] = useState(false);
-  const [component, setComponent] = useState(getHistoryState());
+  const [component, setComponent] = useState("AccountInfo");
   const [selectedImage, setSelectedImage] = useState("");
-  const { currentUser, setCurrentUser, toastOn } = useContext(
-    CurrentUserContext
-  );
+  const { currentUser, setCurrentUser, toastOn } =
+    useContext(CurrentUserContext);
 
   const changeComponent = (component) => setComponent(component);
 
@@ -193,8 +194,8 @@ export default function Settings() {
         formData.append(key, formValues[key]);
       }
 
-      axios
-        .put(`http://localhost:5000/user/${id}`, formData)
+      axiosWithAuth()
+        .put(`/user/${id}`, formData)
         .then((res) => {
           setCurrentUser(res.data);
           localStorage.setItem("username", res.data.username);
@@ -208,8 +209,8 @@ export default function Settings() {
         });
     }
 
-    axios
-      .put(`https://obscure-beyond-36960.herokuapp.com/user/${id}`, formValues)
+    axiosWithAuth()
+      .put(`/user/${id}`, formValues)
       .then((res) => {
         changeComponent("AccountInfo");
         setCurrentUser(res.data);
