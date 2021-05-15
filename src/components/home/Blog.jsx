@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Styled from "styled-components";
-
 import { FaTimes } from "react-icons/fa";
 import useTools from "../../utils/useTools";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";

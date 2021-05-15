@@ -1,7 +1,5 @@
-import React, { useState, useContext, useRef } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
-import { baseURL } from "../../utils/misc";
 import { Form } from "react-bootstrap";
 import styled from "styled-components";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";

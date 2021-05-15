@@ -5,14 +5,14 @@ import React, {
   useCallback,
   useContext,
 } from "react";
-import { Link } from "react-router-dom";
+
 import {
   GoogleMap,
   useLoadScript,
   InfoWindow,
   Marker,
 } from "@react-google-maps/api";
-import MapLoader from "./MapLoader";
+
 import geocoder from "react-geocode";
 import usePlacesAutocomplete from "use-places-autocomplete";
 import {
@@ -26,9 +26,9 @@ import "@reach/combobox/styles.css";
 import profPic from "../../assets/img/user-profile.png";
 import mapStyles from "./mapStyles";
 import Styled from "styled-components";
-import { UserContext, CurrentUserContext } from "../../utils/contexts/Contexts";
+import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { FaStar, FaFilter, FaCompass } from "react-icons/fa";
-import haversine from "haversine";
+
 import { Form } from "react-bootstrap";
 import Tooltip from "../../utils/tooltip/Tooltip";
 import Hover from "../../utils/tooltip/Hover";
@@ -290,6 +290,7 @@ function Map(props) {
                 </a>
                 <a
                   target="_blank"
+                  rel="noreferrer"
                   href={`https://maps.google.com/?q=${selected.lat},${selected.lng}`}
                 >
                   Get Directions

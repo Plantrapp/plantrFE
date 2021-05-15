@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import Styled from "styled-components";
 import useTools from "../../utils/useTools";

@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Styled from "styled-components";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { newPostSchema } from "../../validation/formSchema";
 import * as yup from "yup";
 import useTools from "../../utils/useTools";
-import { baseURL } from "../../utils/misc";
 
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
@@ -124,7 +122,7 @@ export default function NewPost() {
   const [formValues, setFormValues] = useState(blog);
   const [formErrors, setFormErrors] = useState(initFormValues);
   const [disabled, setDisabled] = useState(false);
-  const { currentUser, toastOn } = useContext(CurrentUserContext);
+  const { toastOn } = useContext(CurrentUserContext);
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;

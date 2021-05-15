@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Styled from "styled-components";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { newPostSchema } from "../../validation/formSchema";
 import * as yup from "yup";
-import { baseURL } from "../../utils/misc";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledNewPost = Styled.div`

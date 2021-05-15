@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Marker } from "react-google-maps";
 import geocoder from "react-geocode";
 import Map from "./Map";
 
