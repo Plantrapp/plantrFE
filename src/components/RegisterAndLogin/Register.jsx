@@ -78,6 +78,7 @@ export default function Register() {
     axiosWithAuth()
       .post(`/auth/register`, creds)
       .then((res) => {
+        console.log(res.data);
         localStorage.setItem("username", formValues.username);
         localStorage.setItem("isGrowr", formValues.isGrowr);
         formValues.isGrowr

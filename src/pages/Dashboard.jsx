@@ -74,6 +74,7 @@ export default function Dashboard() {
           <Route path="/dashboard/user-profile" component={UserProfile} />
           <Route path="/dashboard/rating" component={Rating} />
           <Route exact path="/dashboard/blog-post" component={NewPost} />
+
           <Route exact path="/dashboard/blog-post/edit" component={EditPost} />
         </div>
         {/* ) : (

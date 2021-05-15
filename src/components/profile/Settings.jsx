@@ -144,6 +144,7 @@ export default function Settings() {
       setAccount(data);
     }
   }, [currentUser]);
+  console.log(formValues);
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
