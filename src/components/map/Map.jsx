@@ -41,7 +41,7 @@ const MapControlStyles = Styled.div`
     display: flex;
     /* flex-direction: column; */
     /* border: 1px solid black; */
-    padding: 1%;
+    padding-top: 1%;
     width: 85%;
     justify-content: space-between;
     * {
@@ -87,6 +87,10 @@ border-radius: 10px;
       .stars {
         color: yellow;
       }
+    }
+    .filter-controls {
+      display: flex;
+      
     }
     .filter-controls {
       display: flex;

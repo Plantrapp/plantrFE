@@ -323,7 +323,7 @@ export default function UserProfile() {
         )}
       </Modaler>
       <div className="header">
-        <Hover className="left">
+        <Hover className="left 1">
           {(hovering) => (
             <ProfilePicture
               hovering={hovering}
