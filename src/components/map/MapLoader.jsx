@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Marker } from "react-google-maps";
 import geocoder from "react-geocode";
 import Map from "./Map";
-import { baseURL } from "../../utils/misc";
+
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
-geocoder.setApiKey("AIzaSyDb9UX7qQuz9mOWLyoBoWCPIZPXJdxl1pw");
 
 export default function MapLoader() {
   const [markers, setMarkers] = useState([]);

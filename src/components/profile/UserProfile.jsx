@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext, Suspense } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Styled from "styled-components";
 import pic from "../../assets/img/user-profile.png";
-import axios from "axios";
 import PortfolioItem from "./PortfolioItem";
 import ProfilePicture from "./ProfilePicture";
 import BlogItem from "./BlogItem";
@@ -10,7 +9,6 @@ import useTools from "../../utils/useTools";
 import Hover from "../../utils/tooltip/Hover";
 import { FaStar } from "react-icons/fa";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
-import { baseURL } from "../../utils/misc";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledUserProfile = Styled.div`
@@ -90,8 +88,8 @@ const StyledUserProfile = Styled.div`
   }
   .portfolio{
     width: 80%;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
     padding: 5%;
   }
   .blog{
@@ -123,7 +121,7 @@ const StyledUserProfile = Styled.div`
 `;
 
 export default function UserProfile() {
-  const { goToPage, getHistoryState, getStars } = useTools();
+  const { goToPage, getStars } = useTools();
   const username = localStorage.getItem("username");
   const [userInfo, setUserInfo] = useState({});
   const [starRating, setStarRating] = useState([]);
@@ -328,6 +326,8 @@ export default function UserProfile() {
                   ))}
               </div>
             );
+          default:
+            return null;
         }
       })()}
     </StyledUserProfile>

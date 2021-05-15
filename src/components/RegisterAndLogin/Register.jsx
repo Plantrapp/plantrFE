@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Form from "react-bootstrap/Form";
 import { registerFormSchemaPart1 } from "../../validation/formSchema";
 import RegisterGrowr from "./RegisterGrowr";
@@ -9,7 +8,6 @@ import * as yup from "yup";
 import geocoder from "react-geocode";
 import useTools from "../../utils/useTools";
 import Subscribe from "./Subscribe";
-import { baseURL } from "../../utils/misc";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const initState = {

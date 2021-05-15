@@ -1,7 +1,5 @@
-import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { axiosWithAuth } from "./authentication/AxiosWithAuth";
-import { baseURL } from "./misc";
 export default function useTools() {
   const history = useHistory();
 

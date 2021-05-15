@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Route } from "react-router-dom";
-import { baseURL } from "../utils/misc";
-import axios from "axios";
 import { UserContext, CurrentUserContext } from "../utils/contexts/Contexts";
 import { useSocket } from "../utils/contexts/SocketProvider";
 import useTools from "../utils/useTools";
@@ -17,9 +15,7 @@ import {
   UserProfile,
   NewPost,
   EditPost,
-  NewPortfolioPost,
   Rating,
-  SubscribeButton,
   GrowrProfile,
 } from "../components";
 import { axiosWithAuth } from "../utils/authentication/AxiosWithAuth";

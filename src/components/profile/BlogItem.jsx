@@ -1,10 +1,8 @@
 import React from "react";
-import axios from "axios";
 import { useContext } from "react";
 import Styled from "styled-components";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import useTools from "../../utils/useTools";
-import { baseURL } from "../../utils/misc";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledBlogItem = Styled.div`

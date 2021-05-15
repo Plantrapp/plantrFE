@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import Form from "react-bootstrap/Form";
 import * as yup from "yup";
 import { loginFormSchema } from "../../validation/formSchema";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import useTools from "../../utils/useTools";
-import { baseURL } from "../../utils/misc";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const initState = {

@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import Styled from "styled-components";
 import pic from "../../assets/img/user-profile.png";
-import axios from "axios";
 import PortfolioItem from "./PortfolioItem";
 import BlogItem from "./BlogItem";
 import Modaler from "../../utils/modal/Modaler";
 import useTools from "../../utils/useTools";
 import { FaStar } from "react-icons/fa";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
-import { baseURL } from "../../utils/misc";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledUserProfile = Styled.div`
@@ -42,6 +40,7 @@ const StyledUserProfile = Styled.div`
       width: 40%;
       img{
         width: 50%;
+        border-radius: 50%;
       }
     }
     .right{
@@ -109,8 +108,8 @@ const StyledUserProfile = Styled.div`
   }
   .portfolio{
     width: 80%;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
     padding: 5%;
   }
   .blog{
@@ -127,7 +126,7 @@ export default function UserProfile() {
   const [starRating, setStarRating] = useState([]);
   const [component, setComponent] = useState("portfolio");
   const [postedBlogs, setPostedBlogs] = useState(null);
-  const [growr, setGrowr] = useState(getHistoryState());
+  const [growr] = useState(getHistoryState());
   const { currentUser } = useContext(CurrentUserContext);
   const [isConnected, setIsConnected] = useState(false);
   const [modalShow, setModalShow] = useState(false);
@@ -293,6 +292,7 @@ export default function UserProfile() {
                 ? userInfo.profile_picture
                 : pic
             }
+            alt="User Profile"
           />
           {/* <Hover>{(hovering) => <ProfilePicture hovering={hovering} />}</Hover> Experimental feature 💡 Hover for profile pictures */}
         </div>
@@ -378,6 +378,8 @@ export default function UserProfile() {
                   ))}
               </div>
             );
+          default:
+            return null;
         }
       })()}
     </StyledUserProfile>

@@ -3,8 +3,6 @@ import Form from "react-bootstrap/Form";
 import * as yup from "yup";
 import { forgotPasswordFormSchema } from "../../validation/formSchema";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
-import { baseURL } from "../../utils/misc";
-import axios from "axios";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 const initState = {
   email: "",
@@ -58,10 +56,6 @@ export default function ForgotPassword(props) {
       setDisabled(!valid);
     });
   }, [formValues]);
-
-  const send = (e) => {
-    e.preventDefault();
-  };
 
   return (
     <>
