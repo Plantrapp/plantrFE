@@ -5,11 +5,10 @@ import Styled from "styled-components";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { newPostSchema } from "../../validation/formSchema";
 import * as yup from "yup";
-import useTools from "../../utils/useTools";
 import { baseURL } from "../../utils/misc";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
-const StyledSettings = Styled.div`
+const StyledNewPost = Styled.div`
 height: 100vh;
 background-color: rgba(255, 255, 255, 0.05);
 overflow-y: auto;
@@ -22,7 +21,13 @@ padding: 0 4%;
 width: 85vw;
 display: flex;
 flex-direction: column;
-justify-content: center;
+/* justify-content: center; */
+
+.postPreview {
+  
+    text-align: center;
+  
+}
 
 h3 {
   text-align: center;
@@ -110,6 +115,27 @@ label {
     }
   }
 }
+.featureless-input{
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    outline: none;
+    width: 100%;
+    color: rgb(255, 255, 255);
+    margin: 2% 0;
+    width: 30vw;
+  }
+  .featureless-input:focus{
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    border-radius: 0;
+    outline-style: none;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+
+  }
 `;
 const initFormValues = {
   title: "",
@@ -117,17 +143,35 @@ const initFormValues = {
   description: "",
   message: "",
 };
-export default function NewPost() {
-  const { getHistoryState, goBack } = useTools();
-  const { blog } = getHistoryState();
-  const [formValues, setFormValues] = useState(blog);
+export default function NewPost(props) {
+  const [formValues, setFormValues] = useState(initFormValues);
   const [formErrors, setFormErrors] = useState(initFormValues);
   const [disabled, setDisabled] = useState(false);
   const { currentUser, toastOn } = useContext(CurrentUserContext);
+  const { changeComponent } = props;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const post = formValues;
+    post.author_id = currentUser.id;
+    post.author = currentUser.username;
+    post.created_at = new Date().toString();
+
+    axiosWithAuth()
+      .post(`/blog-posts/`, post)
+      .then(() => {
+        setFormValues(initFormValues);
+        toastOn("successfulNewPost");
+      })
+      .catch(() => {
+        toastOn("invalidNewPost");
+      });
+  };
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
-    if (name !== "description") {
+    console.log(name, value);
+    if (name !== "description" && name !== "category") {
       yup
         .reach(newPostSchema, name)
         .validate(value)
@@ -150,21 +194,6 @@ export default function NewPost() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    axiosWithAuth()
-      .put(`/blog-posts/${blog.id}`, formValues)
-      .then((res) => {
-        setFormValues(initFormValues);
-        toastOn("successfulUpdatePost");
-        goBack();
-      })
-      .catch(() => {
-        alert("Username already in use");
-      });
-  };
-
   useEffect(() => {
     newPostSchema.isValid(formValues).then((valid) => {
       setDisabled(!valid);
@@ -172,12 +201,24 @@ export default function NewPost() {
   }, [formValues]);
 
   return (
-    <StyledSettings>
+    <StyledNewPost>
+      <div
+        className="button"
+        style={{ justifyContent: "space-evenly", paddingTop: "2%" }}
+      >
+        <button className="cta-button" onClick={() => changeComponent(1)}>
+          New Portfolio Piece
+        </button>
+        <button className="cta-button" onClick={() => changeComponent(2)}>
+          New Blog Post
+        </button>
+      </div>
+      <hr style={{ width: "100%", background: "whitesmoke" }} />
       <Form onSubmit={handleSubmit}>
         <div className="form-heading">
-          <h3>Edit</h3>
+          <h3>New Blog Post</h3>
         </div>
-        <hr />
+
         <Form.Group className="form-group">
           <div className="form-label">
             <label>Title*</label>
@@ -189,11 +230,12 @@ export default function NewPost() {
               onChange={handleOnchange}
               value={formValues.title}
               name="title"
+              style={{ background: "transparent", color: "whitesmoke" }}
             />
           </div>
         </Form.Group>
         <p>{formErrors.title}</p>
-        <hr />
+
         <Form.Group className="form-group">
           <div className="form-label">
             <label>Short Description</label>
@@ -205,23 +247,30 @@ export default function NewPost() {
               onChange={handleOnchange}
               value={formValues.description}
               name="description"
+              style={{ background: "transparent", color: "whitesmoke" }}
+              maxLength="100"
             />
           </div>
         </Form.Group>
-        <hr />
+
         <Form.Group className="form-group">
           <div className="form-label">
             <label>Category</label>
           </div>
           <div className="form-input">
-            <select>
-              <option value="general">General</option>
-              <option value="planting">Planting</option>
-              <option value="sustainability">Sustainability</option>
+            <select
+              style={{ background: "transparent", color: "whitesmoke" }}
+              onChange={handleOnchange}
+              value={formValues.category}
+              name="category"
+            >
+              <option value="General">General</option>
+              <option value="Planting">Planting</option>
+              <option value="Sustainability">Sustainability</option>
             </select>
           </div>
         </Form.Group>
-        <hr />
+
         <Form.Group className="form-group">
           <div className="form-label">
             <label>Message*</label>
@@ -233,11 +282,17 @@ export default function NewPost() {
               onChange={handleOnchange}
               value={formValues.message}
               name="message"
+              rows="10"
+              style={{
+                background: "transparent",
+                color: "whitesmoke",
+                border: "1px solid whitesmoke",
+              }}
             />
           </div>
         </Form.Group>
         <p>{formErrors.message}</p>
-        <hr />
+
         <div className="button">
           <button
             type="submit"
@@ -247,10 +302,10 @@ export default function NewPost() {
             }`}
             disabled={disabled}
           >
-            Update
+            Post
           </button>
         </div>
       </Form>
-    </StyledSettings>
+    </StyledNewPost>
   );
 }

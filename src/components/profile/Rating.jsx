@@ -7,6 +7,7 @@ import * as yup from "yup";
 import useTools from "../../utils/useTools";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledRating = Styled.div`
   width: 85vw;
@@ -181,8 +182,8 @@ export default function Rating() {
     };
 
     console.log(review);
-    axios
-      .post(`${baseURL}/reviews`, review)
+    axiosWithAuth()
+      .post(`/reviews`, review)
       .then((res) => {
         goToPage(`/dashboard/growrProfile/${back}`, growr);
         toastOn("successfulReviewSubmitted");

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, Suspense } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Styled from "styled-components";
 import pic from "../../assets/img/user-profile.png";
 import axios from "axios";
@@ -123,12 +123,11 @@ const StyledUserProfile = Styled.div`
 
 export default function UserProfile() {
   const { goToPage, getHistoryState, getStars } = useTools();
-  const username = localStorage.getItem("username");
   const [userInfo, setUserInfo] = useState({});
   const [starRating, setStarRating] = useState([]);
   const [component, setComponent] = useState("portfolio");
   const [postedBlogs, setPostedBlogs] = useState(null);
-
+  const [growr, setGrowr] = useState(getHistoryState());
   const { currentUser } = useContext(CurrentUserContext);
   const [isConnected, setIsConnected] = useState(false);
   const [modalShow, setModalShow] = useState(false);
@@ -137,8 +136,10 @@ export default function UserProfile() {
   const [showEditInput, setShowEditInput] = useState(false);
   const [num, setNum] = useState();
 
-  useEffect(async () => {
-    await axiosWithAuth()
+  useEffect(() => {
+    const { username, id } = growr;
+    console.log("fetching...");
+    axiosWithAuth()
       .get(`/user/info/${username}`)
       .then((res) => {
         setUserInfo(res.data[0]);
@@ -149,7 +150,19 @@ export default function UserProfile() {
       .catch((err) => {
         console.log(err);
       });
-  }, [currentUser]);
+    currentUser &&
+      axiosWithAuth()
+        .get(`/client-growr-connection/dwellr/${currentUser.id}`)
+        .then((res) => {
+          res.data.forEach((user) => {
+            console.log("user", user.id, "other", id);
+            if (user.id === id) return setIsConnected(true);
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }, []);
 
   useEffect(() => {
     const starRatingArray = [];
@@ -181,9 +194,33 @@ export default function UserProfile() {
       });
   };
 
-  const changeComponent = (component) => setComponent(component);
+  const connect = (e) => {
+    e.preventDefault();
+    const dwellr_id = currentUser.id;
+    const growr_id = userInfo.id;
+    axiosWithAuth()
+      .post(`/client-growr-connection`, {
+        dwellr_id,
+        growr_id,
+      })
+      .then((res) => setIsConnected(true))
+      .catch((err) => console.log(err));
+  };
 
-  const goToSettings = () => goToPage("/dashboard/settings");
+  const disconnect = (e) => {
+    e.preventDefault();
+    const dwellr_id = currentUser.id;
+    const growr_id = userInfo.id;
+    axiosWithAuth()
+      .delete(`/client-growr-connection`, {
+        data: {
+          dwellr_id,
+          growr_id,
+        },
+      })
+      .then((res) => setIsConnected(false))
+      .catch((err) => console.log(err));
+  };
 
   const handleDelete = () => {
     axiosWithAuth()
@@ -213,6 +250,10 @@ export default function UserProfile() {
         console.log(err);
       });
   };
+
+  const goToRating = () => goToPage("/dashboard/rating", growr);
+  const changeComponent = (component) => setComponent(component);
+
   return (
     <StyledUserProfile>
       <Modaler
@@ -245,19 +286,16 @@ export default function UserProfile() {
         )}
       </Modaler>
       <div className="header">
-        <Hover className="left 1">
-          {(hovering) => (
-            <ProfilePicture
-              hovering={hovering}
-              source={
-                userInfo.hasOwnProperty("profile_picture")
-                  ? userInfo.profile_picture
-                  : pic
-              }
-              onClick={() => goToSettings("UpdateProfile")}
-            />
-          )}
-        </Hover>
+        <div className="left">
+          <img
+            src={
+              userInfo.hasOwnProperty("profile_picture")
+                ? userInfo.profile_picture
+                : pic
+            }
+          />
+          {/* <Hover>{(hovering) => <ProfilePicture hovering={hovering} />}</Hover> Experimental feature 💡 Hover for profile pictures */}
+        </div>
 
         <div className="right">
           <div className="info">
@@ -266,11 +304,13 @@ export default function UserProfile() {
             </h1>
             <div className="star-rating-container">
               {userInfo.isGrowr === 1 &&
-                starRating.map((star) => (
-                  <span>
-                    <FaStar className={star ? "checked" : "unchecked"} />
-                  </span>
-                ))}
+                starRating.map((star) => {
+                  return (
+                    <span>
+                      <FaStar className={star ? "checked" : "unchecked"} />
+                    </span>
+                  );
+                })}
             </div>
             <div>{userInfo.role}</div>
             <div>
@@ -284,10 +324,20 @@ export default function UserProfile() {
             </div>
           )}
         </div>
-
-        <div className="edit-button-container">
-          <button onClick={goToSettings}>Edit Profile</button>
-        </div>
+        {!isConnected ? (
+          <div className="edit-button-container">
+            <button onClick={connect}>Connect</button>
+          </div>
+        ) : (
+          <div className="edit-button-container ">
+            <button className="mint" onClick={disconnect}>
+              Connected
+            </button>
+            <button style={{ marginTop: "2%" }} onClick={goToRating}>
+              Leave a review
+            </button>
+          </div>
+        )}
       </div>
       <hr />
       {userInfo.isGrowr === 1 && (

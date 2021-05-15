@@ -3,6 +3,7 @@ import axios from "axios";
 import Styled from "styled-components";
 import BlogCard from "./BlogCard";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 const StyledBlogList = Styled.div`
   width:  85vw;
   height: 100vh;
@@ -24,8 +25,8 @@ export default function BlogList() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`${baseURL}/blog-posts`)
+    axiosWithAuth()
+      .get(`/blog-posts`)
       .then((res) => {
         setPosts(res.data.reverse());
       })

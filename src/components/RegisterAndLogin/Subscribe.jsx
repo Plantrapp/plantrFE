@@ -1,5 +1,5 @@
 import { loadStripe } from "@stripe/stripe-js";
-
+import { frontendBaseURL } from "../../utils/misc";
 const stripe = loadStripe(
   "pk_test_51IRhn8AADF3RmXMdfMxV11xuAmFcQPSI6SRX829bgO4AHf8ovgnRTXFu8I9LwDQHjBOPxcbv4mwEQ7ST35F6oUX100oGm3mAkZ"
 );
@@ -16,8 +16,8 @@ export default function Subscribe(input) {
     const result = await (await stripe).redirectToCheckout({
       lineItems: [{ price, quantity: 1 }],
 
-      successUrl: `http://localhost:3000/subscribed/${id}`,
-      cancelUrl: "https://deployed-plantr-fe-sambrown0322.vercel.app/dashboard",
+      successUrl: `${frontendBaseURL}/subscribed/${id}`,
+      cancelUrl: `${frontendBaseURL}/dashboard`,
       mode: "subscription",
     });
     if (result.error) {

@@ -6,6 +6,7 @@ import ConversationBubble from "./ConversationBubble";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import useTools from "../../utils/useTools";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 const StyledConversation = Styled.div`
   height: 100vh;
   padding: 2%;
@@ -69,8 +70,8 @@ export default function Conversation(props) {
 
   useEffect(() => {
     currentUser &&
-      axios
-        .get(`${baseURL}/message/${currentUser.id}/${recipient_id}`)
+      axiosWithAuth()
+        .get(`/message/${currentUser.id}/${recipient_id}`)
         .then((res) => {
           setMessages(res.data.sort((a, b) => a.id - b.id));
         })
@@ -101,8 +102,8 @@ export default function Conversation(props) {
 
     setMessages((messages) => [...messages, { message, sender }]);
 
-    axios
-      .post(`${baseURL}/message`, {
+    axiosWithAuth()
+      .post(`/message`, {
         message,
         recipient,
         recipient_id,

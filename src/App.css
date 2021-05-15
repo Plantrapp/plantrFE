@@ -56,3 +56,6 @@
 .error-toast-body {
   background: rgb(200, 160, 160);
 }
+option {
+  background-color: rgb(20, 20, 20);
+}

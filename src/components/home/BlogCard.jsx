@@ -3,6 +3,7 @@ import React from "react";
 import Styled from "styled-components";
 import useTools from "../../utils/useTools";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledBlogCard = Styled.div`
   border-radius: 10px;
@@ -16,9 +17,13 @@ const StyledBlogCard = Styled.div`
     p{
       color: #1fdbac;
     }
+    word-wrap: break-word;
   }
   span{
-    color: #1fdbac
+    color: #1fdbac;
+    &:hover{
+      cursor: pointer;
+    }
   }
   footer{
     display: flex;
@@ -42,13 +47,21 @@ const StyledBlogCard = Styled.div`
 export default function BlogCard(props) {
   const { id, category, title, author, description } = props.post;
   const { goToPage } = useTools();
+  const username = localStorage.getItem("username");
 
   const goToBlogPost = () => goToPage(`/dashboard/blogs/${id}`);
   const goToAuthorPage = async () => {
-    await axios.get(`${baseURL}/user/info/${author}`).then((res) => {
-      const growr = res.data[0];
-      goToPage(`/dashboard/growrProfile/${author}`, growr);
-    });
+    if (author === username) {
+      console.log("tis true");
+      goToPage("/dashboard/user-profile");
+      return;
+    }
+    await axiosWithAuth()
+      .get(`/user/info/${author}`)
+      .then((res) => {
+        const growr = res.data[0];
+        goToPage(`/dashboard/growrProfile/${author}`, growr);
+      });
   };
   return (
     <StyledBlogCard>
