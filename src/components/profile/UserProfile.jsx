@@ -36,15 +36,13 @@ const StyledUserProfile = Styled.div`
     width: 60%; 
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     .left{
-      display: flex;
-      align-items: center;
-      justify-content: center;
+       /* display: flex; */
+      /* align-items: center;
+      justify-content: center;  */
       width: 40%;
-      img{
-        width: 50%;
-      }
+      margin: 0 auto;
     }
     .right{
       text-align: left;
@@ -69,26 +67,7 @@ const StyledUserProfile = Styled.div`
         }
       }
     }
-    .edit-button-container {
-      width: 100%;
-      padding: 4%;
-      & > button{
-        width: 90%;
-        background: transparent;
-        color: whitesmoke;
-        border: 1px solid whitesmoke;
-        border-radius: 5px;
-        padding: .5%;
-        transition: 0.3s ease-in-out;
-        &:hover{
-          background: #525151;
-        }
-      }
-      .mint{
-        border: 1px solid #1fdbac;    
-        color: #1fdbac;
-      }
-    }
+    
   }
   /*      portfolio       */
   .switch-button-container{
@@ -120,6 +99,26 @@ const StyledUserProfile = Styled.div`
     display: flex;
     flex-direction: column;
   }
+  .edit-button-container {
+      width: 100%;
+      padding: 2%;
+      & > button{
+        width: 40%;
+        background: transparent;
+        color: whitesmoke;
+        border: 1px solid whitesmoke;
+        border-radius: 5px;
+        padding: .5%;
+        transition: 0.3s ease-in-out;
+        &:hover{
+          background: #525151;
+        }
+      }
+      .mint{
+        border: 1px solid #1fdbac;    
+        color: #1fdbac;
+      }
+    }
 
 `;
 
@@ -247,7 +246,7 @@ export default function UserProfile() {
         )}
       </Modaler>
       <div className="header">
-        <Hover className="left 1">
+        <Hover>
           {(hovering) => (
             <ProfilePicture
               hovering={hovering}
@@ -286,10 +285,9 @@ export default function UserProfile() {
             </div>
           )}
         </div>
-
-        <div className="edit-button-container">
-          <button onClick={goToSettings}>Edit Profile</button>
-        </div>
+      </div>
+      <div className="edit-button-container">
+        <button onClick={goToSettings}>Edit Profile</button>
       </div>
       <hr />
       {userInfo.isGrowr === 1 && (
