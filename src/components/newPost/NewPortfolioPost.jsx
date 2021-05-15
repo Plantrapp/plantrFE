@@ -119,17 +119,19 @@ export default function NewPortfolioPost(props) {
 
   return (
     <StyledForm>
-      <div
-        className="button"
-        style={{ justifyContent: "space-evenly", paddingTop: "2%" }}
-      >
-        <button className="cta-button" onClick={() => changeComponent(1)}>
-          New Portfolio Piece
-        </button>
-        <button className="cta-button" onClick={() => changeComponent(2)}>
-          New Blog Post
-        </button>
-      </div>
+      {currentUser && currentUser.isGrowr ? (
+        <div
+          className="button"
+          style={{ justifyContent: "space-evenly", paddingTop: "2%" }}
+        >
+          <button className="cta-button" onClick={() => changeComponent(1)}>
+            New Portfolio Piece
+          </button>
+          <button className="cta-button" onClick={() => changeComponent(2)}>
+            New Blog Post
+          </button>
+        </div>
+      ) : null}
       <hr style={{ width: "100%", background: "whitesmoke" }} />
       {currentUser && (
         <Form onSubmit={handleSubmit}>

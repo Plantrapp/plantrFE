@@ -3,7 +3,7 @@ import NewPortfolioPost from "./NewPortfolioPost";
 import NewBlogPost from "./NewBlogPost";
 
 export default function NewPost() {
-  const [component, setComponent] = useState(2);
+  const [component, setComponent] = useState(1);
 
   return (
     <div>
