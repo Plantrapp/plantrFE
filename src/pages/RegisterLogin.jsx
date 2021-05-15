@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Styled from "styled-components";
 import logo from "../assets/img/wlogo1.svg";
-import { Login, Register, ForgotPassword } from "../components";
+import { Login, NewRegister, ForgotPassword } from "../components";
 
 const FormContainer = Styled.div`
   margin: 0 auto;
@@ -115,6 +115,20 @@ const FormContainer = Styled.div`
   .footer{
     display: flex;
   }
+  .growr-checkbox{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    
+    & div{
+      width: 90%;
+      color: whitesmoke;
+    }
+    & input{
+      width: 10%;
+    } 
+
+  }
 `;
 export default function RegisterLogin() {
   const [isLogin, setIsLogin] = useState(true);
@@ -134,7 +148,7 @@ export default function RegisterLogin() {
       ) : isLogin ? (
         <Login />
       ) : (
-        <Register />
+        <NewRegister />
       )}
 
       <div className="footer">

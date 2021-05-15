@@ -20,6 +20,7 @@ import MessagesCard from "./messages/MessagesCard";
 // RegisterAndLogin
 import Login from "./registerAndLogin/Login";
 import Register from "./registerAndLogin/Register";
+import NewRegister from "./registerAndLogin/NewRegister";
 import ForgotPassword from "./registerAndLogin/ForgotPassword";
 import ForgotPasswordUpdate from "./registerAndLogin/ForgotPasswordUpdate";
 import RegisterGrowr from "./registerAndLogin/RegisterGrowr";
@@ -60,6 +61,7 @@ export {
   ForgotPasswordUpdate,
   RegisterGrowr,
   RegisterPlantr,
+  NewRegister,
   Settings,
   Connect,
   UserProfile,
