@@ -95,6 +95,10 @@ border-radius: 10px;
       display: flex;
       
     }
+    .filter-controls {
+      display: flex;
+      
+    }
   }
 `;
 

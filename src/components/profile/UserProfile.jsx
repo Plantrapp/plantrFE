@@ -245,16 +245,19 @@ export default function UserProfile() {
         )}
       </Modaler>
       <div className="header">
-        <div className="left">
-          <img
-            src={
-              userInfo.hasOwnProperty("profile_picture")
-                ? userInfo.profile_picture
-                : pic
-            }
-          />
-          {/* <Hover>{(hovering) => <ProfilePicture hovering={hovering} />}</Hover> Experimental feature 💡 Hover for profile pictures */}
-        </div>
+        <Hover className="left 1">
+          {(hovering) => (
+            <ProfilePicture
+              hovering={hovering}
+              source={
+                userInfo.hasOwnProperty("profile_picture")
+                  ? userInfo.profile_picture
+                  : pic
+              }
+              onClick={() => goToSettings("UpdateProfile")}
+            />
+          )}
+        </Hover>
 
         <div className="right">
           <div className="info">
