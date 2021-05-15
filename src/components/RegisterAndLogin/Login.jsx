@@ -6,6 +6,7 @@ import { loginFormSchema } from "../../validation/formSchema";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import useTools from "../../utils/useTools";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const initState = {
   username: "",
@@ -29,10 +30,12 @@ export default function Login() {
       password: formValues.password.trim(),
     };
 
-    axios
-      .post(`${baseURL}/auth/login`, creds)
+    axiosWithAuth()
+      .post(`/auth/login`, creds)
       .then((res) => {
+        console.log(res);
         setCurrentUser(res.data.user);
+        localStorage.setItem("token", res.data.token);
         localStorage.setItem("username", username);
         localStorage.setItem("role", res.data.role);
         localStorage.setItem("isGrowr", res.data.user.isGrowr);

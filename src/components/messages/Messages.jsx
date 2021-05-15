@@ -6,6 +6,7 @@ import MessagesCard from "./MessagesCard";
 import { baseURL } from "../../utils/misc";
 
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 const StyledMessages = Styled.div`
   height:100vh;
   padding: 2%;
@@ -25,16 +26,16 @@ export default function Messages() {
 
     if (isGrowr > 0) {
       console.log("run Growr");
-      axios
-        .get(`${baseURL}/client-growr-connection/growr/${id}`)
+      axiosWithAuth()
+        .get(`/client-growr-connection/growr/${id}`)
         .then((res) => {
           setUserGroup(res.data);
         })
         .catch((err) => console.log(err));
     } else {
       console.log("run dweller");
-      axios
-        .get(`${baseURL}/client-growr-connection/dwellr/${id}`)
+      axiosWithAuth()
+        .get(`/client-growr-connection/dwellr/${id}`)
         .then((res) => {
           setUserGroup(res.data);
         })

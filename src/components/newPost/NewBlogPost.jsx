@@ -6,6 +6,7 @@ import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { newPostSchema } from "../../validation/formSchema";
 import * as yup from "yup";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledNewPost = Styled.div`
 height: 100vh;
@@ -156,8 +157,8 @@ export default function NewPost(props) {
     post.author = currentUser.username;
     post.created_at = new Date().toString();
 
-    axios
-      .post(`${baseURL}/blog-posts/`, post)
+    axiosWithAuth()
+      .post(`/blog-posts/`, post)
       .then(() => {
         setFormValues(initFormValues);
         toastOn("successfulNewPost");

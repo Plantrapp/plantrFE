@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { updatePasswordSchema } from "../../validation/formSchema";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const initialState = {
   previous_password: "",
@@ -44,8 +45,8 @@ export default function UpdatePassword(props) {
     e.preventDefault();
     const oldPassword = currentUser.password;
 
-    axios
-      .put(`${baseURL}/user/${id}`, {
+    axiosWithAuth()
+      .put(`/user/${id}`, {
         previous_password: formValues.previous_password,
         password: formValues.password,
         oldPassword,

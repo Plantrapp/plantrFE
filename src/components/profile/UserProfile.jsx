@@ -9,6 +9,7 @@ import useTools from "../../utils/useTools";
 import { FaStar } from "react-icons/fa";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledUserProfile = Styled.div`
   display: flex;
@@ -137,8 +138,8 @@ export default function UserProfile() {
   const [num, setNum] = useState();
 
   useEffect(async () => {
-    await axios
-      .get(`${baseURL}/user/info/${username}`)
+    await axiosWithAuth()
+      .get(`/user/info/${username}`)
       .then((res) => {
         setUserInfo(res.data[0]);
         getStars(res.data[0].id, setNum);
@@ -159,8 +160,8 @@ export default function UserProfile() {
   }, [num]);
 
   const fetchBlogPosts = (author_id) => {
-    axios
-      .get(`${baseURL}/blog-posts/user/${author_id}`)
+    axiosWithAuth()
+      .get(`/blog-posts/user/${author_id}`)
       .then((res) => {
         setPostedBlogs(res.data);
       })
@@ -170,8 +171,8 @@ export default function UserProfile() {
   };
 
   const fetchPortfolioPosts = (user_id) => {
-    axios
-      .get(`${baseURL}/portfolio-posts/user/${user_id}`)
+    axiosWithAuth()
+      .get(`/portfolio-posts/user/${user_id}`)
       .then((res) => {
         setPortfolioPosts(res.data);
       })
@@ -185,8 +186,8 @@ export default function UserProfile() {
   const goToSettings = () => goToPage("/dashboard/settings");
 
   const handleDelete = () => {
-    axios
-      .delete(`${baseURL}/portfolio-posts/${modalInfo.id}`)
+    axiosWithAuth()
+      .delete(`/portfolio-posts/${modalInfo.id}`)
       .then((res) => {
         setPortfolioPosts((oldPosts) =>
           oldPosts.filter((oldPost) => oldPost.id !== modalInfo.id)
@@ -201,8 +202,8 @@ export default function UserProfile() {
 
   const handleEdit = (e) => {
     e.preventDefault();
-    axios
-      .put(`${baseURL}/portfolio-posts/${modalInfo.id}`, {
+    axiosWithAuth()
+      .put(`/portfolio-posts/${modalInfo.id}`, {
         description: modalInfo.description,
       })
       .then((res) => {

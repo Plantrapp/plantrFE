@@ -22,6 +22,7 @@ import {
   SubscribeButton,
   GrowrProfile,
 } from "../components";
+import { axiosWithAuth } from "../utils/authentication/AxiosWithAuth";
 
 export default function Dashboard() {
   const socket = useSocket();
@@ -37,16 +38,16 @@ export default function Dashboard() {
       const room_id = currentUser.id;
       socket && socket.emit("loggedIn", { username, room_id });
     }
-    axios
-      .get(`${baseURL}/user`)
+    axiosWithAuth()
+      .get(`/user`)
       .then((res) => {
         setUsers(res.data.filter((user) => user.username !== username));
       })
       .catch((err) => console.log(err));
 
     if (!currentUser) {
-      axios
-        .get(`${baseURL}/user/info/${username}`)
+      axiosWithAuth()
+        .get(`/user/info/${username}`)
         .then((res) => {
           setCurrentUser(res.data[0]);
         })

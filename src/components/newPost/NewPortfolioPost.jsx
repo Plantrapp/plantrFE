@@ -4,6 +4,7 @@ import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { baseURL } from "../../utils/misc";
 import { Form } from "react-bootstrap";
 import styled from "styled-components";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledForm = styled.div`
   height: 100vh;
@@ -105,8 +106,8 @@ export default function NewPortfolioPost(props) {
     formData.append("username", currentUser.username);
     formData.append("user_id", currentUser.id);
 
-    axios
-      .post(`${baseURL}/portfolio-posts`, formData)
+    axiosWithAuth()
+      .post(`/portfolio-posts`, formData)
       .then((res) => {
         setSelectedImage(null);
         setDescription("");

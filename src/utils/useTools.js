@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { axiosWithAuth } from "./authentication/AxiosWithAuth";
 import { baseURL } from "./misc";
 export default function useTools() {
   const history = useHistory();
@@ -18,8 +19,8 @@ export default function useTools() {
   };
 
   const getStars = (user_id, setter) => {
-    axios
-      .get(`${baseURL}/reviews/${user_id}`)
+    axiosWithAuth()
+      .get(`/reviews/${user_id}`)
       .then((response) => {
         return setter(response.data.average);
       })

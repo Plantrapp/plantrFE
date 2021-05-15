@@ -12,6 +12,7 @@ import { updateProfileSchema } from "../../validation/formSchema";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import useTools from "../../utils/useTools";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledSettings = Styled.div`
   height: 100vh;
@@ -131,9 +132,8 @@ export default function Settings() {
   const [disabled, setDisabled] = useState(false);
   const [component, setComponent] = useState("AccountInfo");
   const [selectedImage, setSelectedImage] = useState("");
-  const { currentUser, setCurrentUser, toastOn } = useContext(
-    CurrentUserContext
-  );
+  const { currentUser, setCurrentUser, toastOn } =
+    useContext(CurrentUserContext);
 
   const changeComponent = (component) => setComponent(component);
 
@@ -193,8 +193,8 @@ export default function Settings() {
         formData.append(key, formValues[key]);
       }
 
-      axios
-        .put(`${baseURL}/user/${id}`, formData)
+      axiosWithAuth()
+        .put(`/user/${id}`, formData)
         .then((res) => {
           setCurrentUser(res.data);
           localStorage.setItem("username", res.data.username);
@@ -208,8 +208,8 @@ export default function Settings() {
         });
     }
 
-    axios
-      .put(`${baseURL}/user/${id}`, formValues)
+    axiosWithAuth()
+      .put(`/user/${id}`, formValues)
       .then((res) => {
         changeComponent("AccountInfo");
         setCurrentUser(res.data);

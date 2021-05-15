@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { Form } from "react-bootstrap";
 
 export default function EditPortfolioPost() {

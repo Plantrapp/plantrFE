@@ -3,6 +3,7 @@ import React from "react";
 import Styled from "styled-components";
 import useTools from "../../utils/useTools";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledBlogCard = Styled.div`
   border-radius: 10px;
@@ -55,10 +56,12 @@ export default function BlogCard(props) {
       goToPage("/dashboard/user-profile");
       return;
     }
-    await axios.get(`${baseURL}/user/info/${author}`).then((res) => {
-      const growr = res.data[0];
-      goToPage(`/dashboard/growrProfile/${author}`, growr);
-    });
+    await axiosWithAuth()
+      .get(`/user/info/${author}`)
+      .then((res) => {
+        const growr = res.data[0];
+        goToPage(`/dashboard/growrProfile/${author}`, growr);
+      });
   };
   return (
     <StyledBlogCard>

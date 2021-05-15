@@ -9,6 +9,7 @@ import { forgotPasswordSchema } from "../../validation/formSchema";
 import { baseURL } from "../../utils/misc";
 import { FaTimes } from "react-icons/fa";
 import useTools from "../../utils/useTools";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const FormContainer = Styled.div`
   margin: 0 auto;
@@ -143,8 +144,8 @@ export default function ForgotPasswordUpdate() {
   console.log(hash);
 
   useEffect(() => {
-    axios
-      .get(`${baseURL}/forgot/password/${hash}`)
+    axiosWithAuth()
+      .get(`/forgot/password/${hash}`)
       .then((res) => {
         console.log(res);
         const response = res.data[0];
@@ -187,14 +188,14 @@ export default function ForgotPasswordUpdate() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .put(`${baseURL}/user/${id}`, {
+    axiosWithAuth()
+      .put(`/user/${id}`, {
         password: formValues.password,
         key: true,
       })
       .then((res) => {
-        axios
-          .put(`${baseURL}/forgot/password`, {
+        axiosWithAuth()
+          .put(`/forgot/password`, {
             id: hashObject.id,
             isHashUsed: true,
           })

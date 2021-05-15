@@ -4,6 +4,7 @@ import Styled from "styled-components";
 import { baseURL } from "../../utils/misc";
 import { FaTimes } from "react-icons/fa";
 import useTools from "../../utils/useTools";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledBlog = Styled.div`
   width: 85vw;
@@ -40,8 +41,8 @@ export default function Blog() {
   const [blogInfo, setBlogInfo] = useState({});
   const { goToPage } = useTools();
   useEffect(() => {
-    axios
-      .get(`${baseURL}/blog-posts/${id}`)
+    axiosWithAuth()
+      .get(`/blog-posts/${id}`)
       .then((res) => {
         setBlogInfo(res.data);
       })

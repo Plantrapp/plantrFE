@@ -5,6 +5,7 @@ import { forgotPasswordFormSchema } from "../../validation/formSchema";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { baseURL } from "../../utils/misc";
 import axios from "axios";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 const initState = {
   email: "",
 };
@@ -18,8 +19,8 @@ export default function ForgotPassword(props) {
 
   const sendForgotPasswordEmail = (e) => {
     e.preventDefault();
-    axios
-      .post(`${baseURL}/forgot/password`, formValues)
+    axiosWithAuth()
+      .post(`/forgot/password`, formValues)
       .then((res) => {
         toastOn("forgotPasswordSent");
         setIsForgotPassword(!isForgotPassword);

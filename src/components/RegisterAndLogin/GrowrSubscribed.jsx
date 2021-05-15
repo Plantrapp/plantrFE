@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import useTools from "../../utils/useTools";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 export default function GrowrSubscribed() {
   const id = window.document.URL.split("/").pop();
@@ -10,8 +11,8 @@ export default function GrowrSubscribed() {
     const subscribed = {
       isSubscribed: true,
     };
-    axios
-      .put(`${baseURL}/user/${id}`, subscribed)
+    axiosWithAuth()
+      .put(`/user/${id}`, subscribed)
       .then(() => {
         console.log("success!");
         goToPage("/dashboard");

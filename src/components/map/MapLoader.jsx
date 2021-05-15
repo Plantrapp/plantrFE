@@ -4,6 +4,7 @@ import { Marker } from "react-google-maps";
 import geocoder from "react-geocode";
 import Map from "./Map";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 geocoder.setApiKey("AIzaSyDb9UX7qQuz9mOWLyoBoWCPIZPXJdxl1pw");
 
 export default function MapLoader() {
@@ -14,8 +15,8 @@ export default function MapLoader() {
   // console.log(window.google)
 
   useEffect(() => {
-    axios
-      .get(`${baseURL}/user`)
+    axiosWithAuth()
+      .get(`/user`)
       .then((res) => {
         setCounter(res.data.length);
         // const tempArr = []

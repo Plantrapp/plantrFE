@@ -13,7 +13,6 @@ import {
   Marker,
 } from "@react-google-maps/api";
 import MapLoader from "./MapLoader";
-import axios from "axios";
 import geocoder from "react-geocode";
 import usePlacesAutocomplete from "use-places-autocomplete";
 import {

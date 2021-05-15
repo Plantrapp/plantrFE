@@ -7,6 +7,7 @@ import { newPostSchema } from "../../validation/formSchema";
 import * as yup from "yup";
 import useTools from "../../utils/useTools";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledSettings = Styled.div`
 height: 100vh;
@@ -152,8 +153,8 @@ export default function NewPost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    axios
-      .put(`${baseURL}/blog-posts/${blog.id}`, formValues)
+    axiosWithAuth()
+      .put(`/blog-posts/${blog.id}`, formValues)
       .then((res) => {
         setFormValues(initFormValues);
         toastOn("successfulUpdatePost");

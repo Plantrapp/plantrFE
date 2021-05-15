@@ -9,6 +9,7 @@ import useTools from "../../utils/useTools";
 import { FaStar } from "react-icons/fa";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { baseURL } from "../../utils/misc";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledUserProfile = Styled.div`
   display: flex;
@@ -134,11 +135,12 @@ export default function UserProfile() {
   const [modalInfo, setModalInfo] = useState({});
   const [showEditInput, setShowEditInput] = useState(false);
   const [num, setNum] = useState();
-  useEffect(async () => {
-    const { username, id } = growr;
 
-    await axios
-      .get(`${baseURL}/user/info/${username}`)
+  useEffect(() => {
+    const { username, id } = growr;
+    console.log("fetching...");
+    axiosWithAuth()
+      .get(`/user/info/${username}`)
       .then((res) => {
         setUserInfo(res.data[0]);
         getStars(res.data[0].id, setNum);
@@ -149,17 +151,18 @@ export default function UserProfile() {
         console.log(err);
       });
     currentUser &&
-      (await axios
-        .get(`${baseURL}/client-growr-connection/dwellr/${currentUser.id}`)
+      axiosWithAuth()
+        .get(`/client-growr-connection/dwellr/${currentUser.id}`)
         .then((res) => {
           res.data.forEach((user) => {
+            console.log("user", user.id, "other", id);
             if (user.id === id) return setIsConnected(true);
           });
         })
         .catch((err) => {
           console.log(err);
-        }));
-  }, [growr, currentUser]);
+        });
+  }, []);
 
   useEffect(() => {
     const starRatingArray = [];
@@ -170,8 +173,8 @@ export default function UserProfile() {
   }, [num]);
 
   const fetchBlogPosts = (author_id) => {
-    axios
-      .get(`${baseURL}/blog-posts/user/${author_id}`)
+    axiosWithAuth()
+      .get(`/blog-posts/user/${author_id}`)
       .then((res) => {
         setPostedBlogs(res.data);
       })
@@ -181,8 +184,8 @@ export default function UserProfile() {
   };
 
   const fetchPortfolioPosts = (user_id) => {
-    axios
-      .get(`${baseURL}/portfolio-posts/user/${user_id}`)
+    axiosWithAuth()
+      .get(`/portfolio-posts/user/${user_id}`)
       .then((res) => {
         setPortfolioPosts(res.data);
       })
@@ -195,8 +198,8 @@ export default function UserProfile() {
     e.preventDefault();
     const dwellr_id = currentUser.id;
     const growr_id = userInfo.id;
-    axios
-      .post(`${baseURL}/client-growr-connection`, {
+    axiosWithAuth()
+      .post(`/client-growr-connection`, {
         dwellr_id,
         growr_id,
       })
@@ -208,8 +211,8 @@ export default function UserProfile() {
     e.preventDefault();
     const dwellr_id = currentUser.id;
     const growr_id = userInfo.id;
-    axios
-      .delete(`${baseURL}/client-growr-connection`, {
+    axiosWithAuth()
+      .delete(`/client-growr-connection`, {
         data: {
           dwellr_id,
           growr_id,
@@ -220,8 +223,8 @@ export default function UserProfile() {
   };
 
   const handleDelete = () => {
-    axios
-      .delete(`${baseURL}/portfolio-posts/${modalInfo.id}`)
+    axiosWithAuth()
+      .delete(`/portfolio-posts/${modalInfo.id}`)
       .then((res) => {
         setPortfolioPosts((oldPosts) =>
           oldPosts.filter((oldPost) => oldPost.id !== modalInfo.id)
@@ -236,8 +239,8 @@ export default function UserProfile() {
 
   const handleEdit = (e) => {
     e.preventDefault();
-    axios
-      .put(`${baseURL}/portfolio-posts/${modalInfo.id}`, {
+    axiosWithAuth()
+      .put(`/portfolio-posts/${modalInfo.id}`, {
         description: modalInfo.description,
       })
       .then((res) => {
