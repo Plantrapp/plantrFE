@@ -104,9 +104,9 @@ export default function Toaster() {
         <Toast.Header
           style={{ background: "rgb(140, 210, 120)", color: "whitesmoke" }}
         >
-          <strong className="mr-auto">Success</strong>
+          <strong className="mr-auto">Error</strong>
         </Toast.Header>
-        <Toast.Body className="success-toast-body">
+        <Toast.Body className="error-toast-body">
           error with sending the new post
         </Toast.Body>
       </Toast>
