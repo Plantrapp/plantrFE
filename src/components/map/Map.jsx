@@ -152,7 +152,7 @@ const options = {
   disableDefaultUI: true,
   zoomControl: true,
 };
-
+geocoder.setApiKey("AIzaSyDb9UX7qQuz9mOWLyoBoWCPIZPXJdxl1pw");
 function Map(props) {
   // const [markers, setMarkers] = useState([]);
   // const [counter, setCounter] = useState(0);

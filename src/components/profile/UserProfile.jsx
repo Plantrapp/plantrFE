@@ -109,8 +109,8 @@ const StyledUserProfile = Styled.div`
   }
   .portfolio{
     width: 80%;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
     padding: 5%;
   }
   .blog{
@@ -245,7 +245,7 @@ export default function UserProfile() {
         )}
       </Modaler>
       <div className="header">
-        <Hover className="left 1">
+        <Hover className="left">
           {(hovering) => (
             <ProfilePicture
               hovering={hovering}

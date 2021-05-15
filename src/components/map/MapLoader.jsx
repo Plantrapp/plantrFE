@@ -3,7 +3,6 @@ import geocoder from "react-geocode";
 import Map from "./Map";
 
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
-geocoder.setApiKey("AIzaSyDb9UX7qQuz9mOWLyoBoWCPIZPXJdxl1pw");
 
 export default function MapLoader() {
   const [markers, setMarkers] = useState([]);

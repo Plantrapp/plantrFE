@@ -40,6 +40,7 @@ const StyledUserProfile = Styled.div`
       width: 40%;
       img{
         width: 50%;
+        border-radius: 50%;
       }
     }
     .right{
@@ -107,8 +108,8 @@ const StyledUserProfile = Styled.div`
   }
   .portfolio{
     width: 80%;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
     padding: 5%;
   }
   .blog{
