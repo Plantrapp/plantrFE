@@ -3,6 +3,7 @@ import axios from "axios";
 import Styled from "styled-components";
 import pic from "../../assets/img/user-profile.png";
 import MessagesCard from "./MessagesCard";
+import NoConnections from "./NoConnections";
 
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
@@ -14,7 +15,7 @@ const StyledMessages = Styled.div`
 `;
 
 export default function Messages() {
-  const [userGroup, setUserGroup] = useState();
+  const [userGroup, setUserGroup] = useState([]);
 
   const isGrowr = localStorage.getItem("isGrowr");
   const { currentUser } = useContext(CurrentUserContext);
@@ -43,8 +44,11 @@ export default function Messages() {
   }, [currentUser]);
   return (
     <StyledMessages>
-      {userGroup &&
-        userGroup.map((user) => <MessagesCard pic={pic} user={user} />)}
+      {userGroup.length > 0 ? (
+        userGroup.map((user) => <MessagesCard pic={pic} user={user} />)
+      ) : (
+        <NoConnections />
+      )}
     </StyledMessages>
   );
 }

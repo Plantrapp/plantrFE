@@ -36,10 +36,10 @@ export default function BlogList() {
   return (
     <StyledBlogList>
       {posts.map((post) => (
-        <>
+        <React.Fragment key={post.id}>
           <BlogCard post={post} />
           <hr />
-        </>
+        </React.Fragment>
       ))}
     </StyledBlogList>
   );

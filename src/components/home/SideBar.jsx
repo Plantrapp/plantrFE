@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Styled from "styled-components";
-import { CurrentUserContext } from "../../utils/contexts/Contexts";
+import { useCurrentUserContext } from "../../utils/contexts/Contexts";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 import logo from "../../assets/img/Asset1.svg";
 import {
   FaHome,
@@ -125,7 +126,21 @@ const StyledSideBar = Styled.div`
 
 `;
 export default function SideBar() {
-  const { currentUser } = useContext(CurrentUserContext);
+  const { currentUser, setCurrentUser } = useCurrentUserContext();
+  const username = localStorage.getItem("username");
+
+  useEffect(() => {
+    axiosWithAuth()
+      .get(`/user/info/${username}`)
+      .then((res) => {
+        setCurrentUser((oldUser) => {
+          return { ...oldUser, profile_picture: res.data[0].profile_picture };
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [currentUser.profile_picture]);
 
   return (
     <StyledSideBar>
@@ -149,29 +164,31 @@ export default function SideBar() {
           <FaHome />
           <span>Home</span>
         </Link>
-        {/* {currentUser && currentUser.isSubscribed > 0 ? ( */}
-        <>
-          <Link to="/dashboard/connect">
-            <FaUsers />
-            <span>Connect</span>
-          </Link>
+        {currentUser && currentUser.isSubscribed > 0 ? (
+          <>
+            {currentUser.isGrowr < 0 ? (
+              <Link to="/dashboard/connect">
+                <FaUsers />
+                <span>Connect</span>
+              </Link>
+            ) : null}
 
-          <Link to="/dashboard/messages">
-            <FaEnvelope />
-            <span>Messages</span>
-          </Link>
+            <Link to="/dashboard/messages">
+              <FaEnvelope />
+              <span>Messages</span>
+            </Link>
 
-          <Link to="/dashboard/user-profile">
-            <FaUserCircle />
-            <span>Profile</span>
-          </Link>
+            <Link to="/dashboard/user-profile">
+              <FaUserCircle />
+              <span>Profile</span>
+            </Link>
 
-          <Link to="/dashboard/blog-post/">
-            <FaPlus />
-            <span>New Post</span>
-          </Link>
-        </>
-        {/* ) : null} */}
+            <Link to="/dashboard/blog-post/">
+              <FaPlus />
+              <span>New Post</span>
+            </Link>
+          </>
+        ) : null}
       </div>
       <div className="footer">
         <Link

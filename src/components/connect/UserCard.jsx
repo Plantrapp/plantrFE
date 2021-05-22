@@ -16,6 +16,7 @@ width: 14.68vw;
 }
   img{
     width:50%;
+    border-radius: 50%;
   }
   div{
     text-align: left;
@@ -39,6 +40,7 @@ export default function UserCard(props) {
     hourly_rate,
     distance,
     username,
+    profile_picture,
   } = props.growr;
   const growr = props.growr;
   const { goToPage } = useTools();
@@ -48,7 +50,7 @@ export default function UserCard(props) {
 
   return (
     <StyledUserCard onClick={goToGrowrProfile}>
-      <img src={pic} />
+      <img src={profile_picture} />
       <div>
         <h3>
           {first_name}{" "}

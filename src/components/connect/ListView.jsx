@@ -17,9 +17,9 @@ export default function GrowrView(props) {
   return (
     <StyledGrowrView>
       <Searchbar />
-      {growrs.map((growr) => (
-        <UserCard growr={growr} key={growr.id} />
-      ))}
+      {growrs.map((growr) =>
+        growr.isSubscribed ? <UserCard growr={growr} key={growr.id} /> : null
+      )}
     </StyledGrowrView>
   );
 }

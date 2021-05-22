@@ -133,6 +133,10 @@ const Wrapper = Styled.div`
   }
   .marker {
     border: none;
+
+    div > img {
+      border-radius: 50%;
+    }
   }
   .marker:focus {
     outline: none;
@@ -193,6 +197,14 @@ function Map(props) {
   if (loadError) return "Error loading";
   if (!isLoaded) return "Loading Maps";
 
+  const currentUserMarkerImage = currentUser.profile_picture
+    .replace("/upload/", "/upload/r_300/")
+    .replace(".jpg", ".png");
+
+  const markerImage = currentUser.profile_picture
+    .replace("/upload/", "/upload/r_300/")
+    .replace(".jpg", ".png");
+
   return (
     // <>
     // </>
@@ -229,7 +241,9 @@ function Map(props) {
               key={marker.id}
               position={{ lat: marker.lat, lng: marker.lng }}
               icon={{
-                url: profPic,
+                url: marker.profile_picture
+                  .replace("/upload/", "/upload/r_300/")
+                  .replace(".jpg", ".png"),
                 scaledSize: new window.google.maps.Size(30, 30),
                 origin: new window.google.maps.Point(0, 0),
                 anchor: new window.google.maps.Point(15, 15),
@@ -242,10 +256,11 @@ function Map(props) {
           ))}
         {currentUser && (
           <Marker
+            className="marker"
             key={currentUser.id}
             position={{ lat: currentUser.lat, lng: currentUser.lng }}
             icon={{
-              url: currentUser.profile_picture,
+              url: currentUserMarkerImage,
               scaledSize: new window.google.maps.Size(30, 30),
               origin: new window.google.maps.Point(0, 0),
               anchor: new window.google.maps.Point(15, 15),

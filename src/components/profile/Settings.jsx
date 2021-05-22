@@ -8,7 +8,7 @@ import AccountInfo from "./AccountInfo";
 import UpdatePassword from "./UpdatePassword";
 import { FaEdit, FaTimes } from "react-icons/fa";
 import { updateProfileSchema } from "../../validation/formSchema";
-import { CurrentUserContext } from "../../utils/contexts/Contexts";
+import { useCurrentUserContext } from "../../utils/contexts/Contexts";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const StyledSettings = Styled.div`
@@ -128,8 +128,7 @@ export default function Settings() {
   const [disabled, setDisabled] = useState(false);
   const [component, setComponent] = useState("AccountInfo");
   const [selectedImage, setSelectedImage] = useState("");
-  const { currentUser, setCurrentUser, toastOn } =
-    useContext(CurrentUserContext);
+  const { currentUser, setCurrentUser, toastOn } = useCurrentUserContext();
 
   const changeComponent = (component) => setComponent(component);
 
@@ -140,7 +139,6 @@ export default function Settings() {
       setAccount(data);
     }
   }, [currentUser]);
-  console.log(formValues);
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
@@ -193,7 +191,10 @@ export default function Settings() {
       axiosWithAuth()
         .put(`/user/${id}`, formData)
         .then((res) => {
-          setCurrentUser(res.data);
+          console.log(res.data);
+          setCurrentUser((oldUser) => {
+            return { ...oldUser, ...res.data };
+          });
           localStorage.setItem("username", res.data.username);
           changeComponent("AccountInfo");
           toastOn("successfulProfileUpdate");
@@ -203,21 +204,21 @@ export default function Settings() {
           console.log("error", err);
           // alert("Username already in use");
         });
+    } else {
+      axiosWithAuth()
+        .put(`/user/${id}`, formValues)
+        .then((res) => {
+          changeComponent("AccountInfo");
+          setCurrentUser(res.data);
+          localStorage.setItem("username", res.data.username);
+          toastOn("successfulProfileUpdate");
+          setAccount(formValues);
+        })
+        .catch((err) => {
+          console.log("error", err);
+          // alert("Username already in use");
+        });
     }
-
-    axiosWithAuth()
-      .put(`/user/${id}`, formValues)
-      .then((res) => {
-        changeComponent("AccountInfo");
-        setCurrentUser(res.data);
-        localStorage.setItem("username", res.data.username);
-        toastOn("successfulProfileUpdate");
-        setAccount(formValues);
-      })
-      .catch((err) => {
-        console.log("error", err);
-        // alert("Username already in use");
-      });
   };
 
   useEffect(() => {

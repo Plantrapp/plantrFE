@@ -244,19 +244,14 @@ export default function UserProfile() {
         )}
       </Modaler>
       <div className="header">
-        <Hover>
-          {(hovering) => (
-            <ProfilePicture
-              hovering={hovering}
-              source={
-                userInfo.hasOwnProperty("profile_picture")
-                  ? userInfo.profile_picture
-                  : pic
-              }
-              onClick={() => goToSettings("UpdateProfile")}
-            />
-          )}
-        </Hover>
+        <ProfilePicture
+          source={
+            userInfo.hasOwnProperty("profile_picture")
+              ? userInfo.profile_picture
+              : pic
+          }
+          onClick={() => goToSettings("UpdateProfile")}
+        />
 
         <div className="right">
           <div className="info">
@@ -304,6 +299,7 @@ export default function UserProfile() {
               <div className="portfolio">
                 {portfolioPosts.map((item) => (
                   <PortfolioItem
+                    key={item.id}
                     item={item}
                     show={() => {
                       setModalShow(true);

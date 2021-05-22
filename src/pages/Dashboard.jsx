@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Route } from "react-router-dom";
-import { UserContext, CurrentUserContext } from "../utils/contexts/Contexts";
+import { Route, Switch } from "react-router-dom";
+import { UserContext, useCurrentUserContext } from "../utils/contexts/Contexts";
 import { useSocket } from "../utils/contexts/SocketProvider";
 import useTools from "../utils/useTools";
 import {
@@ -17,6 +17,8 @@ import {
   EditPost,
   Rating,
   GrowrProfile,
+  SubscribeButton,
+  The404,
 } from "../components";
 import { axiosWithAuth } from "../utils/authentication/AxiosWithAuth";
 
@@ -25,7 +27,7 @@ export default function Dashboard() {
   const [users, setUsers] = useState([]);
   const username = localStorage.getItem("username");
 
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const { currentUser, setCurrentUser } = useCurrentUserContext();
   const { goToPage } = useTools();
 
   useEffect(() => {
@@ -56,26 +58,35 @@ export default function Dashboard() {
   return (
     <>
       <UserContext.Provider value={{ users, setUsers }}>
-        <SideBar />
-        {/* {currentUser && currentUser.isSubscribed > 0 ? ( */}
-        <div>
-          <Route exact path="/dashboard" component={BlogList} />
-          <Route path="/dashboard/blogs" component={Blog} />
-          <Route exact path="/dashboard/connect" component={Connect} />
-          <Route exact path="/dashboard/messages" component={Messages} />
-          <Route path="/dashboard/conversation" component={Conversation} />
-          <Route exact path="/dashboard/settings" component={Settings} />
-          <Route exact path="/dashboard/map" component={Map} />
-          <Route path="/dashboard/growrProfile" component={GrowrProfile} />
-          <Route path="/dashboard/user-profile" component={UserProfile} />
-          <Route path="/dashboard/rating" component={Rating} />
-          <Route exact path="/dashboard/blog-post" component={NewPost} />
+        {currentUser && <SideBar />}
+        {currentUser && currentUser.isSubscribed > 0 ? (
+          <div>
+            <Switch>
+              <Route exact path="/dashboard" component={BlogList} />
+              <Route path="/dashboard/blogs" component={Blog} />
+              <Route exact path="/dashboard/messages" component={Messages} />
+              <Route path="/dashboard/conversation" component={Conversation} />
+              <Route exact path="/dashboard/settings" component={Settings} />
+              <Route exact path="/dashboard/map" component={Map} />
+              <Route path="/dashboard/growrProfile" component={GrowrProfile} />
+              <Route path="/dashboard/user-profile" component={UserProfile} />
+              <Route path="/dashboard/rating" component={Rating} />
+              <Route exact path="/dashboard/blog-post" component={NewPost} />
+              <Route
+                exact
+                path="/dashboard/blog-post/edit"
+                component={EditPost}
+              />
 
-          <Route exact path="/dashboard/blog-post/edit" component={EditPost} />
-        </div>
-        {/* ) : (
+              {/* {currentUser.isGrowr === 0 ? ( */}
+              <Route exact path="/dashboard/connect" component={Connect} />
+              {/* ) : null} */}
+              <Route component={The404} />
+            </Switch>
+          </div>
+        ) : (
           <SubscribeButton />
-        )} */}
+        )}
       </UserContext.Provider>
     </>
   );

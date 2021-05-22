@@ -42,6 +42,9 @@ import NewBlogPost from "./newPost/NewBlogPost";
 import NewPortfolioPost from "./newPost/NewPortfolioPost";
 import EditPost from "./newPost/EditPost";
 
+//404
+import The404 from "./404/The404";
+
 export {
   Blog,
   BlogList,
@@ -73,4 +76,5 @@ export {
   Subscribe,
   GrowrSubscribed,
   SubscribeButton,
+  The404,
 };

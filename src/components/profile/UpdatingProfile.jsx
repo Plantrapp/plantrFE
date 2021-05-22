@@ -105,16 +105,6 @@ export default function UpdatingProfile(props) {
         </Form.Group>
         <p className="error">{formErrors.last_name}</p>
         <hr />
-        <Form.Group>
-          <div className="form-label">
-            <label>Profile Picture:</label>
-          </div>
-          <input
-            type="file"
-            onChange={(e) => setSelectedImage(e.target.files[0])}
-          />
-        </Form.Group>
-        <hr />
         <Form.Group className="form-group">
           <div className="form-label">
             <label>Street Address:</label>
