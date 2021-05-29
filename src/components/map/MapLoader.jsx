@@ -39,7 +39,7 @@ export default function MapLoader() {
         console.log(err);
       });
   }, []);
-  console.log(markers, counter);
+  // console.log(markers, counter);
   return (
     <>
       {markers.length === counter ? (

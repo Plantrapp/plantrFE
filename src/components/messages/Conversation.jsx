@@ -13,15 +13,14 @@ const StyledConversation = Styled.div`
   width: 85vw;
   color: whitesmoke;
   #form {
-    background: rgba(0, 0, 0, 0.15);
+    background: transparent;
     padding: 0.25rem;
     bottom: 0;
     left: 0;
     right: 0;
     display: flex;
     height: 3rem;
-    box-sizing: border-box;
-    backdrop-filter: blur(10px);
+
   }
   #input {
     border: none;
@@ -34,7 +33,7 @@ const StyledConversation = Styled.div`
     outline: none;
   }
   #form > button {
-    background: rgba(255, 255, 255, 0);
+    background: transparent;
     border: none;
     padding: 0 1rem;
     margin: 0.25rem;
@@ -49,21 +48,36 @@ const StyledConversation = Styled.div`
   .messagesContainer{
     background: #272727;
     border-radius: 10px;
-    height: 91vh;
+    height: 80vh;
     margin-bottom: 0.5%;
     overflow-y: auto;
     width: 100%;
     display: flex;
     flex-direction: column;
   }
+  .conversation-heading{
+    display: flex;
+    width: 100%;
+
+    align-items: center;
+    padding: 0.5%;
+    img{
+      width: 5%;
+    }
+    h1{
+      margin-left: 2%;
+      width: 50%;
+    }
+  }
 `;
 
 export default function Conversation(props) {
-  const username = localStorage.getItem("username");
+  const username = sessionStorage.getItem("username");
   const { getHistoryState } = useTools();
   const socket = useSocket();
   const recipient = getHistoryState().recipient.username;
   const recipient_id = getHistoryState().recipient.id;
+  const recipientObj = getHistoryState().user;
   const [formValue, setFormValue] = useState("");
   const [messages, setMessages] = useState([]);
   const { currentUser } = useContext(CurrentUserContext);
@@ -128,6 +142,16 @@ export default function Conversation(props) {
 
   return (
     <StyledConversation>
+      <div className="conversation-heading">
+        <img
+          src={recipientObj.profile_picture}
+          alt="profile"
+          style={{ width: "5%" }}
+        />
+        <h1 style={{ textAlign: "left" }}>
+          {recipientObj.first_name} {recipientObj.last_name}
+        </h1>
+      </div>
       <ConversationBubble messages={messages} username={username} />
 
       <form id="form" action="">

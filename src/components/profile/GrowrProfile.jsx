@@ -137,7 +137,6 @@ export default function UserProfile() {
 
   useEffect(() => {
     const { username, id } = growr;
-    console.log("fetching...");
     axiosWithAuth()
       .get(`/user/info/${username}`)
       .then((res) => {
@@ -149,19 +148,28 @@ export default function UserProfile() {
       .catch((err) => {
         console.log(err);
       });
-    currentUser &&
-      axiosWithAuth()
-        .get(`/client-growr-connection/dwellr/${currentUser.id}`)
-        .then((res) => {
-          res.data.forEach((user) => {
-            console.log("user", user.id, "other", id);
-            if (user.id === id) return setIsConnected(true);
+    currentUser && currentUser.isGrowr
+      ? axiosWithAuth()
+          .get(`/client-growr-connection/growr/${currentUser.id}`)
+          .then((res) => {
+            res.data.forEach((user) => {
+              if (user.id === id) return setIsConnected(true);
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      : axiosWithAuth()
+          .get(`/client-growr-connection/dwellr/${currentUser.id}`)
+          .then((res) => {
+            res.data.forEach((user) => {
+              if (user.id === id) return setIsConnected(true);
+            });
+          })
+          .catch((err) => {
+            console.log(err);
           });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-  }, []);
+  }, [isConnected]);
 
   useEffect(() => {
     const starRatingArray = [];
@@ -333,6 +341,7 @@ export default function UserProfile() {
             <button className="mint" onClick={disconnect}>
               Connected
             </button>
+
             <button style={{ marginTop: "2%" }} onClick={goToRating}>
               Leave a review
             </button>

@@ -5,7 +5,7 @@ export const axiosWithAuth = () => {
     // baseURL: "https://obscure-beyond-36960.herokuapp.com",
     baseURL: `http://localhost:5000`,
     headers: {
-      Authorization: localStorage.getItem("token"),
+      Authorization: sessionStorage.getItem("token"),
     },
   });
 };

@@ -168,7 +168,7 @@ export default function NewPost(props) {
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
+
     if (name !== "description" && name !== "category") {
       yup
         .reach(newPostSchema, name)

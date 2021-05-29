@@ -122,7 +122,7 @@ const StyledUserProfile = Styled.div`
 
 export default function UserProfile() {
   const { goToPage, getStars } = useTools();
-  const username = localStorage.getItem("username");
+  const username = sessionStorage.getItem("username");
   const [userInfo, setUserInfo] = useState({});
   const [starRating, setStarRating] = useState([]);
   const [component, setComponent] = useState("portfolio");

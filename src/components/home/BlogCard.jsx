@@ -46,12 +46,11 @@ const StyledBlogCard = Styled.div`
 export default function BlogCard(props) {
   const { id, category, title, author, description } = props.post;
   const { goToPage } = useTools();
-  const username = localStorage.getItem("username");
+  const username = sessionStorage.getItem("username");
 
   const goToBlogPost = () => goToPage(`/dashboard/blogs/${id}`);
   const goToAuthorPage = async () => {
     if (author === username) {
-      console.log("tis true");
       goToPage("/dashboard/user-profile");
       return;
     }

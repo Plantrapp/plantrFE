@@ -137,13 +137,11 @@ export default function ForgotPasswordUpdate() {
   const { toastOn } = useContext(CurrentUserContext);
   const { goToPage } = useTools();
   const hash = window.location.pathname.replace("/forgot-password/", "");
-  console.log(hash);
 
   useEffect(() => {
     axiosWithAuth()
       .get(`/forgot/password/${hash}`)
       .then((res) => {
-        console.log(res);
         const response = res.data[0];
         setHashObject(response);
 

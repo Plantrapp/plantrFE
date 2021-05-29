@@ -179,7 +179,6 @@ export default function Rating() {
       created_at: new Date().toString(),
     };
 
-    console.log(review);
     axiosWithAuth()
       .post(`/reviews`, review)
       .then((res) => {

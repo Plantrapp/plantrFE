@@ -12,7 +12,6 @@ export default function GrowrSubscribed() {
     axiosWithAuth()
       .put(`/user/${id}`, subscribed)
       .then(() => {
-        console.log("success!");
         goToPage("/dashboard");
       })
       .catch((error) => console.error(error));

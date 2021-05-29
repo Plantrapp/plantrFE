@@ -294,7 +294,6 @@ function Map(props) {
                 <a
                   className="link"
                   onClick={() => {
-                    console.log(selected);
                     goToPage(
                       `/dashboard/growrProfile/${selected.username}`,
                       selected

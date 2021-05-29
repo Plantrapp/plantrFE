@@ -25,7 +25,7 @@ import { axiosWithAuth } from "../utils/authentication/AxiosWithAuth";
 export default function Dashboard() {
   const socket = useSocket();
   const [users, setUsers] = useState([]);
-  const username = localStorage.getItem("username");
+  const username = sessionStorage.getItem("username");
 
   const { currentUser, setCurrentUser } = useCurrentUserContext();
   const { goToPage } = useTools();
@@ -69,6 +69,7 @@ export default function Dashboard() {
               <Route exact path="/dashboard/settings" component={Settings} />
               <Route exact path="/dashboard/map" component={Map} />
               <Route path="/dashboard/growrProfile" component={GrowrProfile} />
+              <Route path="/dashboard/dwellrProfile" component={GrowrProfile} />
               <Route path="/dashboard/user-profile" component={UserProfile} />
               <Route path="/dashboard/rating" component={Rating} />
               <Route exact path="/dashboard/blog-post" component={NewPost} />

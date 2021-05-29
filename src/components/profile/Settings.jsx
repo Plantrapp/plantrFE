@@ -125,7 +125,7 @@ export default function Settings() {
   const [formValues, setFormValues] = useState(initFormValues);
   const [account, setAccount] = useState(formValues);
   const [formErrors, setFormErrors] = useState(initFormValues);
-  const [disabled, setDisabled] = useState(false);
+  const [disabled, setDisabled] = useState(true);
   const [component, setComponent] = useState("AccountInfo");
   const [selectedImage, setSelectedImage] = useState("");
   const { currentUser, setCurrentUser, toastOn } = useCurrentUserContext();
@@ -191,11 +191,10 @@ export default function Settings() {
       axiosWithAuth()
         .put(`/user/${id}`, formData)
         .then((res) => {
-          console.log(res.data);
           setCurrentUser((oldUser) => {
             return { ...oldUser, ...res.data };
           });
-          localStorage.setItem("username", res.data.username);
+          sessionStorage.setItem("username", res.data.username);
           changeComponent("AccountInfo");
           toastOn("successfulProfileUpdate");
           setAccount(formValues);
@@ -210,7 +209,7 @@ export default function Settings() {
         .then((res) => {
           changeComponent("AccountInfo");
           setCurrentUser(res.data);
-          localStorage.setItem("username", res.data.username);
+          sessionStorage.setItem("username", res.data.username);
           toastOn("successfulProfileUpdate");
           setAccount(formValues);
         })

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Styled from "styled-components";
 
 const StyledConversationBubble = Styled.div`
@@ -46,6 +46,11 @@ const StyledConversationBubble = Styled.div`
 
 export default function ConversationBubble(props) {
   const { messages, username } = props;
+  const AlwaysScrollToBottom = () => {
+    const elementRef = useRef();
+    useEffect(() => elementRef.current.scrollIntoView());
+    return <div ref={elementRef} />;
+  };
   return (
     <div className="messagesContainer">
       {messages.map((msg) => {
@@ -54,18 +59,17 @@ export default function ConversationBubble(props) {
           <StyledConversationBubble>
             <div className="self">
               <div>{message}</div>
-              <span>{username}</span>
             </div>
           </StyledConversationBubble>
         ) : (
           <StyledConversationBubble>
             <div className="other">
-              <span>{sender}</span>
               <div>{message}</div>
             </div>
           </StyledConversationBubble>
         );
       })}
+      <AlwaysScrollToBottom />
     </div>
   );
 }

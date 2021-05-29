@@ -127,7 +127,7 @@ const StyledSideBar = Styled.div`
 `;
 export default function SideBar() {
   const { currentUser, setCurrentUser } = useCurrentUserContext();
-  const username = localStorage.getItem("username");
+  const username = sessionStorage.getItem("username");
 
   useEffect(() => {
     axiosWithAuth()
@@ -166,7 +166,7 @@ export default function SideBar() {
         </Link>
         {currentUser && currentUser.isSubscribed > 0 ? (
           <>
-            {currentUser.isGrowr < 0 ? (
+            {currentUser.isGrowr < 1 ? (
               <Link to="/dashboard/connect">
                 <FaUsers />
                 <span>Connect</span>
@@ -194,9 +194,9 @@ export default function SideBar() {
         <Link
           to="/"
           onClick={() => {
-            localStorage.removeItem("username");
-            localStorage.removeItem("isGrowr");
-            localStorage.removeItem("role");
+            sessionStorage.removeItem("username");
+            sessionStorage.removeItem("isGrowr");
+            sessionStorage.removeItem("role");
           }}
         >
           <FaSignOutAlt />

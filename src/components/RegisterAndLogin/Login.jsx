@@ -31,12 +31,11 @@ export default function Login() {
     axiosWithAuth()
       .post(`/auth/login`, creds)
       .then((res) => {
-        console.log(res);
         setCurrentUser(res.data.user);
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("username", username);
-        localStorage.setItem("role", res.data.role);
-        localStorage.setItem("isGrowr", res.data.user.isGrowr);
+        sessionStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("username", username);
+        sessionStorage.setItem("role", res.data.role);
+        sessionStorage.setItem("isGrowr", res.data.user.isGrowr);
         goToPage("/dashboard");
       })
       .catch(() => {

@@ -76,12 +76,11 @@ export default function Register() {
     axiosWithAuth()
       .post(`/auth/register`, creds)
       .then((res) => {
-        console.log(res.data);
-        localStorage.setItem("username", formValues.username);
-        localStorage.setItem("isGrowr", formValues.isGrowr);
+        sessionStorage.setItem("username", formValues.username);
+        sessionStorage.setItem("isGrowr", formValues.isGrowr);
         formValues.isGrowr
-          ? localStorage.setItem("role", "Growr")
-          : localStorage.setItem("role", "Dwellr");
+          ? sessionStorage.setItem("role", "Growr")
+          : sessionStorage.setItem("role", "Dwellr");
         if (formValues.isGrowr) {
           Subscribe(res.data);
         } else {
