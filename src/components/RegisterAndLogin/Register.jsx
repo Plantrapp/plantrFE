@@ -8,7 +8,7 @@ import * as yup from "yup";
 import geocoder from "react-geocode";
 import useTools from "../../utils/useTools";
 import Subscribe from "./Subscribe";
-import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
+import axios from "axios";
 
 const initState = {
   username: "",
@@ -73,7 +73,7 @@ export default function Register() {
         creds.lng = res.results[0].geometry.location.lng;
       });
 
-    axiosWithAuth()
+    axios
       .post(`/auth/register`, creds)
       .then((res) => {
         sessionStorage.setItem("username", formValues.username);

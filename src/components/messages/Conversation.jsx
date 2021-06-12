@@ -146,7 +146,7 @@ export default function Conversation(props) {
         <img
           src={recipientObj.profile_picture}
           alt="profile"
-          style={{ width: "5%" }}
+          style={{ width: "5%", borderRadius: "50%" }}
         />
         <h1 style={{ textAlign: "left" }}>
           {recipientObj.first_name} {recipientObj.last_name}
