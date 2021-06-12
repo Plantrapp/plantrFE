@@ -50,7 +50,7 @@ export default function UserCard(props) {
 
   return (
     <StyledUserCard onClick={goToGrowrProfile}>
-      <img src={profile_picture} />
+      <img src={profile_picture} alt="user profile" />
       <div>
         <h3>
           {first_name}{" "}

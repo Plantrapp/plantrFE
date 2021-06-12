@@ -10,10 +10,10 @@ margin: 1%;
 transition: 0.15s ease-in-out;
 color:whitesmoke;
 width: 14.68vw;
-&:hover{
 
-  background: #303030;
-}
+  &:hover{
+    background: #303030;
+  }
   img{
     width:50%;
     border-radius: 50%;
@@ -32,7 +32,7 @@ width: 14.68vw;
   }
   .button-array{
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     .button1{
       width: 100%;
       margin:1%;
@@ -48,20 +48,20 @@ width: 14.68vw;
       }
     }
     .button2{
-    width: 100%;
-    margin:1%;
-    background: transparent;
-    color: whitesmoke;
+      width: 100%;
+      margin:1%;
+      background: transparent;
+      color: whitesmoke;
 
-    border-radius: 5px;
-    padding: .5%;
-    transition: 0.3s ease-in-out;
-    border: none;
-    &:hover{
-      background: #525151;
+      border-radius: 5px;
+      padding: .5%;
+      transition: 0.3s ease-in-out;
+      border: none;
+      &:hover{
+        background: #525151;
+      }
     }
-  }
-  }
+  } 
 `;
 
 export default function MessagesCard(props) {
@@ -87,8 +87,8 @@ export default function MessagesCard(props) {
   };
 
   return (
-    <StyledMessagesCard>
-      <img src={user.profile_picture} />
+    <StyledMessagesCard key={user.id}>
+      <img src={user.profile_picture} alt="profile" />
       <div>
         <h3>
           {user.first_name}{" "}

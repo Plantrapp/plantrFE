@@ -12,7 +12,6 @@ export default function useTools() {
   };
 
   const getHistoryState = () => {
-    // console.log(history.location);
     return history.location.state;
   };
 

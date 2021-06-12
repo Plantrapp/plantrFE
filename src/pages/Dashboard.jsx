@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import { UserContext, useCurrentUserContext } from "../utils/contexts/Contexts";
 import { useSocket } from "../utils/contexts/SocketProvider";
@@ -20,13 +20,16 @@ import {
   SubscribeButton,
   The404,
 } from "../components";
-import { axiosWithAuth } from "../utils/authentication/AxiosWithAuth";
+import {
+  axiosWithAuth,
+  cancelToken,
+} from "../utils/authentication/AxiosWithAuth";
 
 export default function Dashboard() {
   const socket = useSocket();
   const [users, setUsers] = useState([]);
   const username = sessionStorage.getItem("username");
-
+  const [connections, setConnections] = useState();
   const { currentUser, setCurrentUser } = useCurrentUserContext();
   const { goToPage } = useTools();
 
@@ -35,6 +38,9 @@ export default function Dashboard() {
     if (currentUser) {
       const room_id = currentUser.id;
       socket && socket.emit("loggedIn", { username, room_id });
+      currentUser.isGrowr
+        ? fetch("growr", currentUser.id)
+        : fetch("dwellr", currentUser.id);
     }
     axiosWithAuth()
       .get(`/user`)
@@ -55,6 +61,22 @@ export default function Dashboard() {
     }
   }, [currentUser]);
 
+  async function fetch(role, id) {
+    let result;
+
+    await axiosWithAuth()
+      .get(`/client-growr-connection/${role}/${id}`, {
+        cancelToken: cancelToken.token,
+      })
+      .then((res) => {
+        result = res.data;
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setConnections(result);
+      });
+  }
+
   return (
     <>
       <UserContext.Provider value={{ users, setUsers }}>
@@ -64,12 +86,27 @@ export default function Dashboard() {
             <Switch>
               <Route exact path="/dashboard" component={BlogList} />
               <Route path="/dashboard/blogs" component={Blog} />
-              <Route exact path="/dashboard/messages" component={Messages} />
+              <Route exact path="/dashboard/messages">
+                <Messages
+                  connections={connections}
+                  setConnections={setConnections}
+                />
+              </Route>
               <Route path="/dashboard/conversation" component={Conversation} />
               <Route exact path="/dashboard/settings" component={Settings} />
               <Route exact path="/dashboard/map" component={Map} />
-              <Route path="/dashboard/growrProfile" component={GrowrProfile} />
-              <Route path="/dashboard/dwellrProfile" component={GrowrProfile} />
+              <Route path="/dashboard/growrProfile">
+                <GrowrProfile
+                  connections={connections}
+                  setConnections={setConnections}
+                />
+              </Route>
+              <Route path="/dashboard/dwellrProfile">
+                <GrowrProfile
+                  connections={connections}
+                  setConnections={setConnections}
+                />
+              </Route>
               <Route path="/dashboard/user-profile" component={UserProfile} />
               <Route path="/dashboard/rating" component={Rating} />
               <Route exact path="/dashboard/blog-post" component={NewPost} />

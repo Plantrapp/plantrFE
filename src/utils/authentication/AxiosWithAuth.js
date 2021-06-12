@@ -1,5 +1,4 @@
 import axios from "axios";
-
 export const axiosWithAuth = () => {
   return axios.create({
     // baseURL: "https://obscure-beyond-36960.herokuapp.com",
@@ -9,3 +8,4 @@ export const axiosWithAuth = () => {
     },
   });
 };
+export const cancelToken = axios.CancelToken.source();

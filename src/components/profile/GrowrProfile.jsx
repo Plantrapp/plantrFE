@@ -9,7 +9,7 @@ import { FaStar } from "react-icons/fa";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
-const StyledUserProfile = Styled.div`
+const StyledGrowrProfile = Styled.div`
   display: flex;
   flex-direction: column;
   max-width: 85vw;
@@ -120,7 +120,7 @@ const StyledUserProfile = Styled.div`
 
 `;
 
-export default function UserProfile() {
+export default function GrowrProfile({ setConnections, connections }) {
   const { goToPage, getHistoryState, getStars } = useTools();
   const [userInfo, setUserInfo] = useState({});
   const [starRating, setStarRating] = useState([]);
@@ -153,7 +153,7 @@ export default function UserProfile() {
           .get(`/client-growr-connection/growr/${currentUser.id}`)
           .then((res) => {
             res.data.forEach((user) => {
-              if (user.id === id) return setIsConnected(true);
+              if (user.id === id) setIsConnected(true);
             });
           })
           .catch((err) => {
@@ -163,13 +163,13 @@ export default function UserProfile() {
           .get(`/client-growr-connection/dwellr/${currentUser.id}`)
           .then((res) => {
             res.data.forEach((user) => {
-              if (user.id === id) return setIsConnected(true);
+              if (user.id === id) setIsConnected(true);
             });
           })
           .catch((err) => {
             console.log(err);
           });
-  }, [isConnected]);
+  }, [growr]);
 
   useEffect(() => {
     const starRatingArray = [];
@@ -203,28 +203,34 @@ export default function UserProfile() {
 
   const connect = (e) => {
     e.preventDefault();
-    const dwellr_id = currentUser.id;
-    const growr_id = userInfo.id;
+    const data = {};
+    if (currentUser.isGrowr) {
+      data.dwellr_id = userInfo.id;
+      data.growr_id = currentUser.id;
+    } else {
+      data.dwellr_id = currentUser.id;
+      data.growr_id = userInfo.id;
+    }
+    setConnections([...connections, growr]);
     axiosWithAuth()
-      .post(`/client-growr-connection`, {
-        dwellr_id,
-        growr_id,
-      })
+      .post(`/client-growr-connection`, data)
       .then((res) => setIsConnected(true))
       .catch((err) => console.log(err));
   };
 
   const disconnect = (e) => {
     e.preventDefault();
-    const dwellr_id = currentUser.id;
-    const growr_id = userInfo.id;
+    const data = {};
+    if (currentUser.isGrowr) {
+      data.dwellr_id = userInfo.id;
+      data.growr_id = currentUser.id;
+    } else {
+      data.dwellr_id = currentUser.id;
+      data.growr_id = userInfo.id;
+    }
+    setConnections(connections.filter((user) => user.id !== growr.id));
     axiosWithAuth()
-      .delete(`/client-growr-connection`, {
-        data: {
-          dwellr_id,
-          growr_id,
-        },
-      })
+      .delete(`/client-growr-connection`, { data })
       .then((res) => setIsConnected(false))
       .catch((err) => console.log(err));
   };
@@ -262,7 +268,7 @@ export default function UserProfile() {
   const changeComponent = (component) => setComponent(component);
 
   return (
-    <StyledUserProfile>
+    <StyledGrowrProfile>
       <Modaler
         show={modalShow}
         onHide={() => setModalShow(false)}
@@ -391,6 +397,6 @@ export default function UserProfile() {
             return null;
         }
       })()}
-    </StyledUserProfile>
+    </StyledGrowrProfile>
   );
 }
