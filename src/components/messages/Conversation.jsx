@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import axios from "axios";
+
 import Styled from "styled-components";
 import { useSocket } from "../../utils/contexts/SocketProvider";
 import ConversationBubble from "./ConversationBubble";
@@ -146,7 +146,7 @@ export default function Conversation(props) {
         <img
           src={recipientObj.profile_picture}
           alt="profile"
-          style={{ width: "5%", borderRadius: "50%" }}
+          style={{ width: "5%" }}
         />
         <h1 style={{ textAlign: "left" }}>
           {recipientObj.first_name} {recipientObj.last_name}

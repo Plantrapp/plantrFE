@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { loginFormSchema } from "../../validation/formSchema";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import useTools from "../../utils/useTools";
-import axios from "axios";
+import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 const initState = {
   username: "",
@@ -28,7 +28,7 @@ export default function Login() {
       password: formValues.password.trim(),
     };
 
-    axios
+    axiosWithAuth()
       .post(`/auth/login`, creds)
       .then((res) => {
         setCurrentUser(res.data.user);
