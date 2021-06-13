@@ -197,7 +197,7 @@ function Map(props) {
   if (loadError) return "Error loading";
   if (!isLoaded) return "Loading Maps";
 
-  const currentUserMarkerImage = currentUser.profile_picture
+  let currentUserMarkerImage = currentUser.profile_picture
     .replace("/upload/", "/upload/r_300/")
     .replace(".jpg", ".png");
 
