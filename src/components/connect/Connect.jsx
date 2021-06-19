@@ -31,30 +31,12 @@ export default function Connect() {
         growrs.push(user);
       });
 
-  //   console.log(users, currentUser);
-  //   useEffect(() => {
-  //     // console.log("inside Effect", users);
-  //     setUsers((old) => {
-  //       console.log(old);
-  //       old.map((user) => {
-  //         user.distance = haversine(
-  //           { latitude: currentUser.lat, longitude: currentUser.lng },
-  //           { latitude: user.lat, longitude: user.lng },
-  //           { unit: "mile" }
-  //         ).toFixed(1);
-  //         // setUsers([...users, { ...user, distance: temp }]);
-  //       });
-  //     });
-  //     console.log(users);
-  //   }, [currentUser]);
-
   return (
     <Tabs
       activeKey={key}
       onSelect={(k) => {
         setKey(k);
       }}
-      //   variant="pills"
       className="all"
     >
       <Tab
