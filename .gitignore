@@ -128,3 +128,4 @@ yarn-debug.log*
 yarn-error.log*
 .vscodesendgrid.env
 sendgrid.env
+node_modules

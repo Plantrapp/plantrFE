@@ -13,7 +13,9 @@ export default function Subscribe(input) {
     id = input.data.id;
   }
   async function startCheckout() {
-    const result = await (await stripe).redirectToCheckout({
+    const result = await (
+      await stripe
+    ).redirectToCheckout({
       lineItems: [{ price, quantity: 1 }],
 
       successUrl: `${frontendBaseURL}/subscribed/${id}`,

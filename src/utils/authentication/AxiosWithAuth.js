@@ -1,8 +1,8 @@
 import axios from "axios";
+import { baseURL } from "../misc";
 export const axiosWithAuth = () => {
   return axios.create({
-    // baseURL: "https://obscure-beyond-36960.herokuapp.com",
-    baseURL: `http://localhost:5000`,
+    baseURL: `${baseURL}`,
     headers: {
       Authorization: sessionStorage.getItem("token"),
     },

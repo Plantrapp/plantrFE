@@ -76,14 +76,16 @@ export default function Register() {
         creds.lng = res.results[0].geometry.location.lng;
       });
 
-    axios
+    await axios
       .post(`${baseURL}/auth/register`, creds)
       .then((res) => {
+        console.log("res", res);
         sessionStorage.setItem("username", formValues.username);
         sessionStorage.setItem("isGrowr", formValues.isGrowr);
         formValues.isGrowr
           ? sessionStorage.setItem("role", "Growr")
           : sessionStorage.setItem("role", "Dwellr");
+        sessionStorage.setItem("token", res.data.token);
         if (formValues.isGrowr) {
           Subscribe(res.data);
         } else {
