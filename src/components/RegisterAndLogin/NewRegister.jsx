@@ -8,8 +8,8 @@ import * as yup from "yup";
 import geocoder from "react-geocode";
 import useTools from "../../utils/useTools";
 import Subscribe from "./Subscribe";
-import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
-import { states } from "../../utils/misc";
+import { baseURL, states } from "../../utils/misc";
+import axios from "axios";
 
 const initState = {
   username: "",
@@ -77,8 +77,8 @@ export default function Register() {
         creds.lng = res.results[0].geometry.location.lng;
       });
 
-    axiosWithAuth()
-      .post(`/auth/register`, creds)
+    await axios
+      .post(`${baseURL}/auth/register`, creds)
       .then((res) => {
         sessionStorage.setItem("token", res.data.token);
         sessionStorage.setItem("username", formValues.username);
@@ -86,6 +86,7 @@ export default function Register() {
         formValues.isGrowr
           ? sessionStorage.setItem("role", "Growr")
           : sessionStorage.setItem("role", "Dwellr");
+        sessionStorage.setItem("token", res.data.token);
         if (formValues.isGrowr) {
           Subscribe(res.data);
         } else {

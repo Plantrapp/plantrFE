@@ -62,14 +62,19 @@ export default function Dashboard() {
   }, [currentUser]);
 
   async function fetch(role, id) {
-    let result;
+    let result = [];
 
     await axiosWithAuth()
       .get(`/client-growr-connection/${role}/${id}`, {
         cancelToken: cancelToken.token,
       })
       .then((res) => {
-        result = res.data;
+        if (res.data.length > 0) {
+          result = res.data.map((user) => {
+            delete user.password;
+            return user;
+          });
+        }
       })
       .catch((err) => console.log(err))
       .finally(() => {

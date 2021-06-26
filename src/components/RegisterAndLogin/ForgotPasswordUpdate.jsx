@@ -193,7 +193,7 @@ export default function ForgotPasswordUpdate() {
             id: hashObject.id,
             isHashUsed: true,
           })
-          .then((res) => console.log(res))
+          .then((res) => console.log("Email sent"))
           .catch((err) => console.log(err));
         goToPage("/Dashboard");
         toastOn("successfulUpdatePassword");
