@@ -9,7 +9,8 @@ import { CurrentUserContext, UserContext } from "../../utils/contexts/Contexts";
 export default function Connect() {
   const [key, setKey] = useState("listView");
   const { users, setUsers } = useContext(UserContext);
-  //   const [cGrowrs, setCGrowrs] = useState(growrs);
+  const [list, setList] = useState("black");
+  const [map, setMap] = useState("whitesmoke");
   const { currentUser } = useContext(CurrentUserContext);
 
   const growrs = [];
@@ -33,16 +34,23 @@ export default function Connect() {
 
   return (
     <Tabs
+      defaultActiveKey={"listView"}
       activeKey={key}
       onSelect={(k) => {
         setKey(k);
+        if (k === "listView") {
+          setList("black");
+          setMap("whitesmoke");
+        } else {
+          setList("whitesmoke");
+          setMap("black");
+        }
       }}
-      className="all"
     >
       <Tab
         eventKey="listView"
         title={
-          <span className="tabs">
+          <span className="tabs" style={{ color: list }}>
             <FaListUl />
             <p>List</p>
           </span>
@@ -53,7 +61,7 @@ export default function Connect() {
       <Tab
         eventKey="mapView"
         title={
-          <span className="tabs">
+          <span className="tabs" style={{ color: map }}>
             <FaMap />
             <p>Map</p>
           </span>
