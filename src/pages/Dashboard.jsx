@@ -29,7 +29,7 @@ export default function Dashboard() {
   const socket = useSocket();
   const [users, setUsers] = useState([]);
   const username = sessionStorage.getItem("username");
-  const [connections, setConnections] = useState();
+  const [connections, setConnections] = useState([]);
   const { currentUser, setCurrentUser } = useCurrentUserContext();
   const { goToPage } = useTools();
 

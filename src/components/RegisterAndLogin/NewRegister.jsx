@@ -13,7 +13,8 @@ import { states } from "../../utils/misc";
 
 const initState = {
   username: "",
-  profile_picture: "",
+  profile_picture:
+    "https://res.cloudinary.com/samuel-brown/image/upload/c_lpad,h_500,w_500/v1624405583/profile_pics/profile1_yrycyl.png",
   password: "",
   first_name: "",
   last_name: "",
@@ -79,6 +80,7 @@ export default function Register() {
     axiosWithAuth()
       .post(`/auth/register`, creds)
       .then((res) => {
+        sessionStorage.setItem("token", res.data.token);
         sessionStorage.setItem("username", formValues.username);
         sessionStorage.setItem("isGrowr", formValues.isGrowr);
         formValues.isGrowr

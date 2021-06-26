@@ -197,6 +197,7 @@ export default function SideBar() {
             sessionStorage.removeItem("username");
             sessionStorage.removeItem("isGrowr");
             sessionStorage.removeItem("role");
+            sessionStorage.removeItem("token");
           }}
         >
           <FaSignOutAlt />

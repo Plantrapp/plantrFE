@@ -7,16 +7,21 @@ const stripe = loadStripe(
 export default function Subscribe(input) {
   let price = "price_1IRjIRAADF3RmXMdtXis20CT";
   let id;
+  let token;
+  console.log(input);
   if (typeof input === "string") {
     id = input;
   } else {
     id = input.data.id;
+    token = input.token;
   }
   async function startCheckout() {
-    const result = await (await stripe).redirectToCheckout({
+    const result = await (
+      await stripe
+    ).redirectToCheckout({
       lineItems: [{ price, quantity: 1 }],
 
-      successUrl: `${frontendBaseURL}/subscribed/${id}`,
+      successUrl: `${frontendBaseURL}/subscribed/${id}/${token}`,
       cancelUrl: `${frontendBaseURL}/dashboard`,
       mode: "subscription",
     });

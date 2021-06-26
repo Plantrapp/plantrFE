@@ -3,7 +3,10 @@ import useTools from "../../utils/useTools";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
 
 export default function GrowrSubscribed() {
-  const id = window.document.URL.split("/").pop();
+  const windowArray = window.document.URL.split("/");
+  const token = windowArray.pop();
+  sessionStorage.setItem("token", token);
+  const id = windowArray.pop();
   const { goToPage } = useTools();
   useEffect(() => {
     const subscribed = {

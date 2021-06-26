@@ -137,6 +137,9 @@ export default function GrowrProfile({ setConnections, connections }) {
 
   useEffect(() => {
     const { username, id } = growr;
+    connections.forEach((user) => {
+      if (user.id === id) setIsConnected(true);
+    });
     axiosWithAuth()
       .get(`/user/info/${username}`)
       .then((res) => {
@@ -148,27 +151,6 @@ export default function GrowrProfile({ setConnections, connections }) {
       .catch((err) => {
         console.log(err);
       });
-    currentUser && currentUser.isGrowr
-      ? axiosWithAuth()
-          .get(`/client-growr-connection/growr/${currentUser.id}`)
-          .then((res) => {
-            res.data.forEach((user) => {
-              if (user.id === id) setIsConnected(true);
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-      : axiosWithAuth()
-          .get(`/client-growr-connection/dwellr/${currentUser.id}`)
-          .then((res) => {
-            res.data.forEach((user) => {
-              if (user.id === id) setIsConnected(true);
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
   }, [growr]);
 
   useEffect(() => {
