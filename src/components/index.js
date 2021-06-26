@@ -19,12 +19,11 @@ import MessagesCard from "./messages/MessagesCard";
 
 // RegisterAndLogin
 import Login from "./registerAndLogin/Login";
-import Register from "./registerAndLogin/Register";
 import NewRegister from "./registerAndLogin/NewRegister";
 import ForgotPassword from "./registerAndLogin/ForgotPassword";
 import ForgotPasswordUpdate from "./registerAndLogin/ForgotPasswordUpdate";
-import RegisterGrowr from "./registerAndLogin/RegisterGrowr";
 import RegisterPlantr from "./registerAndLogin/RegisterPlantr";
+import RegisterGrowr from "./registerAndLogin/RegisterGrowr";
 import Subscribe from "./registerAndLogin/Subscribe";
 import GrowrSubscribed from "./registerAndLogin/GrowrSubscribed";
 import SubscribeButton from "./registerAndLogin/SubscribeButton";
@@ -59,7 +58,6 @@ export {
   Messages,
   MessagesCard,
   Login,
-  Register,
   ForgotPassword,
   ForgotPasswordUpdate,
   RegisterGrowr,

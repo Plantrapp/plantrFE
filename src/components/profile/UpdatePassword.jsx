@@ -49,7 +49,7 @@ export default function UpdatePassword(props) {
         password: formValues.password,
         oldPassword,
       })
-      .then((res) => {
+      .then(() => {
         changeComponent("AccountInfo");
         toastOn("successfulUpdatePassword");
       })

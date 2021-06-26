@@ -196,7 +196,7 @@ export default function GrowrProfile({ setConnections, connections }) {
     setConnections([...connections, growr]);
     axiosWithAuth()
       .post(`/client-growr-connection`, data)
-      .then((res) => setIsConnected(true))
+      .then(() => setIsConnected(true))
       .catch((err) => console.log(err));
   };
 
@@ -213,7 +213,7 @@ export default function GrowrProfile({ setConnections, connections }) {
     setConnections(connections.filter((user) => user.id !== growr.id));
     axiosWithAuth()
       .delete(`/client-growr-connection`, { data })
-      .then((res) => setIsConnected(false))
+      .then(() => setIsConnected(false))
       .catch((err) => console.log(err));
   };
 
@@ -290,7 +290,6 @@ export default function GrowrProfile({ setConnections, connections }) {
             }
             alt="User Profile"
           />
-          {/* <Hover>{(hovering) => <ProfilePicture hovering={hovering} />}</Hover> Experimental feature 💡 Hover for profile pictures */}
         </div>
 
         <div className="right">

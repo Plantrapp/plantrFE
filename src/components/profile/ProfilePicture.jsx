@@ -1,5 +1,4 @@
 import React from "react";
-import pic from "../../assets/img/user-profile.png";
 import styled from "styled-components";
 import { FaUserEdit } from "react-icons/fa";
 

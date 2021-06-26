@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import { registerFormSchemaPart1 } from "../../validation/formSchema";
-// import RegisterGrowr from "./RegisterGrowr";
-// import RegisterPlantr from "./RegisterPlantr";
-// import { FaAngleLeft } from "react-icons/fa";
 import * as yup from "yup";
 import geocoder from "react-geocode";
 import useTools from "../../utils/useTools";
@@ -60,7 +57,7 @@ export default function Register() {
       state: formValues.state.trim(),
       zipcode: Number(formValues.zipcode.trim()),
       isGrowr: formValues.isGrowr,
-      role: formValues.isGrowr ? "growr" : "dwellr", // just for now until we have a list of roles a GROWR can be.
+      role: formValues.isGrowr ? "growr" : "dwellr",
       hourly_rate: formValues.isGrowr
         ? Number(formValues.hourly_rate).toFixed(2)
         : 0,
@@ -86,6 +83,7 @@ export default function Register() {
         formValues.isGrowr
           ? sessionStorage.setItem("role", "Growr")
           : sessionStorage.setItem("role", "Dwellr");
+        sessionStorage.setItem("token2", res.token);
         sessionStorage.setItem("token", res.data.token);
         if (formValues.isGrowr) {
           Subscribe(res.data);
@@ -239,7 +237,7 @@ export default function Register() {
       </Form.Group>
       <Form.Group controlId="">
         <label className="growr-checkbox">
-          <div>Becomeing a Growr?</div>
+          <div>Becoming a Growr?</div>
           <input
             className="featureless-input"
             type="checkbox"

@@ -181,7 +181,7 @@ export default function Rating() {
 
     axiosWithAuth()
       .post(`/reviews`, review)
-      .then((res) => {
+      .then(() => {
         goToPage(`/dashboard/growrProfile/${back}`, growr);
         toastOn("successfulReviewSubmitted");
       })

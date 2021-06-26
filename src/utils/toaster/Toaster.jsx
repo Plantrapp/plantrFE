@@ -8,10 +8,6 @@ export default function Toaster() {
   const toastOff = (tag) => {
     setShowToast({ ...showToast, [tag]: false });
   };
-  // success - toast - header;
-  // success - toast - body;
-  // error - toast - header;
-  // error - toast - body;
 
   return (
     <>

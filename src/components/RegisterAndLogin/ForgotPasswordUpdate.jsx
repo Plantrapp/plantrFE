@@ -187,13 +187,13 @@ export default function ForgotPasswordUpdate() {
         password: formValues.password,
         key: true,
       })
-      .then((res) => {
+      .then(() => {
         axiosWithAuth()
           .put(`/forgot/password`, {
             id: hashObject.id,
             isHashUsed: true,
           })
-          .then((res) => console.log("Email sent"))
+          .then(() => {})
           .catch((err) => console.log(err));
         goToPage("/Dashboard");
         toastOn("successfulUpdatePassword");

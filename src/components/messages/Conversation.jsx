@@ -71,7 +71,7 @@ const StyledConversation = Styled.div`
   }
 `;
 
-export default function Conversation(props) {
+export default function Conversation() {
   const username = sessionStorage.getItem("username");
   const { getHistoryState } = useTools();
   const socket = useSocket();

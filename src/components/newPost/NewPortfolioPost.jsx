@@ -16,7 +16,6 @@ const StyledForm = styled.div`
   width: 85vw;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   .form-group {
     display: flex;
     align-items: center;
@@ -106,7 +105,7 @@ export default function NewPortfolioPost(props) {
 
     axiosWithAuth()
       .post(`/portfolio-posts`, formData)
-      .then((res) => {
+      .then(() => {
         setSelectedImage(null);
         setDescription("");
         toastOn("successfulNewPost");
@@ -162,9 +161,6 @@ export default function NewPortfolioPost(props) {
               />
             </div>
           </Form.Group>
-          {/* <button type="button" onClick={openWidget}>
-          Here
-        </button> */}
           <div className="button">
             <button
               type="submit"

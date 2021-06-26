@@ -19,11 +19,11 @@ export default function ForgotPassword(props) {
     e.preventDefault();
     axiosWithAuth()
       .post(`/forgot/password`, formValues)
-      .then((res) => {
+      .then(() => {
         toastOn("forgotPasswordSent");
         setIsForgotPassword(!isForgotPassword);
       })
-      .catch((err) => {
+      .catch(() => {
         toastOn("forgotPasswordAlreadySent");
       });
   };

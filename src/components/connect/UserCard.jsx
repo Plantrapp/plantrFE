@@ -1,5 +1,4 @@
 import React from "react";
-import pic from "../../assets/img/user-profile.png";
 import Styled from "styled-components";
 import useTools from "../../utils/useTools";
 const StyledUserCard = Styled.div`

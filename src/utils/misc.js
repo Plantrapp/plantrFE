@@ -1,8 +1,8 @@
 export const states = [
-  "AL",
   "AK",
-  "AZ",
+  "AL",
   "AR",
+  "AZ",
   "CA",
   "CO",
   "CT",
@@ -10,29 +10,29 @@ export const states = [
   "FL",
   "GA",
   "HI",
+  "IA",
   "ID",
   "IL",
   "IN",
-  "IA",
   "KS",
   "KY",
   "LA",
-  "ME",
-  "MD",
   "MA",
+  "MD",
+  "ME",
   "MI",
   "MN",
-  "MS",
   "MO",
+  "MS",
   "MT",
+  "NC",
+  "ND",
   "NE",
-  "NV",
   "NH",
   "NJ",
   "NM",
+  "NV",
   "NY",
-  "NC",
-  "ND",
   "OH",
   "OK",
   "OR",
@@ -43,15 +43,15 @@ export const states = [
   "TN",
   "TX",
   "UT",
-  "VT",
   "VA",
+  "VT",
   "WA",
-  "WV",
   "WI",
+  "WV",
   "WY",
 ];
 
-// export const frontendBaseURL = `https://deployed-plantr-fe-git-main-plantr.vercel.app/`;
-export const frontendBaseURL = `http://localhost:3000`;
-// export const baseURL = `https://obscure-beyond-36960.herokuapp.com`;
-export const baseURL = `http://localhost:5000`;
+export const frontendBaseURL = `https://deployed-plantr-fe-git-main-plantr.vercel.app`;
+// export const frontendBaseURL = `http://localhost:3000`;
+export const baseURL = `https://plantrgrowapp.herokuapp.com`;
+// export const baseURL = `http://localhost:5000`;

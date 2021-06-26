@@ -1,11 +1,11 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { frontendBaseURL } from "../../utils/misc";
 const stripe = loadStripe(
-  "pk_test_51IRhn8AADF3RmXMdfMxV11xuAmFcQPSI6SRX829bgO4AHf8ovgnRTXFu8I9LwDQHjBOPxcbv4mwEQ7ST35F6oUX100oGm3mAkZ"
+  "pk_live_51IVkZmKTCPPfBqGfvbueZ3JhuMC2GEqQF03GzuB6QpEvKXMADUXUloJUTRO53wkrJUoZjA5MWgNuLohABaOa5HYu00BukJoCoi"
 );
 
 export default function Subscribe(input) {
-  let price = "price_1IRjIRAADF3RmXMdtXis20CT";
+  let price = "price_1Iu2poKTCPPfBqGfssmKcuWW";
   let id;
   let token;
   console.log(input);

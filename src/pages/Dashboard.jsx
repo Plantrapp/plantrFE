@@ -62,19 +62,14 @@ export default function Dashboard() {
   }, [currentUser]);
 
   async function fetch(role, id) {
-    let result = [];
+    let result;
 
     await axiosWithAuth()
       .get(`/client-growr-connection/${role}/${id}`, {
         cancelToken: cancelToken.token,
       })
       .then((res) => {
-        if (res.data.length > 0) {
-          result = res.data.map((user) => {
-            delete user.password;
-            return user;
-          });
-        }
+        result = res.data;
       })
       .catch((err) => console.log(err))
       .finally(() => {
@@ -121,9 +116,8 @@ export default function Dashboard() {
                 component={EditPost}
               />
 
-              {/* {currentUser.isGrowr === 0 ? ( */}
               <Route exact path="/dashboard/connect" component={Connect} />
-              {/* ) : null} */}
+
               <Route component={The404} />
             </Switch>
           </div>

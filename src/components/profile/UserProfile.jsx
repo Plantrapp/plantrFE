@@ -6,7 +6,6 @@ import ProfilePicture from "./ProfilePicture";
 import BlogItem from "./BlogItem";
 import Modaler from "../../utils/modal/Modaler";
 import useTools from "../../utils/useTools";
-import Hover from "../../utils/tooltip/Hover";
 import { FaStar } from "react-icons/fa";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
 import { axiosWithAuth } from "../../utils/authentication/AxiosWithAuth";
@@ -36,9 +35,6 @@ const StyledUserProfile = Styled.div`
     justify-content: center;
     flex-wrap: nowrap;
     .left{
-       /* display: flex; */
-      /* align-items: center;
-      justify-content: center;  */
       width: 40%;
       margin: 0 auto;
     }
@@ -187,7 +183,7 @@ export default function UserProfile() {
   const handleDelete = () => {
     axiosWithAuth()
       .delete(`/portfolio-posts/${modalInfo.id}`)
-      .then((res) => {
+      .then(() => {
         setPortfolioPosts((oldPosts) =>
           oldPosts.filter((oldPost) => oldPost.id !== modalInfo.id)
         );
@@ -205,7 +201,7 @@ export default function UserProfile() {
       .put(`/portfolio-posts/${modalInfo.id}`, {
         description: modalInfo.description,
       })
-      .then((res) => {
+      .then(() => {
         setShowEditInput(false);
       })
       .catch((err) => {

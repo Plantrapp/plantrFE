@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Styled from "styled-components";
 import geocoder from "react-geocode";
@@ -201,7 +201,6 @@ export default function Settings() {
         })
         .catch((err) => {
           console.log("error", err);
-          // alert("Username already in use");
         });
     } else {
       axiosWithAuth()
@@ -215,7 +214,6 @@ export default function Settings() {
         })
         .catch((err) => {
           console.log("error", err);
-          // alert("Username already in use");
         });
     }
   };

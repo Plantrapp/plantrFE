@@ -84,7 +84,7 @@ export default function BlogItem(props) {
   const deletePost = () => {
     axiosWithAuth()
       .delete(`/blog-posts/${blog.id}`)
-      .then((res) => {
+      .then(() => {
         fetchBlogPosts(blog.author_id);
         toastOn("successfulDeletePost");
       })

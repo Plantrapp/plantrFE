@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Styled from "styled-components";
 import { useCurrentUserContext } from "../../utils/contexts/Contexts";
@@ -40,11 +40,6 @@ const StyledSideBar = Styled.div`
     margin: 5% 0;
     transition: .3s ease-in-out;
     padding-left: 14%;
-    /* &:hover {
-      background: #1fdbac;
-      cursor: pointer; 
-      
-    } */
     .profile-image {
       padding: 2% 0;
       width: 20%;

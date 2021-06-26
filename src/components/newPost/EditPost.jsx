@@ -154,7 +154,7 @@ export default function NewPost() {
 
     axiosWithAuth()
       .put(`/blog-posts/${blog.id}`, formValues)
-      .then((res) => {
+      .then(() => {
         setFormValues(initFormValues);
         toastOn("successfulUpdatePost");
         goBack();

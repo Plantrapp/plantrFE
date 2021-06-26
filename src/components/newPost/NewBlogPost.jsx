@@ -19,7 +19,6 @@ padding: 0 4%;
 width: 85vw;
 display: flex;
 flex-direction: column;
-/* justify-content: center; */
 
 .postPreview {
   

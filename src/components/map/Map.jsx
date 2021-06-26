@@ -23,7 +23,6 @@ import {
   ComboboxOption,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
-import profPic from "../../assets/img/user-profile.png";
 import mapStyles from "./mapStyles";
 import Styled from "styled-components";
 import { CurrentUserContext } from "../../utils/contexts/Contexts";
@@ -38,8 +37,6 @@ const MapControlStyles = Styled.div`
     position: absolute;
     z-index: 1;
     display: flex;
-    /* flex-direction: column; */
-    /* border: 1px solid black; */
     padding-top: 1%;
     width: 85%;
     justify-content: space-between;
@@ -52,7 +49,7 @@ const MapControlStyles = Styled.div`
     
 `;
 
-const FitlerStyles = Styled.div`
+const FilterStyles = Styled.div`
 padding: 1%;
 width: 100%;
 text-align: center;
@@ -70,7 +67,6 @@ border-radius: 10px;
       align-items: baseline;
       justify-content: space-around;
       
-      /* border: 1px solid black; */
       margin: 1%;
       width: 33%;
       .filter-title {
@@ -104,7 +100,7 @@ border-radius: 10px;
 
 const SearchStyles = Styled.div`
 width: 30%;
-/* border: 1px solid black; */
+
 [data-reach-combobox-input] {
   width: 100%;
   background-color: #303030;
@@ -156,10 +152,8 @@ const options = {
   disableDefaultUI: true,
   zoomControl: true,
 };
-geocoder.setApiKey("AIzaSyDb9UX7qQuz9mOWLyoBoWCPIZPXJdxl1pw");
+geocoder.setApiKey("AIzaSyDb9UX7qQuz9mOWLyoBoWCPIZPXJdxl1pw"); //🔦
 function Map(props) {
-  // const [markers, setMarkers] = useState([]);
-  // const [counter, setCounter] = useState(0);
   const { growrs } = props;
   const [selected, setSelected] = useState(null);
   const [starRating, setStarRating] = useState([]);
@@ -168,7 +162,7 @@ function Map(props) {
   const { currentUser } = useContext(CurrentUserContext);
 
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyDb9UX7qQuz9mOWLyoBoWCPIZPXJdxl1pw",
+    googleMapsApiKey: "AIzaSyDb9UX7qQuz9mOWLyoBoWCPIZPXJdxl1pw", //🔦
     libraries,
   });
 
@@ -201,18 +195,11 @@ function Map(props) {
     .replace("/upload/", "/upload/r_300/")
     .replace(".jpg", ".png");
 
-  const markerImage = currentUser.profile_picture
-    .replace("/upload/", "/upload/r_300/")
-    .replace(".jpg", ".png");
-
   return (
-    // <>
-    // </>
     <Wrapper>
       <MapControlStyles>
         <Hover>
           {(hovering) => <Locate hovering={hovering} panTo={panTo} />}
-          {/* <Locate panTo={panTo} /> */}
         </Hover>
         <Search panTo={panTo} className="search" />
         <Hover>
@@ -437,14 +424,11 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
     setSelectedStarRating(null);
     setSelected(null);
   }
-  // function handleUnchecks(min, max, filed){
-
-  // }
 
   return (
     <>
       {isOpen ? (
-        <FitlerStyles>
+        <FilterStyles>
           <Form className="filter-form">
             <Form.Group className="group">
               <b className="filter-title">Distance</b>
@@ -496,7 +480,6 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
                     <FaStar size={10} />
                   </span>
                 }
-                // onChange={() => handleChecks(0, 5, "star_rating")}
               />
               <Form.Check
                 checked={selectedStarRating === "2"}
@@ -511,7 +494,6 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
                     <FaStar size={10} /> <FaStar size={10} />
                   </span>
                 }
-                // onChange={() => handleChecks(1, 5, "star_rating")}
               />
               <Form.Check
                 checked={selectedStarRating === "3"}
@@ -527,7 +509,6 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
                     <FaStar size={10} />
                   </span>
                 }
-                // onChange={() => handleChecks(2, 5, "star_rating")}
               />
               <Form.Check
                 checked={selectedStarRating === "4"}
@@ -543,7 +524,6 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
                     <FaStar size={10} /> <FaStar size={10} />{" "}
                   </span>
                 }
-                // onChange={() => handleChecks(3, 5, "star_rating")}
               />
               <Form.Check
                 checked={selectedStarRating === "5"}
@@ -560,21 +540,15 @@ function Filters({ setMarkers, growrs, setSelected, hovering }) {
                     <FaStar size={10} />
                   </span>
                 }
-                // onChange={() => handleChecks(4, 5, "star_rating")}
               />
             </Form.Group>
-            {/* <Form.Group>
-            <b>Distance</b>
-
-            <Form.Check label="0-50 miles" />
-          </Form.Group> */}
           </Form>
           <Form.Group className="filter-controls" style={{ cursor: "pointer" }}>
             <p onClick={handleApply}>Apply Filters</p>
             <p onClick={handleReset}>Reset Filters</p>
             <p onClick={() => setIsOpen(false)}>Close Filters</p>
           </Form.Group>
-        </FitlerStyles>
+        </FilterStyles>
       ) : (
         <div className={isOpen ? "hidden" : null}>
           <FaFilter onClick={() => setIsOpen(true)} size={"7%"} />

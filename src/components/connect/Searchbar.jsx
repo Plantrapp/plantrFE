@@ -50,17 +50,5 @@ const StyledSearchbar = Styled.div`
   }
 `;
 export default function Searchbar() {
-  return (
-    <StyledSearchbar>
-      {/* <input
-        type="text"
-        name=""
-        placeholder="search"
-        className="featureless-input"
-      />
-      <button>
-        <FaSlidersH />
-      </button> */}
-    </StyledSearchbar>
-  );
+  return <StyledSearchbar></StyledSearchbar>;
 }

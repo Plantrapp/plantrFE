@@ -1,13 +1,11 @@
 import "./App.css";
 import RegisterLogin from "./pages/RegisterLogin";
 import Dashboard from "./pages/Dashboard";
-import { GrowrSubscribed, Subscribe } from "./components";
+import { GrowrSubscribed } from "./components";
 import { CurrentUserContext } from "./utils/contexts/Contexts";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { Route } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import PrivateRoute from "./utils/authentication/PrivateRoute";
-import axios from "axios";
+import React, { useState } from "react";
 import Toaster from "./utils/toaster/Toaster";
 import { SocketProvider } from "./utils/contexts/SocketProvider";
 import ForgotPasswordUpdate from "./components/registerAndLogin/ForgotPasswordUpdate";
