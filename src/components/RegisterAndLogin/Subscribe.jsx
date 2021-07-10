@@ -28,7 +28,7 @@ export default function Subscribe(input) {
     if (result.error) {
       alert("Our payment system is broke please try again at a later time");
     }
+    console.log(result);
   }
-
   return startCheckout();
 }
